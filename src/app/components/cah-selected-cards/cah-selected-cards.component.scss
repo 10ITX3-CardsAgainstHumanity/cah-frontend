@@ -1,0 +1,22 @@
+.cah-selected-cards {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-rows: unset;
+  grid-auto-columns: unset;
+  grid-template-rows: min-content;
+  grid-template-columns: min-content minmax(min-content, max-content);
+  grid-template-areas: "blackCard whiteCards";
+  grid-column-gap: 16px;
+
+  .cah-selected-black-card {
+  }
+  .cah-selected-white-cards {
+    display: grid;
+    grid-auto-columns: min-content;
+    grid-auto-rows: unset;
+    grid-auto-flow: column;
+    grid-template-columns: min-content;
+    grid-template-rows: min-content;
+    grid-column-gap: 4px;
+  }
+}

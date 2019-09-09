@@ -1,0 +1,48 @@
+@import "vars";
+
+.white-card-container {
+  border-radius: 4px;
+  background-color: white;
+  border: 1px solid black;
+  padding: 16px;
+  width: $card-width;
+  height: $card-height;
+  position: relative;
+  > h2 {
+    font-size: 1.5rem;
+    color: black;
+    margin: 0;
+    padding: 0;
+    font-family: Helvetica, "sans-serif", Arial;
+    word-break: break-word;
+  }
+  > .card-icon-container {
+    width: auto;
+    height: auto;
+    bottom: 0;
+    right: 0;
+    position: absolute;
+
+    .card-icon-full {
+      position: absolute;
+      bottom: 32px;
+      right: 32px;
+      z-index: 2;
+      background-color: black;
+      height: 32px;
+      width: 24px;
+      border-radius: 3px;
+    }
+    .card-icon-border-slanted {
+      position: absolute;
+      bottom: 34px;
+      right: 44px;
+      z-index: 1;
+      border: 1px solid black;
+      height: 32px;
+      width: 24px;
+      border-radius: 3px;
+      transform: rotate(-10deg);
+    }
+  }
+}

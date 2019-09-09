@@ -1,0 +1,8 @@
+<div class="cah-player-hand">
+  <div class="cah-cards-container">
+    <cah-white-card class="card card{{i}}"
+                    *ngFor="let card of whiteCards; let i = index"
+                    [cardText]="card.text"
+                    (cardSelected)="onCardSelected($event, i)"></cah-white-card>
+  </div>
+</div>

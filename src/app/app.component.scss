@@ -1,0 +1,17 @@
+.cah-board {
+  display: grid;
+  grid-template-rows: min-content 1fr;
+  grid-template-columns: 1fr;
+  height: 100vh;
+
+  cah-player {
+    place-self: end center;
+
+    margin-bottom: 16px;
+  }
+
+  cah-selected-cards {
+    padding: 32px;
+    height: 70%;
+  }
+}

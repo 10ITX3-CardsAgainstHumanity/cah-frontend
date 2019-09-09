@@ -1,0 +1,19 @@
+.scoreboard {
+  border: 1px solid black;
+  width: 256px;
+  height: auto;
+  border-radius: 4px;
+  .scoreboard-header {
+    font-family: Helvetica, "sans-serif", Arial;
+    font-size: 1.5rem;
+    font-weight: bold;
+    padding: 8px 12px;
+    margin: 0;
+    color: white;
+    background-color: black;
+    .scoreboard-header-subtitle {
+      margin: 4px 0 8px;
+      padding: 0;
+    }
+  }
+}
