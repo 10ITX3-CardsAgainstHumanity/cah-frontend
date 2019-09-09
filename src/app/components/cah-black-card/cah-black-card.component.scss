@@ -15,6 +15,22 @@
     font-family: Helvetica, "sans-serif", Arial;
     word-break: break-word;
   }
+  > .card-caption-container {
+    position: absolute;
+    width: auto;
+    height: auto;
+    bottom: 24px;
+    left: 24px;
+    p {
+      font-family: Helvetica, "sans-serif", Arial;
+      font-size: 0.9rem;
+      color: white;
+      margin: 0;
+      padding: 0;
+      line-height: 1rem;
+      font-weight: bold;
+    }
+  }
   > .card-icon-container {
     width: auto;
     height: auto;
@@ -24,8 +40,8 @@
 
     .card-icon-full {
       position: absolute;
-      bottom: 32px;
-      right: 32px;
+      bottom: 24px;
+      right: 24px;
       z-index: 2;
       background-color: white;
       height: 32px;
@@ -34,8 +50,8 @@
     }
     .card-icon-border-slanted {
       position: absolute;
-      bottom: 34px;
-      right: 44px;
+      bottom: 28px;
+      right: 34px;
       z-index: 1;
       border: 1px solid white;
       height: 32px;

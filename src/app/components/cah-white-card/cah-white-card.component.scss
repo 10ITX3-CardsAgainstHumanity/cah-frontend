@@ -16,6 +16,22 @@
     font-family: Helvetica, "sans-serif", Arial;
     word-break: break-word;
   }
+  > .card-caption-container {
+    position: absolute;
+    width: auto;
+    height: auto;
+    bottom: 24px;
+    left: 24px;
+    p {
+      font-family: Helvetica, "sans-serif", Arial;
+      font-size: 0.9rem;
+      color: black;
+      margin: 0;
+      padding: 0;
+      line-height: 1rem;
+      font-weight: bold;
+    }
+  }
   > .card-icon-container {
     width: auto;
     height: auto;
