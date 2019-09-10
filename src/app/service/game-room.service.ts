@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {BlackCard} from '../interfaces/black-card';
 import {WhiteCard} from '../interfaces/white-card';
 import {BehaviorSubject, Observable} from 'rxjs';
+import {Player} from '../interfaces/player';
 
 /**
  * The game room service class
@@ -44,15 +45,48 @@ export class GameRoomService {
   private _selectedWhiteCards: BehaviorSubject<WhiteCard[]>;
 
   /**
+   * Observable of all players currently plaing in this game room
+   * @access public
+   * @property {Observable<Player[]>} players
+   */
+  public players: Observable<Player[]>;
+
+  /**
+   * All players currently playing in this game room
+   * @access private
+   * @property {BehaviorSubject<Player[]>} _players
+   */
+  private _players: BehaviorSubject<Player[]>;
+
+  /**
    * Assigns the defaults
    * @access public
    * @constructor
    */
   public constructor() {
-    this._selectedBlackCard  = new BehaviorSubject<BlackCard>({ text: '____.' });
+    this._selectedBlackCard  = new BehaviorSubject<BlackCard>({ text: '____.', maxPlayableWhiteCards: 1, playerId: 0 });
     this._selectedWhiteCards = new BehaviorSubject<WhiteCard[]>([]);
+    this._players            = new BehaviorSubject<Player[]>([
+      {
+        username: 'player 1',
+        points: 1
+      },
+      {
+        username: 'player 2',
+        points: 0
+      },
+      {
+        username: 'player 3',
+        points: 0
+      },
+      {
+        username: 'player 4',
+        points: 0
+      }
+    ]);
     this.selectedBlackCard   = this._selectedBlackCard.asObservable();
     this.selectedWhiteCards  = this._selectedWhiteCards.asObservable();
+    this.players             = this._players.asObservable();
   }
 
   /**
