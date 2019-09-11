@@ -4,6 +4,12 @@ import {GameRoomService} from '../../service/game-room.service';
 import {takeUntil, tap} from 'rxjs/operators';
 import {Subject} from 'rxjs';
 
+export enum SCOREBOARD_STATE {
+  WAITING_FOR_PLAYERS,
+  CZAR,
+  NEXT_ROUND,
+}
+
 /**
  * The scoreboard class
  * @access public
@@ -34,6 +40,13 @@ export class CahScoreboardComponent implements OnInit {
   public players: Player[];
 
   /**
+   * States what the scoreboard information should show
+   * @access   public
+   * @property {number} informationState
+   */
+  public informationState: SCOREBOARD_STATE;
+
+  /**
    * Unsubscribe from any open observable if the component gets destroyed
    * @access   private
    * @property {Subject<void>}
@@ -48,6 +61,7 @@ export class CahScoreboardComponent implements OnInit {
    */
   public constructor(private _gameRoomService: GameRoomService) {
     this.players = [];
+    this.informationState = 0;
     this._ngUnSub = new Subject<void>();
     this.leadingPlayer = null;
   }

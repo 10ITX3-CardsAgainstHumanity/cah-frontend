@@ -3,5 +3,18 @@
     Scoreboard
     <p class="scoreboard-header-subtitle" *ngIf="leadingPlayer">{{ leadingPlayer.username }} is leading!</p>
   </div>
-  <cah-scoreboard-list [players]="players" *ngIf="players"></cah-scoreboard-list>
+  <div class="scoreboard-list-container">
+    <cah-scoreboard-list [players]="players" *ngIf="players"></cah-scoreboard-list>
+  </div>
+</div>
+<div class="scoreboard-information" [ngSwitch]="informationState">
+  <ng-container *ngSwitchCase="0">
+    Waiting for players...
+  </ng-container>
+  <ng-container *ngSwitchCase="1">
+    Player 1 is the czar
+  </ng-container>
+  <ng-container *ngSwitchCase="2">
+    Next round starts in ...
+  </ng-container>
 </div>
