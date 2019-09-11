@@ -1,10 +1,10 @@
 .cah-board {
   display: grid;
-  grid-template-rows: min-content min-content 1fr;
+  grid-template-rows: min-content 1fr min-content;
   grid-template-columns: repeat(4, 1fr);
   grid-template-areas:
     "selectedCards selectedCards selectedCards selectedCards"
-    "scoreboard    ............. ............. ............."
+    "............. ............. ............. ............."
     "scoreboard    playerHand    playerHand    playerHand   ";
   height: 100vh;
 
@@ -16,7 +16,7 @@
 
   cah-scoreboard {
     padding: 32px;
-    place-self: end start;
+    place-self: start start;
     grid-area: scoreboard;
   }
 
