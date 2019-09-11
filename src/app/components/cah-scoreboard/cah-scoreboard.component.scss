@@ -1,8 +1,17 @@
 .scoreboard {
-  border: 1px solid black;
+  border-top: 1px solid black;
+  border-left: 1px solid black;
+  border-right: 1px solid black;
+  border-bottom: unset;
   width: 256px;
   height: auto;
-  border-radius: 4px;
+  border-radius: 4px 4px 0 0;
+  grid-template-columns: 1fr;
+  grid-template-rows: min-content 1fr;
+  grid-template-areas:
+    "header"
+    "list";
+
   .scoreboard-header {
     font-family: Helvetica, "sans-serif", Arial;
     font-size: 1.5rem;
@@ -11,9 +20,22 @@
     margin: 0;
     color: white;
     background-color: black;
+    grid-area: header;
     .scoreboard-header-subtitle {
       margin: 4px 0 8px;
       padding: 0;
+      font-size: 1rem;
     }
   }
+
+  .scoreboard-list-container {
+    grid-area: list;
+  }
+}
+.scoreboard-information {
+  font-family: Helvetica, "sans-serif", Arial;
+  text-align: center;
+  padding: 12px 0;
+  border: 1px solid black;
+  border-radius: 0 0 4px 4px;
 }

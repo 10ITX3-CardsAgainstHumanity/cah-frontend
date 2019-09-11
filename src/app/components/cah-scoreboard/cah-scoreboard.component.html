@@ -1,7 +1,20 @@
 <div class="scoreboard">
-  <h2 class="scoreboard-header">
+  <div class="scoreboard-header">
     Scoreboard
-    <h6 class="scoreboard-header-subtitle">{{ leadingPlayer.username }} is leading!</h6>
-  </h2>
-  <cah-scoreboard-list [players]="players"></cah-scoreboard-list>
+    <p class="scoreboard-header-subtitle" *ngIf="leadingPlayer">{{ leadingPlayer.username }} is leading!</p>
+  </div>
+  <div class="scoreboard-list-container">
+    <cah-scoreboard-list [players]="players" *ngIf="players"></cah-scoreboard-list>
+  </div>
+</div>
+<div class="scoreboard-information" [ngSwitch]="informationState">
+  <ng-container *ngSwitchCase="0">
+    Waiting for players...
+  </ng-container>
+  <ng-container *ngSwitchCase="1">
+    Player 1 is the czar
+  </ng-container>
+  <ng-container *ngSwitchCase="2">
+    Next round starts in ...
+  </ng-container>
 </div>

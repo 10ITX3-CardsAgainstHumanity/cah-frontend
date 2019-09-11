@@ -1,17 +1,27 @@
 .cah-board {
   display: grid;
-  grid-template-rows: min-content 1fr;
-  grid-template-columns: 1fr;
+  grid-template-rows: min-content 1fr min-content;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-areas:
+    "selectedCards selectedCards selectedCards selectedCards"
+    "............. ............. ............. ............."
+    "scoreboard    playerHand    playerHand    playerHand   ";
   height: 100vh;
 
   cah-player {
     place-self: end center;
+    padding: 32px;
+    grid-area: playerHand;
+  }
 
-    margin-bottom: 16px;
+  cah-scoreboard {
+    padding: 32px;
+    place-self: start start;
+    grid-area: scoreboard;
   }
 
   cah-selected-cards {
     padding: 32px;
-    height: 70%;
+    grid-area: selectedCards;
   }
 }
