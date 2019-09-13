@@ -74,6 +74,7 @@ export class CahPlayerHandComponent {
   public onCardSelected($event: WhiteCard, index: number): void {
     console.log($event, index);
     this._gameRoomService.addSelectedWhiteCard([ $event ]);
+    delete this.whiteCards[index];
     // remove clicked card from hand
   }
 }
