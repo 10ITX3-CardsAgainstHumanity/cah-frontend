@@ -87,7 +87,6 @@ export class CahTitleScreenComponent {
    */
   public onNewRoomClicked($event: MouseEvent): void {
     this.form.setValue({ roomId: randomString(12) });
-    this.form.controls.roomId.disable();
     const dialog = this._dialog.open(this.newRoomRef, {
       width: '394px',
       height: '256px'
