@@ -1,3 +1,80 @@
-<p>
-  cah-title-screen works!
-</p>
+<div class="cah-title-screen-container">
+  <div class="cah-title-screen-actions">
+    <button class="cah-title-screen-action"
+            (click)="onJoinRoomClicked($event)">
+      <span>Spiel beitreten</span>
+      <span class="cardAnimation">
+        <span class="card-icon-full"></span>
+        <span class="card-icon-border-slanted"></span>
+      </span>
+    </button>
+    <button class="cah-title-screen-action"
+            (click)="onNewRoomClicked($event)">
+      <span>Neues Spiel erstellen</span>
+      <span class="cardAnimation">
+        <span class="card-icon-full"></span>
+        <span class="card-icon-border-slanted"></span>
+      </span>
+    </button>
+  </div>
+</div>
+
+<ng-template #joinRoomRef>
+  <h2 mat-dialog-title
+      class="cah-title-overlay-header">
+    Spiel beitreten
+  </h2>
+  <mat-dialog-content>
+    <form [formGroup]="form">
+      <mat-form-field appearance="fill">
+        <mat-label>Raum</mat-label>
+        <input matInput type="text" formControlName="roomId">
+        <mat-error>Bitte geben Sie die URI des Raums ein dem Sie beitreten möchten!</mat-error>
+      </mat-form-field>
+    </form>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button type="button"
+            class="cancel-button cah-title-overlay-action-button"
+            mat-stroked-button
+            mat-dialog-close="cancel">
+      Abbrechen
+    </button>
+    <button type="button"
+            class="join-button cah-title-overlay-action-button"
+            mat-stroked-button
+            mat-dialog-close="join">
+      Beitreten
+    </button>
+  </mat-dialog-actions>
+</ng-template>
+
+<ng-template #newRoomRef>
+  <h2 mat-dialog-title
+      class="cah-title-screen-overlay-header">
+    Neues Spiel erstellen
+  </h2>
+  <mat-dialog-content>
+    <form [formGroup]="form">
+      <mat-form-field appearance="fill">
+        <mat-label>Raum</mat-label>
+        <input matInput type="text" formControlName="roomId" readonly>
+        <mat-error>Bitte geben Sie die URI des Raums ein dem Sie beitreten möchten!</mat-error>
+      </mat-form-field>
+    </form>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button type="button"
+            class="cancel-button cah-title-overlay-action-button"
+            mat-stroked-button
+            mat-dialog-close="cancel">
+      Abbrechen
+    </button>
+    <button type="button"
+            class="join-button cah-title-overlay-action-button"
+            mat-stroked-button
+            mat-dialog-close="join">
+      Beitreten
+    </button>
+  </mat-dialog-actions>
+</ng-template>
