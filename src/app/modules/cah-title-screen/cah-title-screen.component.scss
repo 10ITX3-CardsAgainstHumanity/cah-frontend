@@ -2,11 +2,59 @@
   display: grid;
   grid-auto-rows: 0;
   grid-auto-columns: 0;
-  grid-auto-flow: dense;
-  grid-template-rows: 1fr;
+  grid-template-rows: 1fr 1fr;
   grid-template-columns: 1fr;
   place-items: center center;
   height: 100%;
+  .cah-title-screen-header {
+    position: relative;
+    display: grid;
+    grid-template-columns: min-content min-content;
+    grid-template-rows: min-content;
+    grid-template-areas: "cah logo";
+    grid-auto-columns: 0;
+    grid-auto-rows: 0;
+    grid-column-gap: 32px;
+
+    .cah-title-screen-header-container {
+      grid-area: cah;
+      h2 {
+        font-family: Helvetica, "sans-serif", Arial;
+        font-weight: bold;
+        font-size: 3rem;
+        margin: 0;
+        padding: 0;
+        line-height: 1;
+        cursor: default;
+        &::selection, &::-moz-selection {
+          background-color: transparent;
+        }
+      }
+    }
+    .cah-title-screen-header-logo {
+      grid-area: logo;
+      position: relative;
+      .cah-card-full {
+        position: absolute;
+        width: 96px;
+        height: 144px;
+        border: 1px solid black;
+        border-radius: 4px;
+        background-color: black;
+      }
+      .cah-card-border-slanted {
+        position: absolute;
+        width: 96px;
+        height: 144px;
+        border: 1px solid black;
+        border-radius: 4px;
+        transform: rotate(-10deg);
+        right: -64px;
+        top: -8px
+      }
+    }
+  }
+
   .cah-title-screen-actions {
     display: flex;
     flex-flow: row;
