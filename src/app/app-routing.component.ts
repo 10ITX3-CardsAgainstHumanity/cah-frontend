@@ -3,7 +3,7 @@ import {NgModule} from '@angular/core';
 
 const routes = [
   {path: '', loadChildren: './modules/cah-title-screen/cah-title-screen.module#CahTitleScreenModule'},
-  {path: 'game/room', loadChildren: './modules/cah-game-room/cah-game-room.module#CahGameRoomModule'}
+  {path: 'room/:id', loadChildren: './modules/cah-game-room/cah-game-room.module#CahGameRoomModule'}
 ];
 
 @NgModule({
