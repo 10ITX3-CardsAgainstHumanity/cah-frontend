@@ -21,7 +21,17 @@
     color: white;
     background-color: black;
     grid-area: header;
+    pointer-events: none;
+    cursor: default;
+    &::selection, &::-moz-selection {
+      background-color: transparent;
+    }
     .scoreboard-header-subtitle {
+      &::selection, &::-moz-selection {
+        background-color: transparent;
+      }
+      pointer-events: none;
+      cursor: default;
       margin: 4px 0 8px;
       padding: 0;
       font-size: 1rem;
@@ -33,6 +43,11 @@
   }
 }
 .scoreboard-information {
+  &::selection, &::-moz-selection {
+    background-color: transparent;
+  }
+  pointer-events: none;
+  cursor: default;
   font-family: Helvetica, "sans-serif", Arial;
   text-align: center;
   padding: 12px 0;

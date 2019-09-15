@@ -9,6 +9,11 @@
   height: $card-height;
   position: relative;
   > h2 {
+    &::selection, &::-moz-selection {
+      background-color: transparent;
+    }
+    pointer-events: none;
+    cursor: default;
     font-size: 1.5rem;
     color: black;
     margin: 0;
@@ -23,6 +28,11 @@
     bottom: 24px;
     left: 24px;
     p {
+      &::selection, &::-moz-selection {
+        background-color: transparent;
+      }
+      pointer-events: none;
+      cursor: default;
       font-family: Helvetica, "sans-serif", Arial;
       font-size: 0.9rem;
       color: black;
@@ -41,8 +51,8 @@
 
     .card-icon-full {
       position: absolute;
-      bottom: 32px;
-      right: 32px;
+      bottom: 24px;
+      right: 24px;
       z-index: 2;
       background-color: black;
       height: 32px;
@@ -51,8 +61,8 @@
     }
     .card-icon-border-slanted {
       position: absolute;
-      bottom: 34px;
-      right: 44px;
+      bottom: 28px;
+      right: 34px;
       z-index: 1;
       border: 1px solid black;
       height: 32px;

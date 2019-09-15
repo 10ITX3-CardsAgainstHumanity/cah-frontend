@@ -9,6 +9,11 @@
   height: $card-height;
   position: relative;
   > h2 {
+    &::selection, &::-moz-selection {
+      background-color: transparent;
+    }
+    pointer-events: none;
+    cursor: default;
     font-size: 1.5rem;
     color: white;
     margin: 0;
@@ -23,6 +28,11 @@
     bottom: 24px;
     left: 24px;
     p {
+      &::selection, &::-moz-selection {
+        background-color: transparent;
+      }
+      pointer-events: none;
+      cursor: default;
       font-family: Helvetica, "sans-serif", Arial;
       font-size: 0.9rem;
       color: white;
