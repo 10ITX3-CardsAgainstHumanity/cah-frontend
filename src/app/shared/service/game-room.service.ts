@@ -31,6 +31,34 @@ export class GameRoomService {
   public selectedWhiteCards: Observable<WhiteCard[]>;
 
   /**
+   * Observable of all players currently playing in this game room
+   * @access public
+   * @property {Observable<Player[]>} players
+   */
+  public players: Observable<Player[]>;
+
+  /**
+   * Observable of all cards that the player currently has on his hand
+   * @access public
+   * @property {Observable<WhiteCard[]>} playerCards
+   */
+  public playerCards: Observable<WhiteCard[]>;
+
+  /**
+   * The cards that the player currently has on his hand
+   * @access public
+   * @property {BehaviorSubject<WhiteCard[]>} playerCards
+   */
+  private _playerCards: BehaviorSubject<WhiteCard[]>;
+
+  /**
+   * All players currently playing in this game room
+   * @access private
+   * @property {BehaviorSubject<Player[]>} _players
+   */
+  private _players: BehaviorSubject<Player[]>;
+
+  /**
    * The subject for the currently selected black card
    * @access private
    * @property {BehaviorSubject<BlackCard>} _selectedBlackCard
@@ -45,28 +73,14 @@ export class GameRoomService {
   private _selectedWhiteCards: BehaviorSubject<WhiteCard[]>;
 
   /**
-   * Observable of all players currently plaing in this game room
-   * @access public
-   * @property {Observable<Player[]>} players
-   */
-  public players: Observable<Player[]>;
-
-  /**
-   * All players currently playing in this game room
-   * @access private
-   * @property {BehaviorSubject<Player[]>} _players
-   */
-  private _players: BehaviorSubject<Player[]>;
-
-  /**
    * Assigns the defaults
    * @access public
    * @constructor
    */
   public constructor() {
-    this._selectedBlackCard  = new BehaviorSubject<BlackCard>({ text: '____.', maxPlayableWhiteCards: 1, playerId: 0 });
+    this._selectedBlackCard = new BehaviorSubject<BlackCard>({text: '____.', maxPlayableWhiteCards: 1, playerId: 0});
     this._selectedWhiteCards = new BehaviorSubject<WhiteCard[]>([]);
-    this._players            = new BehaviorSubject<Player[]>([
+    this._players = new BehaviorSubject<Player[]>([
       {
         username: 'player 1',
         points: 1
@@ -84,9 +98,52 @@ export class GameRoomService {
         points: 0
       }
     ]);
-    this.selectedBlackCard   = this._selectedBlackCard.asObservable();
-    this.selectedWhiteCards  = this._selectedWhiteCards.asObservable();
-    this.players             = this._players.asObservable();
+    this._playerCards = new BehaviorSubject<WhiteCard[]>([
+      {
+        text: 'Ein gebleichtes Arschloch',
+        playerId: 0,
+      },
+      {
+        text: 'Ein Mikropenis',
+        playerId: 0,
+      },
+      {
+        text: 'Ein Hirntumor',
+        playerId: 0,
+      },
+      {
+        text: 'Meine Genitalien',
+        playerId: 0,
+      },
+      {
+        text: 'Resteficken',
+        playerId: 0,
+      },
+      {
+        text: 'Postnatale Abtreibung',
+        playerId: 0,
+      },
+      {
+        text: 'Gruppensex in der Demenzklinik',
+        playerId: 0,
+      },
+      {
+        text: 'Deiner Partnerin einen Dreier mit ihrer Muttervorschlagen',
+        playerId: 0,
+      },
+      {
+        text: 'Ein epileptischer Anfall bei der Bombenentschärfung',
+        playerId: 0,
+      },
+      {
+        text: 'Verschwörungstheorien',
+        playerId: 0,
+      }
+    ]);
+    this.selectedBlackCard = this._selectedBlackCard.asObservable();
+    this.selectedWhiteCards = this._selectedWhiteCards.asObservable();
+    this.players = this._players.asObservable();
+    this.playerCards = this._playerCards.asObservable();
   }
 
   /**
@@ -98,5 +155,18 @@ export class GameRoomService {
   public addSelectedWhiteCard(cards: WhiteCard[]): void {
     const whiteCards = this._selectedWhiteCards.value;
     whiteCards.push(...cards);
+    this._selectedWhiteCards.next(whiteCards);
+  }
+
+  /**
+   * Removes a card from the players hand
+   * @access public
+   * @param  {number} index
+   * @return {void}
+   */
+  public removeCardFromHand(index: number): void {
+    const cards = this._playerCards.value;
+    cards.splice(index, 1);
+    this._playerCards.next(cards);
   }
 }
