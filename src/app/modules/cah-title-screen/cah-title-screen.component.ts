@@ -3,6 +3,7 @@ import {MatDialog} from '@angular/material';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import randomString from 'node-random-string';
+import {validateForm} from '../../shared/utils/validateForm';
 
 /**
  * The title screen class
@@ -42,6 +43,14 @@ export class CahTitleScreenComponent {
   public form: FormGroup;
 
   /**
+   * States if the title screen is loading currently
+   * @access   public
+   * @property {boolean} isLoading
+   * @default  false
+   */
+  public isLoading: boolean;
+
+  /**
    * Assigns the defaults
    * @access public
    * @param  {FormBuilder} _fb
@@ -52,6 +61,7 @@ export class CahTitleScreenComponent {
   public constructor(private readonly _fb: FormBuilder,
                      private readonly _dialog: MatDialog,
                      private readonly _router: Router) {
+    this.isLoading = false;
     this._buildForm();
   }
 
@@ -66,14 +76,20 @@ export class CahTitleScreenComponent {
       width: '394px'
     });
     dialog.afterClosed().subscribe((reason: string) => {
-      const { roomId } = this.form.getRawValue();
+      const { roomId, username } = this.form.getRawValue();
 
-      if (reason === 'join') {
-        this._router.navigate(['/room', roomId]);
-      } else if (reason === 'cancel') {
-        this.form.reset();
+      if (this.form.valid) {
+        if (reason === 'join') {
+          // call the websocket with the room id and the username
+          // this._router.navigate(['/room', roomId]);
+          this.isLoading = true;
+        } else if (reason === 'cancel') {
+          this.form.reset();
+        } else {
+          this.form.reset();
+        }
       } else {
-        this.form.reset();
+        validateForm(this.form);
       }
     });
   }
@@ -90,14 +106,19 @@ export class CahTitleScreenComponent {
       width: '394px'
     });
     dialog.afterClosed().subscribe((reason: string) => {
-      const { roomId } = this.form.getRawValue();
-
-      if (reason === 'join') {
-        this._router.navigate(['/room', roomId]);
-      } else if (reason === 'cancel') {
-        this.form.reset();
+      const { roomId, username } = this.form.getRawValue();
+      // @TODO track reasons
+      if (this.form.valid) {
+        if (reason === 'join') {
+          // this._router.navigate(['/room', roomId]);
+          this.isLoading = true;
+        } else if (reason === 'cancel') {
+          this.form.reset();
+        } else {
+          this.form.reset();
+        }
       } else {
-        this.form.reset();
+        validateForm(this.form);
       }
     });
   }
