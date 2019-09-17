@@ -47,7 +47,6 @@ export class CahTitleScreenComponent {
   public constructor(private readonly _fb: FormBuilder,
                      private readonly _dialog: MatDialog,
                      private readonly _router: Router) {
-    this.isLoading = false;
     this._buildForm();
   }
 
@@ -66,15 +65,6 @@ export class CahTitleScreenComponent {
     });
     dialog.afterClosed().subscribe((reason: string) => {
       const { roomId, username } = this.form.getRawValue();
-
-      if (this.form.valid) {
-        // call the websocket with the room id and the username
-        // this._router.navigate(['/room', roomId]);
-        // this.form.reset();
-        this.isLoading = true;
-      } else {
-        validateForm(this.form);
-      }
     });
   }
 
@@ -94,15 +84,6 @@ export class CahTitleScreenComponent {
     });
     dialog.afterClosed().subscribe((reason: string) => {
       const { roomId, username } = this.form.getRawValue();
-
-      if (this.form.valid) {
-        // call the websocket with the room id and the username
-        // this._router.navigate(['/room', roomId]);
-        // this.form.reset();
-        this.isLoading = true;
-      } else {
-        validateForm(this.form);
-      }
     });
   }
 
