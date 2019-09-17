@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {CahTitleScreenComponent} from './cah-title-screen.component';
 import {RouterModule, Routes} from '@angular/router';
-import {MatButtonModule, MatDialogModule, MatInputModule, MatRippleModule} from '@angular/material';
+import {MatButtonModule, MatDialogModule, MatInputModule, MatProgressSpinnerModule, MatRippleModule} from '@angular/material';
 import {ReactiveFormsModule} from '@angular/forms';
 
 const routes: Routes = [
@@ -20,7 +20,8 @@ const routes: Routes = [
     MatRippleModule,
     MatButtonModule,
     MatInputModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatProgressSpinnerModule
   ],
   exports: [
     RouterModule
