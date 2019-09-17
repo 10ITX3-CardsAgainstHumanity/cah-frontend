@@ -39,6 +39,11 @@
   <mat-dialog-content>
     <form [formGroup]="form">
       <mat-form-field appearance="fill">
+        <mat-label>Benutzername</mat-label>
+        <input matInput type="text" formControlName="username">
+        <mat-error>Bitte geben Sie einen Benutzernamen ein.</mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
         <mat-label>Raum</mat-label>
         <input matInput type="text" formControlName="roomId">
         <mat-error>Bitte geben Sie die URI des Raums ein dem Sie beitreten möchten!</mat-error>
@@ -69,6 +74,11 @@
   </h2>
   <mat-dialog-content>
     <form [formGroup]="form">
+      <mat-form-field>
+        <mat-label>Benutzername</mat-label>
+        <input matInput type="text" formControlName="username">
+        <mat-error>Bitte geben Sie einen Benutzername ein.</mat-error>
+      </mat-form-field>
       <mat-form-field appearance="fill">
         <mat-label>Raum</mat-label>
         <input matInput type="text" formControlName="roomId" readonly>

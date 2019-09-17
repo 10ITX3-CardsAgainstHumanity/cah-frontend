@@ -63,8 +63,7 @@ export class CahTitleScreenComponent {
    */
   public onJoinRoomClicked($event: MouseEvent): void {
     const dialog = this._dialog.open(this.joinRoomRef, {
-      width: '394px',
-      height: '256px'
+      width: '394px'
     });
     dialog.afterClosed().subscribe((reason: string) => {
       const { roomId } = this.form.getRawValue();
@@ -86,10 +85,9 @@ export class CahTitleScreenComponent {
    * @return {void}
    */
   public onNewRoomClicked($event: MouseEvent): void {
-    this.form.setValue({ roomId: randomString(12) });
+    this.form.patchValue({ roomId: randomString(12) });
     const dialog = this._dialog.open(this.newRoomRef, {
-      width: '394px',
-      height: '256px'
+      width: '394px'
     });
     dialog.afterClosed().subscribe((reason: string) => {
       const { roomId } = this.form.getRawValue();
@@ -111,7 +109,8 @@ export class CahTitleScreenComponent {
    */
   private _buildForm(): void {
     this.form = this._fb.group({
-      roomId: ['', Validators.required]
+      roomId: ['', Validators.required],
+      username: ['', Validators.required]
     });
   }
 }
