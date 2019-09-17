@@ -6,6 +6,8 @@ import {CommonModule} from '@angular/common';
 import {CahPlayerModule} from './components/cah-player/cah-player.module';
 import {CahPlayerHandModule} from './components/cah-player-hand/cah-player-hand.module';
 import {CahSelectedCardsModule} from './components/cah-selected-cards/cah-selected-cards.module';
+import { CahRoomBadgeComponent } from './components/cah-room-badge/cah-room-badge.component';
+import {CahRoomBadgeModule} from './components/cah-room-badge/cah-room-badge.module';
 
 @NgModule({
   declarations: [],
@@ -16,6 +18,7 @@ import {CahSelectedCardsModule} from './components/cah-selected-cards/cah-select
     CahWhiteCardModule,
     CahScoreboardModule,
     CahPlayerHandModule,
+    CahRoomBadgeModule,
     CahSelectedCardsModule,
   ]
 })

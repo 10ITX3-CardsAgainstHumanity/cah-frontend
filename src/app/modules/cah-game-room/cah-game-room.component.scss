@@ -4,7 +4,7 @@
   grid-template-columns: repeat(4, 1fr);
   grid-template-areas:
     "selectedCards selectedCards selectedCards selectedCards"
-    "............. ............. ............. ............."
+    "roomBadge     ............. ............. ............."
     "scoreboard    playerHand    playerHand    playerHand   ";
   height: 100vh;
 
@@ -12,6 +12,12 @@
     place-self: end center;
     padding: 32px;
     grid-area: playerHand;
+  }
+
+  cah-room-badge {
+    padding: 32px;
+    grid-area: roomBadge;
+    place-self: center start;
   }
 
   cah-scoreboard {

@@ -6,6 +6,7 @@ import {SharedModule} from '../../shared/shared.module';
 import {CahSelectedCardsModule} from '../../shared/components/cah-selected-cards/cah-selected-cards.module';
 import {CahScoreboardModule} from '../../shared/components/cah-scoreboard/cah-scoreboard.module';
 import {CahPlayerModule} from '../../shared/components/cah-player/cah-player.module';
+import {CahRoomBadgeModule} from '../../shared/components/cah-room-badge/cah-room-badge.module';
 
 const routes: Routes = [
   {path: '', component: CahGameRoomComponent}
@@ -17,9 +18,10 @@ const routes: Routes = [
     CommonModule,
     SharedModule,
     CahPlayerModule,
+    CahRoomBadgeModule,
     CahScoreboardModule,
     CahSelectedCardsModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
   ],
   exports: [
     RouterModule
