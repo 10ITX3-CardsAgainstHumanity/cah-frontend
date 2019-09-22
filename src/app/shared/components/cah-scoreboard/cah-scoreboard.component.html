@@ -3,7 +3,7 @@
     Scoreboard
   </div>
   <div class="scoreboard-list-container">
-    <cah-scoreboard-list></cah-scoreboard-list>
+    <cah-scoreboard-list (roomFull)="onRoomFull()"></cah-scoreboard-list>
   </div>
 </div>
 <div class="scoreboard-information" [ngSwitch]="informationState">
@@ -11,9 +11,12 @@
     Waiting for players...
   </ng-container>
   <ng-container *ngSwitchCase="1">
-    Player 1 is the czar
+    Room is full, starting in {{ countdown$ | async }}
   </ng-container>
   <ng-container *ngSwitchCase="2">
+    Player 1 is the czar
+  </ng-container>
+  <ng-container *ngSwitchCase="3">
     Next round starts in ...
   </ng-container>
 </div>

@@ -1,8 +1,8 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
 import {Player} from '../../../interfaces/player';
-import {Observable, Subject} from 'rxjs';
+import {EMPTY, Observable, Subject} from 'rxjs';
 import {GameRoomService} from '../../../service/game-room.service';
-import {concatAll, distinctUntilChanged, scan, takeUntil} from 'rxjs/operators';
+import {concatAll, distinctUntilChanged, scan, takeUntil, tap} from 'rxjs/operators';
 
 /**
  * The scoreboard list class
@@ -26,6 +26,14 @@ export class CahScoreboardListComponent implements OnInit, OnDestroy {
   public players$: Observable<Player[]>;
 
   /**
+   * Emits a event notifying the user that the room is full
+   * @access   public
+   * @property {EventEmitter<void>} roomFull
+   */
+  @Output()
+  public roomFull: EventEmitter<void>;
+
+  /**
    * Unsubscribe from any open observable if the component gets destroyed
    * @access   private
    * @property {Subject<void>}
@@ -39,6 +47,7 @@ export class CahScoreboardListComponent implements OnInit, OnDestroy {
    */
   public constructor(private readonly _gameRoomService: GameRoomService) {
     this.players$ = this._gameRoomService.players$;
+    this.roomFull = new EventEmitter<void>();
     this._ngUnSub = new Subject<void>();
   }
 
@@ -53,6 +62,7 @@ export class CahScoreboardListComponent implements OnInit, OnDestroy {
     this._gameRoomService.players$
       .pipe(
         takeUntil(this._ngUnSub),
+        tap((players: Player[]) => players.length === 4 ? this.roomFull.emit() : EMPTY),
         concatAll(),
         scan((currPlayer, nextPlayer) => {
           if (currPlayer.points > nextPlayer.points) {

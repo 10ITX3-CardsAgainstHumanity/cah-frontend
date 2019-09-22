@@ -1,8 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {GameRoomService} from '../../service/game-room.service';
+import {Observable, timer} from 'rxjs';
+import {map, take} from 'rxjs/operators';
 
 export enum SCOREBOARD_STATE {
   WAITING_FOR_PLAYERS,
+  ROOM_FULL_STARTING_IN,
   CZAR,
   NEXT_ROUND,
 }
@@ -22,6 +25,12 @@ export enum SCOREBOARD_STATE {
 })
 export class CahScoreboardComponent {
 
+  /**
+   * The countdown for the next round
+   * @access public
+   * @property {Observable<number>} countdown$
+   */
+  public countdown$: Observable<number>;
 
   /**
    * States what the scoreboard information should show
@@ -38,6 +47,22 @@ export class CahScoreboardComponent {
    * @constructor
    */
   public constructor(private _gameRoomService: GameRoomService) {
+    let countdown = 5;
+
     this.informationState = 0;
+    this.countdown$ = timer(1000, 1000)
+      .pipe(
+        map(x => countdown--),
+        take(countdown + 1)
+      );
+  }
+
+  /**
+   * Gets triggered if the room is full (e.g. has a count of 4 players)
+   * @access public
+   * @return {void}
+   */
+  public onRoomFull(): void {
+    this.informationState = SCOREBOARD_STATE.ROOM_FULL_STARTING_IN;
   }
 }
