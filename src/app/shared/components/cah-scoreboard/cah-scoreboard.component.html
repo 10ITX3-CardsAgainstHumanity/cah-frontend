@@ -4,7 +4,7 @@
     <p class="scoreboard-header-subtitle" *ngIf="leadingPlayer">{{ leadingPlayer.username }} is leading!</p>
   </div>
   <div class="scoreboard-list-container">
-    <cah-scoreboard-list [players]="players" *ngIf="players"></cah-scoreboard-list>
+    <cah-scoreboard-list></cah-scoreboard-list>
   </div>
 </div>
 <div class="scoreboard-information" [ngSwitch]="informationState">
