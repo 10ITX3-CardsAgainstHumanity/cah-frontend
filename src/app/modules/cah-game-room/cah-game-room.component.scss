@@ -2,6 +2,8 @@
   display: grid;
   grid-template-rows: min-content 1fr min-content;
   grid-template-columns: repeat(4, 1fr);
+  grid-column-gap: 32px;
+  grid-row-gap: 32px;
   grid-template-areas:
     "selectedCards selectedCards selectedCards selectedCards"
     "roomBadge     ............. ............. ............."
@@ -10,24 +12,26 @@
 
   cah-player {
     place-self: end center;
-    padding: 32px;
     grid-area: playerHand;
+    margin-bottom: 32px;
   }
 
   cah-room-badge {
-    padding: 32px;
+    width: 256px;
+    margin-left: 32px;
     grid-area: roomBadge;
     place-self: center start;
   }
 
   cah-scoreboard {
-    padding: 32px;
     place-self: start start;
     grid-area: scoreboard;
+    margin-bottom: 32px;
+    margin-left: 32px;
   }
 
   cah-selected-cards {
-    padding: 32px;
     grid-area: selectedCards;
+    margin: 32px 32px 0 32px;
   }
 }
