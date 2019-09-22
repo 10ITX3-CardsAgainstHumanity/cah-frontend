@@ -1,5 +1,7 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {Player} from '../../../interfaces/player';
+import {Observable} from 'rxjs';
+import {GameRoomService} from '../../../service/game-room.service';
 
 /**
  * The scoreboard list class
@@ -27,5 +29,7 @@ export class CahScoreboardListComponent {
    * @access public
    * @constructor
    */
-  public constructor() { }
+  public constructor(private readonly _gameRoomService: GameRoomService) {
+    this.players$ = this._gameRoomService.players$;
+  }
 }
