@@ -4,5 +4,6 @@ export interface Player {
   fragment: string;
   fullUsername?: string;
   points: number;
+  isLeading?: boolean;
   isCzar: boolean;
 }
