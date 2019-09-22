@@ -1,8 +1,9 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Player} from '../../interfaces/player';
 import {GameRoomService} from '../../service/game-room.service';
-import {takeUntil, tap} from 'rxjs/operators';
+import {concatAll, distinctUntilChanged, scan, takeUntil, tap} from 'rxjs/operators';
 import {Subject} from 'rxjs';
+import {faCrown} from '@fortawesome/free-solid-svg-icons/faCrown';
 
 export enum SCOREBOARD_STATE {
   WAITING_FOR_PLAYERS,
@@ -31,13 +32,6 @@ export class CahScoreboardComponent implements OnInit {
    * @property {Player} leadingPlayer
    */
   public leadingPlayer: Player;
-
-  /**
-   * All player currently playing in this game room
-   * @access   public
-   * @property {Player[]} players
-   */
-  public players: Player[];
 
   /**
    * States what the scoreboard information should show
