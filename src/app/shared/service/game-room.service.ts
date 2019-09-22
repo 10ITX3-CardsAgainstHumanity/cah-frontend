@@ -21,28 +21,35 @@ export class GameRoomService {
    * @access   public
    * @property {Observable<BlackCard>}
    */
-  public selectedBlackCard: Observable<BlackCard>;
+  public selectedBlackCard$: Observable<BlackCard>;
 
   /**
    * The currently selected white cards
    * @access   public
    * @property {Observable<WhiteCard[]>}
    */
-  public selectedWhiteCards: Observable<WhiteCard[]>;
+  public selectedWhiteCards$: Observable<WhiteCard[]>;
 
   /**
    * Observable of all players currently playing in this game room
    * @access public
    * @property {Observable<Player[]>} players
    */
-  public players: Observable<Player[]>;
+  public players$: Observable<Player[]>;
+
+  /**
+   * The observable of the player playing this session
+   * @access public
+   * @property {Observable<Player>} player
+   */
+  public player$: Observable<Player>;
 
   /**
    * Observable of all cards that the player currently has on his hand
    * @access public
    * @property {Observable<WhiteCard[]>} playerCards
    */
-  public playerCards: Observable<WhiteCard[]>;
+  public playerCards$: Observable<WhiteCard[]>;
 
   /**
    * The cards that the player currently has on his hand
@@ -57,6 +64,13 @@ export class GameRoomService {
    * @property {BehaviorSubject<Player[]>} _players
    */
   private _players: BehaviorSubject<Player[]>;
+
+  /**
+   * The client playing in the session
+   * @access private
+   * @property {BehaviorSubject<Player>} _player
+   */
+  private _player: BehaviorSubject<Player>;
 
   /**
    * The subject for the currently selected black card
@@ -80,24 +94,11 @@ export class GameRoomService {
   public constructor() {
     this._selectedBlackCard = new BehaviorSubject<BlackCard>({text: '____.', maxPlayableWhiteCards: 1, playerId: 0});
     this._selectedWhiteCards = new BehaviorSubject<WhiteCard[]>([]);
-    this._players = new BehaviorSubject<Player[]>([
-      {
-        username: 'player 1',
-        points: 1
-      },
-      {
-        username: 'player 2',
-        points: 0
-      },
-      {
-        username: 'player 3',
-        points: 0
-      },
-      {
-        username: 'player 4',
-        points: 0
-      }
-    ]);
+    this._selectedBlackCard = new BehaviorSubject<BlackCard>({
+      text: '____.',
+      maxPlayableWhiteCards: 1,
+      playerId: 0
+    });
     this._playerCards = new BehaviorSubject<WhiteCard[]>([
       {
         text: 'Ein gebleichtes Arschloch',
@@ -140,10 +141,49 @@ export class GameRoomService {
         playerId: 0,
       }
     ]);
-    this.selectedBlackCard = this._selectedBlackCard.asObservable();
-    this.selectedWhiteCards = this._selectedWhiteCards.asObservable();
-    this.players = this._players.asObservable();
-    this.playerCards = this._playerCards.asObservable();
+    this._players = new BehaviorSubject<Player[]>([
+      {
+        id: '1',
+        username: 'player 1',
+        fragment: '3323',
+        points: 3,
+        isCzar: false
+      },
+      {
+        id: '2',
+        username: 'player 2',
+        fragment: '5435',
+        points: 0,
+        isCzar: false
+      },
+      {
+        id: '3',
+        username: 'player 3',
+        fragment: '6573',
+        points: 4,
+        isCzar: false
+      },
+      {
+        id: '4',
+        username: 'player 4',
+        fragment: '4563',
+        points: 2,
+        isCzar: false
+      }
+    ]);
+    this._player = new BehaviorSubject<Player>({
+      id: '3',
+      username: 'luii',
+      fragment: '6573',
+      points: 4,
+      isCzar: false
+    });
+
+    this.selectedWhiteCards$ = this._selectedWhiteCards.asObservable();
+    this.selectedBlackCard$ = this._selectedBlackCard.asObservable();
+    this.playerCards$ = this._playerCards.asObservable();
+    this.players$ = this._players.asObservable();
+    this.player$ = this._player.asObservable();
   }
 
   /**

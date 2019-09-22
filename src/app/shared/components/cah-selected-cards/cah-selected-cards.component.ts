@@ -52,13 +52,13 @@ export class CahSelectedCardsComponent implements OnInit, OnDestroy {
    * @return {void}
    */
   public ngOnInit(): void {
-    this._gameRoomService.selectedWhiteCards
+    this._gameRoomService.selectedWhiteCards$
       .pipe(takeUntil(this._ngUnSub))
       .subscribe((cards: WhiteCard[]) => {
         this.selectedWhiteCards = cards;
       });
 
-    this._gameRoomService.selectedBlackCard
+    this._gameRoomService.selectedBlackCard$
       .pipe(takeUntil(this._ngUnSub))
       .subscribe((card: BlackCard) => {
         this.selectedBlackCard = card;

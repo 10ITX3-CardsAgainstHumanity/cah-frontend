@@ -74,20 +74,23 @@ export class CahScoreboardComponent implements OnInit {
    * @return {void}
    */
   public ngOnInit(): void {
-    this._gameRoomService.players
+    this._gameRoomService.players$
       .pipe(
         takeUntil(this._ngUnSub),
-        tap((players: Player[]): Player[] => {
-          if (players.every((player: Player) => player.points === 0)) {
-            this.leadingPlayer = null;
-            return players;
-          }
-          this.leadingPlayer = players.reduce((prev: Player, current: Player) => (prev.points > current.points) ? prev : current);
-          return players;
-        })
-      )
-      .subscribe((players: Player[]) => {
-        this.players = players;
-      });
+        concatAll(),
+        scan((currPlayer, nextPlayer) => currPlayer.points > nextPlayer.points ? currPlayer : nextPlayer),
+        distinctUntilChanged(),
+        tap((player: Player) => this.leadingPlayer = player)
+      ).subscribe();
+  }
+
+  /**
+   * Close the subscriptions
+   * @access public
+   * @return {void}
+   */
+  public ngOnDestroy(): void {
+    this._ngUnSub.next();
+    this._ngUnSub.complete();
   }
 }

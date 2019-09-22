@@ -46,7 +46,7 @@ export class CahPlayerHandComponent implements OnInit {
    * @inheritDoc
    */
   public ngOnInit(): void {
-    this._gameRoomService.playerCards
+    this._gameRoomService.playerCards$
       .pipe(takeUntil(this._ngUnSub))
       .subscribe((cards: WhiteCard[]) => {
         this.whiteCards = cards;

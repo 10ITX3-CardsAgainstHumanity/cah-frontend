@@ -20,8 +20,7 @@ export class CahScoreboardListComponent {
    * @access   public
    * @property {Player[]} players
    */
-  @Input()
-  public players: Player[];
+  public players$: Observable<Player[]>;
 
   /**
    * Assigns the defaults
