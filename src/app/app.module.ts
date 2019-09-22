@@ -8,6 +8,8 @@ import {CahJoinGameDialogComponent} from './shared/components/cah-join-game-dial
 import {CahNewGameDialogComponent} from './shared/components/cah-new-game-dialog/cah-new-game-dialog.component';
 import {CahJoinGameDialogModule} from './shared/components/cah-join-game-dialog/cah-join-game-dialog.module';
 import {CahNewGameDialogModule} from './shared/components/cah-new-game-dialog/cah-new-game-dialog.module';
+import {SocketIoModule} from 'ngx-socket-io';
+import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [
@@ -15,7 +17,9 @@ import {CahNewGameDialogModule} from './shared/components/cah-new-game-dialog/ca
   ],
   imports: [
     BrowserModule,
+    FontAwesomeModule,
     BrowserAnimationsModule,
+    SocketIoModule.forRoot({ url: 'http://localhost:3000', options: {} }),
     AppRoutingModule,
     CahJoinGameDialogModule,
     CahNewGameDialogModule
