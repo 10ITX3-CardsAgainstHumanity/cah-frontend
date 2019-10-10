@@ -1,8 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {WhiteCard} from '../../interfaces/white-card';
 import {GameRoomService} from '../../service/game-room.service';
-import {Subject} from 'rxjs';
-import {takeUntil} from 'rxjs/operators';
+import {Observable, Subject} from 'rxjs';
 
 /**
  * The players card hand
@@ -17,14 +16,14 @@ import {takeUntil} from 'rxjs/operators';
   templateUrl: './cah-player-hand.component.html',
   styleUrls: ['./cah-player-hand.component.scss']
 })
-export class CahPlayerHandComponent implements OnInit {
+export class CahPlayerHandComponent {
 
   /**
    * The currently available cards of the player on his hand
    * @access public
-   * @property {WhiteCard[]} whiteCards
+   * @property {Observable<WhiteCard[]>} whiteCards
    */
-  public whiteCards: WhiteCard[];
+  public whiteCards$: Observable<WhiteCard[]>;
 
   /**
    * Unsubscribe from every open subscription
@@ -40,28 +39,18 @@ export class CahPlayerHandComponent implements OnInit {
    */
   public constructor(private readonly _gameRoomService: GameRoomService) {
     this._ngUnSub = new Subject<void>();
-  }
-
-  /**
-   * @inheritDoc
-   */
-  public ngOnInit(): void {
-    this._gameRoomService.playerCards$
-      .pipe(takeUntil(this._ngUnSub))
-      .subscribe((cards: WhiteCard[]) => {
-        this.whiteCards = cards;
-      });
+    this.whiteCards$ = this._gameRoomService.playerCards$;
   }
 
   /**
    * Callback if a card was selected by the user
    * @access public
-   * @param  {WhiteCard} $event
+   * @param  {WhiteCard} card
    * @param  {number}    index
    * @return {void}
    */
-  public onCardSelected($event: WhiteCard, index: number): void {
-    this._gameRoomService.addSelectedWhiteCard([ $event ]);
+  public onCardSelected(card: WhiteCard, index: number): void {
+    this._gameRoomService.addSelectedWhiteCard([ card ]);
     this._gameRoomService.removeCardFromHand(index);
   }
 }
