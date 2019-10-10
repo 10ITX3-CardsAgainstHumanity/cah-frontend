@@ -1,5 +1,6 @@
-import {Component, EventEmitter, HostListener, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, HostListener, Input, Output} from '@angular/core';
 import {WhiteCard} from '../../interfaces/white-card';
+import {BlackCard} from '../../interfaces/black-card';
 
 /**
  * The black card class
@@ -21,15 +22,15 @@ export class CahBlackCardComponent {
    * @property {EventEmitter<WhiteCard>} cardSelected
    */
   @Output()
-  public cardSelected: EventEmitter<WhiteCard>;
+  public cardSelected: EventEmitter<BlackCard>;
 
   /**
    * The text of the card
    * @access public
-   * @property {string} cardText
+   * @property {BlackCard} card
    */
   @Input()
-  public cardText: string;
+  public card: BlackCard;
 
   /**
    * Assigns the defaults
@@ -37,7 +38,7 @@ export class CahBlackCardComponent {
    * @constructor
    */
   public constructor() {
-    this.cardSelected = new EventEmitter<WhiteCard>();
+    this.cardSelected = new EventEmitter<BlackCard>();
   }
 
   /**
@@ -48,6 +49,8 @@ export class CahBlackCardComponent {
    */
   @HostListener('click')
   public onSelected(): void {
-    this.cardSelected.emit(<WhiteCard>{text: this.cardText});
+    this.cardSelected.emit(
+      <BlackCard>{text: this.card.text, playerId: this.card.playerId, maxPlayableWhiteCards: this.card.maxPlayableWhiteCards}
+    );
   }
 }
