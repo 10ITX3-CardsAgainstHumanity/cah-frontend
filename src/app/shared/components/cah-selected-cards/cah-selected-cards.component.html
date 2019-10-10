@@ -1,9 +1,10 @@
 <div class="cah-selected-cards">
   <div class="cah-selected-black-card">
-    <cah-black-card [cardText]="selectedBlackCard.text" *ngIf="selectedBlackCard"></cah-black-card>
+    <cah-black-card *ngIf="$selectedBlackCard | async"
+                    [card]="$selectedBlackCard | async"></cah-black-card>
   </div>
   <div class="cah-selected-white-cards">
-    <cah-white-card [cardText]="card.text"
-                    *ngFor="let card of selectedWhiteCards; let i = index"></cah-white-card>
+    <cah-white-card *ngFor="let card of $selectedWhiteCards | async;"
+                    [card]="card"></cah-white-card>
   </div>
 </div>
