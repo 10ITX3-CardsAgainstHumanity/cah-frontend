@@ -1,8 +1,21 @@
 import {Injectable} from '@angular/core';
-import {BlackCard} from '../interfaces/black-card';
-import {WhiteCard} from '../interfaces/white-card';
-import {BehaviorSubject, Observable} from 'rxjs';
-import {Player} from '../interfaces/player';
+import {Observable} from 'rxjs';
+import {Socket} from 'ngx-socket-io';
+import {tap} from 'rxjs/operators';
+import {GameRoomStore} from '@shared/store/game-room.store';
+import {GameRoomState} from '@interfaces/game-room-state';
+import {Player} from '@interfaces/player';
+
+export enum EVENTS {
+  GAME_CREATE   = 'game.room.create',
+  GAME_CREATED  = 'game.room.created',
+
+  GAME_JOIN     = 'game.room.join',
+  GAME_JOINED   = 'game.room.joined',
+
+  PLAYER_JOINED = 'game.room.player.joined',
+  PLAYER_LEAVED = 'game.room.player.leaved',
+}
 
 /**
  * The game room service class
@@ -16,197 +29,103 @@ import {Player} from '../interfaces/player';
 })
 export class GameRoomService {
 
-  /**
-   * The currently selected black card
-   * @access   public
-   * @property {Observable<BlackCard>}
-   */
-  public selectedBlackCard$: Observable<BlackCard>;
-
-  /**
-   * The currently selected white cards
-   * @access   public
-   * @property {Observable<WhiteCard[]>}
-   */
-  public selectedWhiteCards$: Observable<WhiteCard[]>;
-
-  /**
-   * Observable of all players currently playing in this game room
-   * @access public
-   * @property {Observable<Player[]>} players
-   */
-  public players$: Observable<Player[]>;
-
-  /**
-   * The observable of the player playing this session
-   * @access public
-   * @property {Observable<Player>} player
-   */
-  public player$: Observable<Player>;
-
-  /**
-   * Observable of all cards that the player currently has on his hand
-   * @access public
-   * @property {Observable<WhiteCard[]>} playerCards
-   */
-  public playerCards$: Observable<WhiteCard[]>;
-
-  /**
-   * The cards that the player currently has on his hand
-   * @access public
-   * @property {BehaviorSubject<WhiteCard[]>} playerCards
-   */
-  private _playerCards: BehaviorSubject<WhiteCard[]>;
-
-  /**
-   * All players currently playing in this game room
-   * @access private
-   * @property {BehaviorSubject<Player[]>} _players
-   */
-  private _players: BehaviorSubject<Player[]>;
-
-  /**
-   * The client playing in the session
-   * @access private
-   * @property {BehaviorSubject<Player>} _player
-   */
-  private _player: BehaviorSubject<Player>;
-
-  /**
-   * The subject for the currently selected black card
-   * @access private
-   * @property {BehaviorSubject<BlackCard>} _selectedBlackCard
-   */
-  private _selectedBlackCard: BehaviorSubject<BlackCard>;
-
-  /**
-   * The subject for the currently selected white cards
-   * @access private
-   * @property {BehaviorSubject<WhiteCard[]>} _selectedWhiteCards
-   */
-  private _selectedWhiteCards: BehaviorSubject<WhiteCard[]>;
 
   /**
    * Assigns the defaults
    * @access public
    * @constructor
    */
-  public constructor() {
-    this._selectedBlackCard = new BehaviorSubject<BlackCard>({text: '____.', maxPlayableWhiteCards: 1, playerId: 0});
-    this._selectedWhiteCards = new BehaviorSubject<WhiteCard[]>([]);
-    this._selectedBlackCard = new BehaviorSubject<BlackCard>({
-      text: '____.',
-      maxPlayableWhiteCards: 1,
-      playerId: 0
-    });
-    this._playerCards = new BehaviorSubject<WhiteCard[]>([
-      {
-        text: 'Ein gebleichtes Arschloch',
-        playerId: 0,
-      },
-      {
-        text: 'Ein Mikropenis',
-        playerId: 0,
-      },
-      {
-        text: 'Ein Hirntumor',
-        playerId: 0,
-      },
-      {
-        text: 'Meine Genitalien',
-        playerId: 0,
-      },
-      {
-        text: 'Resteficken',
-        playerId: 0,
-      },
-      {
-        text: 'Postnatale Abtreibung',
-        playerId: 0,
-      },
-      {
-        text: 'Gruppensex in der Demenzklinik',
-        playerId: 0,
-      },
-      {
-        text: 'Deiner Partnerin einen Dreier mit ihrer Muttervorschlagen',
-        playerId: 0,
-      },
-      {
-        text: 'Ein epileptischer Anfall bei der Bombenentschärfung',
-        playerId: 0,
-      },
-      {
-        text: 'Verschwörungstheorien',
-        playerId: 0,
-      }
-    ]);
-    this._players = new BehaviorSubject<Player[]>([
-      {
-        id: '1',
-        username: 'player 1',
-        fragment: '3323',
-        points: 3,
-        isCzar: false
-      },
-      {
-        id: '2',
-        username: 'player 2',
-        fragment: '5435',
-        points: 0,
-        isCzar: false
-      },
-      {
-        id: '3',
-        username: 'player 3',
-        fragment: '6573',
-        points: 4,
-        isCzar: false
-      },
-      {
-        id: '4',
-        username: 'player 4',
-        fragment: '4563',
-        points: 2,
-        isCzar: false
-      }
-    ]);
-    this._player = new BehaviorSubject<Player>({
-      id: '3',
-      username: 'luii',
-      fragment: '6573',
-      points: 4,
-      isCzar: false
-    });
+  public constructor(private readonly _socket: Socket,
+                     private readonly _gameRoomStore: GameRoomStore) {
 
-    this.selectedWhiteCards$ = this._selectedWhiteCards.asObservable();
-    this.selectedBlackCard$ = this._selectedBlackCard.asObservable();
-    this.playerCards$ = this._playerCards.asObservable();
-    this.players$ = this._players.asObservable();
-    this.player$ = this._player.asObservable();
+    // this.$player      = this._socket.fromEvent('game.room.me');
+    // this.$players     = this._socket.fromEvent('game.room.players');
+    // this.$roomState   = this._socket.fromEvent('game.room.state');
+
   }
 
   /**
-   * Adds the selected white card to the selected stack
+   * Emits a event that informs the server
+   * that the user wishes to create / host a new game
+   * room instance
    * @access public
-   * @param  {WhiteCard[]} cards
+   * @param  {string} username
+   * @param  {string} gameId
    * @return {void}
    */
-  public addSelectedWhiteCard(cards: WhiteCard[]): void {
-    const whiteCards = this._selectedWhiteCards.value;
-    whiteCards.push(...cards);
-    this._selectedWhiteCards.next(whiteCards);
+  public createGameRoom(username: string, gameId: string): void {
+    this._socket.emit('game.room.create', {gameId, username});
   }
 
   /**
-   * Removes a card from the players hand
+   * Listens for the `game.room.created` event
+   * and taps into the observable to update the store
    * @access public
-   * @param  {number} index
+   * @return {Observable<any>}
+   */
+  public onGameRoomCreated(): Observable<string> {
+    return this._socket.fromEvent('game.room.created')
+      .pipe(tap((gameId: string) => this._gameRoomStore.update({gameId})));
+  }
+
+  /**
+   * Emits a event that informs the
+   * server that the user wants to
+   * join an existing game room.
+   * @access public
+   * @param  {string} username
+   * @param  {string} gameId
    * @return {void}
    */
-  public removeCardFromHand(index: number): void {
-    const cards = this._playerCards.value;
-    cards.splice(index, 1);
-    this._playerCards.next(cards);
+  public joinGameRoom(username: string, gameId: string): void {
+    this.onGameRoomJoined()
+      .pipe(tap(() => this.requestGameState()));
+    this._socket.emit('game.room.join', {username, gameId});
+  }
+
+  /**
+   * Listens on the `game.room.joined` event and then sets the
+   * game id, the players that already are in this room, the
+   * state of the room
+   */
+  public onGameRoomJoined(): Observable<object> {
+    return this._socket.fromEvent('game.room.joined')
+        .pipe(tap(() => this._gameRoomStore.update({joined: true})));
+  }
+
+  /**
+   * Requests the game room state from the backend
+   * @access public
+   * @return {void}
+   */
+  public requestGameState(): void {
+    this.onGameStateResponse();
+
+    this._socket.emit('game.room.request.state');
+  }
+
+  /**
+   * Listens for the game state request response
+   */
+  public onGameStateResponse(): Observable<GameRoomState> {
+    return this._socket.fromEvent('game.room.response.state')
+      .pipe(tap((state: GameRoomState) => {
+        this.onPlayerJoin();
+        this.onPlayerLeave();
+      }));
+  }
+
+  public onPlayerJoin(): Observable<Player[]> {
+    return this._socket.fromEvent('game.room.player.joined')
+      .pipe(tap((players: Player[]) => {
+        this._gameRoomStore.update({ players });
+      }));
+  }
+
+  public onPlayerLeave(): Observable<Player[]> {
+    return this._socket.fromEvent('game.room.played.leaved')
+      .pipe(tap((players: Player[]) => {
+        this._gameRoomStore.update({players});
+      }));
   }
 }

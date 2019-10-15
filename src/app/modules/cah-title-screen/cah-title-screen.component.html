@@ -12,6 +12,7 @@
   </div>
   <div class="cah-title-screen-actions">
     <button class="cah-title-screen-action"
+            type="button"
             (click)="onJoinRoomClicked($event)">
       <span>Spiel beitreten</span>
       <span class="cardAnimation">
@@ -20,6 +21,7 @@
       </span>
     </button>
     <button class="cah-title-screen-action"
+            type="button"
             (click)="onNewRoomClicked($event)">
       <span>Neues Spiel erstellen</span>
       <span class="cardAnimation">
@@ -29,3 +31,9 @@
     </button>
   </div>
 </div>
+
+<ng-template #spinnerDialog>
+  <mat-dialog-content>
+    <mat-spinner></mat-spinner>
+  </mat-dialog-content>
+</ng-template>

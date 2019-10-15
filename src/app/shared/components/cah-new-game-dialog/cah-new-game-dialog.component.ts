@@ -1,7 +1,10 @@
 import {Component, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
-import {FormGroup} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {validateForm} from '../../utils/validateForm';
+import randomString from 'node-random-string';
+import {faMagic} from '@fortawesome/free-solid-svg-icons/faMagic';
+import {IconDefinition} from '@fortawesome/fontawesome-svg-core';
 
 interface DialogData { form: FormGroup; }
 
@@ -20,21 +23,29 @@ interface DialogData { form: FormGroup; }
 export class CahNewGameDialogComponent {
 
   /**
-   * States if the spinner is showing
-   * @access public
-   * @property {boolean} isLoading
-   * @default false
+   * The form group of the component
+   * @access   public
+   * @property {FormGroup}
    */
-  public isLoading: boolean;
+  public form: FormGroup;
+
+  /**
+   * The icon to generate a new game id
+   * @access   public
+   * @property {IconDefinition} generateIcon
+   */
+  public generateIcon: IconDefinition;
 
   /**
    * Assigns the defaults
    * @access public
    * @constructor
    */
-  public constructor(public dialogRef: MatDialogRef<CahNewGameDialogComponent>,
-                     @Inject(MAT_DIALOG_DATA) public data: DialogData) {
-    this.isLoading = false;
+  public constructor(@Inject(MAT_DIALOG_DATA) private readonly _data: DialogData,
+                                              private readonly _dialogRef: MatDialogRef<CahNewGameDialogComponent>,
+                                              private readonly _fb: FormBuilder) {
+    this.generateIcon = faMagic;
+    this._buildForm();
   }
 
   /**
@@ -43,7 +54,7 @@ export class CahNewGameDialogComponent {
    * @return {void}
    */
   public closeDialog(): void {
-    this.dialogRef.close();
+    this._dialogRef.close({ reason: 'cancel' });
   }
 
   /**
@@ -52,13 +63,32 @@ export class CahNewGameDialogComponent {
    * @return {void}
    */
   public joinRoom() {
-    if (this.data.form.valid) {
-      // call the websocket with the room id and the username
-      this.data.form.reset();
-      this.isLoading = true;
-
+    if (this.form.valid) {
+      this._dialogRef.close({ reason: 'join', ...this.form.getRawValue() });
+      this.form.reset();
     } else {
-      validateForm(this.data.form);
+      validateForm(this.form);
     }
+  }
+
+  /**
+   * Generates a new game room id and patches the form
+   * @access public
+   * @return {void}
+   */
+  public generateGameId(): void {
+    this.form.patchValue({ gameId: randomString(12) });
+  }
+
+  /**
+   * Builds the form
+   * @access private
+   * @return {void}
+   */
+  private _buildForm(): void {
+    this.form = this._fb.group({
+      username: ['', Validators.required],
+      gameId: [randomString(12), Validators.required]
+    });
   }
 }

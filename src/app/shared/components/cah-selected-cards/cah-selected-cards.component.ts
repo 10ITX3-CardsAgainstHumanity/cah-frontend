@@ -1,10 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {WhiteCard} from '../../interfaces/white-card';
-import {BlackCard} from '../../interfaces/black-card';
 import {GameRoomService} from '../../service/game-room.service';
-import {Observable, Subject} from 'rxjs';
-import {SelectedBlackCardQuery} from '../../store/selectedBlackCard.query';
-import {SelectedWhiteCardsQuery} from '../../store/selectedWhiteCards.query';
+import {Subject} from 'rxjs';
 
 @Component({
   selector: 'cah-selected-cards',
@@ -12,34 +8,6 @@ import {SelectedWhiteCardsQuery} from '../../store/selectedWhiteCards.query';
   styleUrls: ['./cah-selected-cards.component.scss']
 })
 export class CahSelectedCardsComponent implements OnInit, OnDestroy {
-
-  /**
-   * The currently selected cards for the black card
-   * @access   public
-   * @property {Observable<WhiteCard[]>} $selectedWhiteCards
-   */
-  public $selectedWhiteCards: Observable<WhiteCard[]>;
-
-  /**
-   * States if the white cards are still loading
-   * @access   public
-   * @property {Observable<WhiteCard[]>} $selectedWhiteCardsLoading
-   */
-  public $selectedWhiteCardsLoading: Observable<boolean>;
-
-  /**
-   * The currently selected black card
-   * @access   public
-   * @property {Observable<BlackCard>} $selectedBlackCard
-   */
-  public $selectedBlackCard: Observable<BlackCard>;
-
-  /**
-   * States if the black card is still loading
-   * @access   public
-   * @property {Observable<boolean>} $selectedBlackCardLoading
-   */
-  public $selectedBlackCardLoading: Observable<boolean>;
 
   /**
    * Unsubscribe from every open subject in this component
@@ -53,12 +21,8 @@ export class CahSelectedCardsComponent implements OnInit, OnDestroy {
    * @access public
    * @constructor
    */
-  public constructor(private readonly _selectedWhiteCardsQuery: SelectedWhiteCardsQuery,
-                     private readonly _selectedBlackCardQuery: SelectedBlackCardQuery,
-                     private readonly _gameRoomService: GameRoomService) {
+  public constructor(private readonly _gameRoomService: GameRoomService) {
     this._ngUnSub = new Subject<void>();
-    this.$selectedBlackCard = null;
-    this.$selectedWhiteCards = null;
   }
 
   /**
@@ -69,11 +33,6 @@ export class CahSelectedCardsComponent implements OnInit, OnDestroy {
    * @return {void}
    */
   public ngOnInit(): void {
-    this.$selectedWhiteCards = this._selectedWhiteCardsQuery.selectAll();
-    this.$selectedWhiteCardsLoading = this._selectedWhiteCardsQuery.selectLoading();
-
-    this.$selectedBlackCard = this._selectedBlackCardQuery.selectFirst();
-    this.$selectedBlackCardLoading = this._selectedBlackCardQuery.selectLoading();
   }
 
   /**

@@ -6,17 +6,20 @@
     <cah-scoreboard-list (roomFull)="onRoomFull()"></cah-scoreboard-list>
   </div>
 </div>
-<div class="scoreboard-information" [ngSwitch]="informationState">
+<div class="scoreboard-information" [ngSwitch]="informationState | async">
   <ng-container *ngSwitchCase="0">
-    Waiting for players...
+    Round is Starting!
   </ng-container>
   <ng-container *ngSwitchCase="1">
-    Room is full, starting in {{ countdown$ | async }}
+    Starting in {{ countdown$ | async }} ...
   </ng-container>
   <ng-container *ngSwitchCase="2">
-    Player 1 is the czar
+    Round is in progress!
   </ng-container>
   <ng-container *ngSwitchCase="3">
-    Next round starts in ...
+    Round is over!
+  </ng-container>
+  <ng-container *ngSwitchCase="4">
+    Waiting for players ...
   </ng-container>
 </div>

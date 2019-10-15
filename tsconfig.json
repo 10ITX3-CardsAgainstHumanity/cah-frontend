@@ -15,12 +15,13 @@
       "node_modules/@types"
     ],
     "paths": {
-      "@app/*": ["app/*"],
-      "@shared/*": ["app/shared/*"],
-      "@interfaces/*": ["app/shared/interfaces/*"],
-      "@services/*": ["app/shared/services/*"],
-      "@modules/*": ["app/modules/*"],
-      "@assets/*": ["assets/*"]
+      "@app/*": ["src/app/*"],
+      "@shared/*": ["src/app/shared/*"],
+      "@interfaces/*": ["src/app/shared/interfaces/*"],
+      "@services/*": ["src/app/shared/services/*"],
+      "@modules/*": ["src/app/modules/*"],
+      "@assets/*": ["src/assets/*"],
+      "@env/*": ["src/environments/*"]
     },
     "lib": [
       "es2018",

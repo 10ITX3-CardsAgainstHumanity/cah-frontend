@@ -1,6 +1,6 @@
 import {Component, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
-import {FormGroup} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {validateForm} from '../../utils/validateForm';
 
 interface DialogData { form: FormGroup; }
@@ -20,21 +20,21 @@ interface DialogData { form: FormGroup; }
 export class CahJoinGameDialogComponent {
 
   /**
-   * States if the spinner is showing
+   * The form group of the join dialog
    * @access public
-   * @property {boolean} isLoading
-   * @default false
+   * @property {FormGroup}
    */
-  public isLoading: boolean;
+  public form: FormGroup;
 
   /**
    * Assigns the defaults
    * @access public
    * @constructor
    */
-  public constructor(public dialogRef: MatDialogRef<CahJoinGameDialogComponent>,
-                     @Inject(MAT_DIALOG_DATA) public data: DialogData) {
-    this.isLoading = false;
+  public constructor(@Inject(MAT_DIALOG_DATA) public  readonly data: DialogData,
+                                              private readonly _fb: FormBuilder,
+                                              private readonly dialogRef: MatDialogRef<CahJoinGameDialogComponent>) {
+      this._buildForm();
   }
 
   /**
@@ -43,7 +43,7 @@ export class CahJoinGameDialogComponent {
    * @return {void}
    */
   public closeDialog(): void {
-    this.dialogRef.close();
+    this.dialogRef.close({ reason: 'cancel' });
   }
 
   /**
@@ -51,13 +51,25 @@ export class CahJoinGameDialogComponent {
    * @access public
    * @return {void}
    */
-  public joinRoom() {
-    if (this.data.form.valid) {
-      // call the websocket with the room id and the username
-      this.data.form.reset();
-      this.isLoading = true;
+  public joinRoom(): void {
+    if (this.form.valid) {
+      this.dialogRef.close({ reason: 'join', ...this.form.getRawValue() });
+      this.form.reset();
     } else {
-      validateForm(this.data.form);
+      // highlight error fields
+      validateForm(this.form);
     }
+  }
+
+  /**
+   * Builds the form
+   * @access private
+   * @return {void}
+   */
+  private _buildForm(): void {
+    this.form = this._fb.group({
+      gameId: ['', Validators.required],
+      username: ['', Validators.required]
+    });
   }
 }

@@ -1,8 +1,17 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { CahNewGameDialogComponent } from './cah-new-game-dialog.component';
-import {MatButtonModule, MatDialogModule, MatFormFieldModule, MatInputModule, MatProgressSpinnerModule} from '@angular/material';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {CahNewGameDialogComponent} from './cah-new-game-dialog.component';
+import {
+  MatButtonModule,
+  MatDialogModule,
+  MatFormFieldModule,
+  MatIconModule,
+  MatInputModule,
+  MatProgressSpinnerModule,
+  MatTooltipModule
+} from '@angular/material';
 import {ReactiveFormsModule} from '@angular/forms';
+import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [CahNewGameDialogComponent],
@@ -14,7 +23,10 @@ import {ReactiveFormsModule} from '@angular/forms';
     MatInputModule,
     ReactiveFormsModule,
     MatButtonModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatIconModule,
+    FontAwesomeModule,
+    MatTooltipModule
   ]
 })
 export class CahNewGameDialogModule { }

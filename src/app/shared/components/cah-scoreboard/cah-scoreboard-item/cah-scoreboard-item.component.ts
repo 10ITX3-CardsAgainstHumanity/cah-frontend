@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {faCrown} from '@fortawesome/free-solid-svg-icons/faCrown';
+import {IconDefinition} from '@fortawesome/fontawesome-svg-core';
 
 /**
  * A single list item of the scoreboard
@@ -46,7 +47,7 @@ export class CahScoreboardItemComponent implements OnInit {
    * @property {IconDefinition} crownIcon
    * @default  faCrown
    */
-  public crownIcon;
+  public crownIcon: IconDefinition;
 
   /**
    * Assigns the defaults
@@ -63,6 +64,7 @@ export class CahScoreboardItemComponent implements OnInit {
   /**
    * @inheritDoc
    */
-  public ngOnInit() {}
+  public ngOnInit() {
+  }
 
 }

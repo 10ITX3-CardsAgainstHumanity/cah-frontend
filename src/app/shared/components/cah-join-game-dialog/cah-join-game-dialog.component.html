@@ -1,36 +1,31 @@
-<ng-container *ngIf="!isLoading">
-  <h2 mat-dialog-title class="cah-title-overlay-header">
-    Spiel beitreten
-  </h2>
-  <mat-dialog-content>
-    <form [formGroup]="data.form">
-      <mat-form-field appearance="fill">
-        <mat-label>Benutzername</mat-label>
-        <input matInput type="text" formControlName="username">
-        <mat-error>Bitte geben Sie einen Benutzernamen ein.</mat-error>
-      </mat-form-field>
-      <mat-form-field appearance="fill">
-        <mat-label>Raum</mat-label>
-        <input matInput type="text" formControlName="roomId">
-        <mat-error>Bitte geben Sie die URI des Raums ein dem Sie beitreten möchten!</mat-error>
-      </mat-form-field>
-    </form>
-  </mat-dialog-content>
-  <mat-dialog-actions>
-    <button type="button"
-            class="cancel-button cah-title-overlay-action-button"
-            mat-stroked-button
-            (click)="closeDialog()">
-      Abbrechen
-    </button>
-    <button type="button"
-            class="join-button cah-title-overlay-action-button"
-            mat-stroked-button
-            (click)="joinRoom()">
-      Beitreten
-    </button>
-  </mat-dialog-actions>
-</ng-container>
-<ng-container *ngIf="isLoading">
-  <mat-spinner diameter="32"></mat-spinner>
-</ng-container>
+<h2 mat-dialog-title class="cah-title-overlay-header">
+  Spiel beitreten
+</h2>
+<mat-dialog-content>
+  <form [formGroup]="form">
+    <mat-form-field appearance="fill">
+      <mat-label>Benutzername</mat-label>
+      <input matInput type="text" formControlName="username">
+      <mat-error>Bitte geben Sie einen Benutzernamen ein.</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Raum</mat-label>
+      <input matInput type="text" formControlName="gameId">
+      <mat-error>Bitte geben Sie die URI des Raums ein dem Sie beitreten möchten!</mat-error>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button type="button"
+          class="cancel-button cah-title-overlay-action-button"
+          mat-stroked-button
+          (click)="closeDialog()">
+    Abbrechen
+  </button>
+  <button type="button"
+          class="join-button cah-title-overlay-action-button"
+          mat-stroked-button
+          (click)="joinRoom()">
+    Beitreten
+  </button>
+</mat-dialog-actions>

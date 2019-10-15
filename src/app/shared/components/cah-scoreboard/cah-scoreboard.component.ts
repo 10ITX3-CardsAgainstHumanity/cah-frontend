@@ -1,13 +1,14 @@
 import {Component, OnInit} from '@angular/core';
 import {GameRoomService} from '../../service/game-room.service';
 import {Observable, timer} from 'rxjs';
-import {map, take} from 'rxjs/operators';
+import {delay, map, take, tap} from 'rxjs/operators';
+import {ROOM_STATE} from '@interfaces/game-room-state';
 
 export enum SCOREBOARD_STATE {
   WAITING_FOR_PLAYERS,
-  ROOM_FULL_STARTING_IN,
+  ROUND_IS_STARTING_IN,
+  ROUND_IS_STARTING,
   CZAR,
-  NEXT_ROUND,
 }
 
 /**
@@ -35,9 +36,9 @@ export class CahScoreboardComponent {
   /**
    * States what the scoreboard information should show
    * @access   public
-   * @property {number} informationState
+   * @property {Observable<ROOM_STATE>} informationState
    */
-  public informationState: SCOREBOARD_STATE;
+  public informationState: Observable<ROOM_STATE>;
 
 
   /**
@@ -49,11 +50,14 @@ export class CahScoreboardComponent {
   public constructor(private _gameRoomService: GameRoomService) {
     let countdown = 5;
 
-    this.informationState = 0;
+    this.informationState = this._gameRoomService.roomState$;
     this.countdown$ = timer(1000, 1000)
       .pipe(
-        map(x => countdown--),
-        take(countdown + 1)
+        map(() => countdown--),
+        take(countdown + 1),
+        tap(this._startNextRound.bind(this)),
+        delay(5000),
+        tap(() => this._gameRoomService.setRoomState(ROOM_STATE.ROUND_IN_PROGRESS))
       );
   }
 
@@ -63,6 +67,16 @@ export class CahScoreboardComponent {
    * @return {void}
    */
   public onRoomFull(): void {
-    this.informationState = SCOREBOARD_STATE.ROOM_FULL_STARTING_IN;
+    this._gameRoomService.setRoomState(ROOM_STATE.ROUND_IS_STARTING_IN);
+  }
+
+  /**
+   * Calls the websocket to kick off the next round
+   * @access public
+   * @return {void}
+   */
+  private _startNextRound(): void {
+    // for now just reset the state with a timeout
+    this._gameRoomService.setRoomState(ROOM_STATE.ROUND_IS_STARTING);
   }
 }
