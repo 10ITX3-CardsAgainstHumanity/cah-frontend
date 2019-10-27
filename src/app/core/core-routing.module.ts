@@ -1,7 +1,7 @@
-import {RouterModule} from '@angular/router';
 import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
 
-const routes = [
+const routes: Routes = [
   {path: '', loadChildren: './modules/cah-title-screen/cah-title-screen.module#CahTitleScreenModule'},
   {path: 'room/:id', loadChildren: './modules/cah-game-room/cah-game-room.module#CahGameRoomModule'}
 ];
@@ -10,5 +10,5 @@ const routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule {
+export class CoreRoutingModule {
 }

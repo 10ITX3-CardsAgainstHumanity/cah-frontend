@@ -2,9 +2,9 @@ import {Component, TemplateRef, ViewChild} from '@angular/core';
 import {MatDialog, MatDialogRef} from '@angular/material';
 import {FormBuilder} from '@angular/forms';
 import {Router} from '@angular/router';
-import {CahNewGameDialogComponent} from '../../shared/components/cah-new-game-dialog/cah-new-game-dialog.component';
-import {CahJoinGameDialogComponent} from '../../shared/components/cah-join-game-dialog/cah-join-game-dialog.component';
-import {GameRoomService} from '../../shared/service/game-room.service';
+import {CahNewGameDialogComponent} from '@shared/components/cah-new-game-dialog/cah-new-game-dialog.component';
+import {CahJoinGameDialogComponent} from '@shared/components/cah-join-game-dialog/cah-join-game-dialog.component';
+import {GameRoomService} from '@shared/services/game-room.service';
 
 /**
  * The title screen class
