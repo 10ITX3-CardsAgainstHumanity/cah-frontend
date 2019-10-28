@@ -2,9 +2,9 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {Socket} from 'ngx-socket-io';
 import {tap} from 'rxjs/operators';
-import {Player} from '@shared/models/player';
-import {WhiteCard} from '@shared/models/whiteCard';
-import {BlackCard} from '@shared/models/blackCard';
+import {Player} from '@shared/models/player.model';
+import {WhiteCard} from '@shared/models/white-card.model';
+import {BlackCard} from '@shared/models/black-card.model';
 
 export enum EVENTS {
   GAME_CREATE   = 'game.room.create',
@@ -35,7 +35,7 @@ export class GameRoomService {
    * @access public
    * @constructor
    */
-  public constructor(private readonly _socket:        Socket) {}
+  public constructor(private readonly _socket: Socket) {}
 
   /**
    * Emits a event that informs the server
