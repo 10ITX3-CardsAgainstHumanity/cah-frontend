@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {faCrown} from '@fortawesome/free-solid-svg-icons/faCrown';
 import {IconDefinition} from '@fortawesome/fontawesome-svg-core';
+import {faPortrait} from '@fortawesome/free-solid-svg-icons/faPortrait';
 
 /**
  * A single list item of the scoreboard
@@ -15,7 +16,7 @@ import {IconDefinition} from '@fortawesome/fontawesome-svg-core';
   templateUrl: './cah-scoreboard-item.component.html',
   styleUrls: ['./cah-scoreboard-item.component.scss']
 })
-export class CahScoreboardItemComponent implements OnInit {
+export class CahScoreboardItemComponent {
 
   /**
    * States the points of the user that he currently has
@@ -42,6 +43,16 @@ export class CahScoreboardItemComponent implements OnInit {
   public isLeading: boolean;
 
   /**
+   * States if the user is the local
+   * user instance were controlling
+   * @access   public
+   * @property {boolean} isLocalPlayer
+   * @default  boolean
+   */
+  @Input()
+  public isLocalPlayer: boolean;
+
+  /**
    * The icon if a user is leading
    * @access public
    * @property {IconDefinition} crownIcon
@@ -50,21 +61,24 @@ export class CahScoreboardItemComponent implements OnInit {
   public crownIcon: IconDefinition;
 
   /**
+   * The icon for the local user
+   * @access   public
+   * @property {IconDefinition} portraitIcon
+   * @default  faPortrait
+   */
+  public portraitIcon: IconDefinition;
+
+  /**
    * Assigns the defaults
    * @access public
    * @constructor
    */
   public constructor() {
-    this.points = 0;
-    this.username = '';
-    this.isLeading = false;
-    this.crownIcon = faCrown;
+    this.points        = 0;
+    this.username      = '';
+    this.isLeading     = false;
+    this.isLocalPlayer = false;
+    this.crownIcon     = faCrown;
+    this.portraitIcon  = faPortrait;
   }
-
-  /**
-   * @inheritDoc
-   */
-  public ngOnInit() {
-  }
-
 }

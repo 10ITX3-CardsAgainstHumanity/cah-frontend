@@ -1,29 +1,19 @@
+@import "mixins";
 :host {
   display: block;
-  border-bottom: 1px solid black;
-  &:last-child {
-    border-bottom: unset;
-  }
 }
 .scoreboard-item {
   padding: 8px 12px;
   .scoreboard-item-username {
-    &::selection, &::-moz-selection {
-      background-color: transparent;
-    }
-    pointer-events: none;
-    cursor: default;
+    @include unselectable();
+
     font-weight: bold;
     font-size: 1.1rem;
     font-family: Helvetica, "sans-serif", Arial;
     margin-bottom: 8px;
   }
   .scoreboard-item-points {
-    &::selection, &::-moz-selection {
-      background-color: transparent;
-    }
-    pointer-events: none;
-    cursor: default;
+    @include unselectable();
     font-family: Helvetica, "sans-serif", Arial;
     font-size: 1rem;
   }

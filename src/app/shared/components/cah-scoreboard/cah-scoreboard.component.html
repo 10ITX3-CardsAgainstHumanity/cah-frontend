@@ -2,24 +2,11 @@
   <div class="scoreboard-header">
     Scoreboard
   </div>
-  <div class="scoreboard-list-container">
-    <cah-scoreboard-list (roomFull)="onRoomFull()"></cah-scoreboard-list>
+  <div class="scoreboard-list">
+    <cah-scoreboard-item [points]="player.points"
+                         [username]="player.username"
+                         [isLeading]="player.id === (leadingPlayer$ | async).id"
+                         [isLocalPlayer]="player.id === (localPlayer$ | async).id"
+                         *ngFor="let player of (players$ | async)"></cah-scoreboard-item>
   </div>
-</div>
-<div class="scoreboard-information" [ngSwitch]="informationState | async">
-  <ng-container *ngSwitchCase="0">
-    Round is Starting!
-  </ng-container>
-  <ng-container *ngSwitchCase="1">
-    Starting in {{ countdown$ | async }} ...
-  </ng-container>
-  <ng-container *ngSwitchCase="2">
-    Round is in progress!
-  </ng-container>
-  <ng-container *ngSwitchCase="3">
-    Round is over!
-  </ng-container>
-  <ng-container *ngSwitchCase="4">
-    Waiting for players ...
-  </ng-container>
 </div>

@@ -1,18 +1,16 @@
+@import "mixins";
 .scoreboard {
-  border-top: 1px solid black;
-  border-left: 1px solid black;
-  border-right: 1px solid black;
-  border-bottom: unset;
+  border: 1px solid black;
   width: 256px;
-  height: auto;
   border-radius: 4px 4px 0 0;
   grid-template-columns: 1fr;
-  grid-template-rows: min-content 1fr;
+  grid-template-rows: 48px 256px;
   grid-template-areas:
     "header"
     "list";
 
   .scoreboard-header {
+    @include unselectable();
     font-family: Helvetica, "sans-serif", Arial;
     font-size: 1.5rem;
     font-weight: bold;
@@ -21,36 +19,24 @@
     color: white;
     background-color: black;
     grid-area: header;
-    pointer-events: none;
-    cursor: default;
-    &::selection, &::-moz-selection {
-      background-color: transparent;
-    }
     .scoreboard-header-subtitle {
-      &::selection, &::-moz-selection {
-        background-color: transparent;
-      }
-      pointer-events: none;
-      cursor: default;
+      @include unselectable();
       margin: 4px 0 8px;
       padding: 0;
       font-size: 1rem;
     }
   }
 
-  .scoreboard-list-container {
+  .scoreboard-list {
     grid-area: list;
+    height: 256px;
+    overflow-y: auto;
+
+    cah-scoreboard-item {
+      border-bottom: 1px solid black;
+      &:last-child {
+        border-bottom: unset;
+      }
+    }
   }
-}
-.scoreboard-information {
-  &::selection, &::-moz-selection {
-    background-color: transparent;
-  }
-  pointer-events: none;
-  cursor: default;
-  font-family: Helvetica, "sans-serif", Arial;
-  text-align: center;
-  padding: 12px 0;
-  border: 1px solid black;
-  border-radius: 0 0 4px 4px;
 }

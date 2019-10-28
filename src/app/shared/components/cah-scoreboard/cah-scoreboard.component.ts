@@ -1,15 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {GameRoomService} from '../../service/game-room.service';
-import {Observable, timer} from 'rxjs';
-import {delay, map, take, tap} from 'rxjs/operators';
-import {ROOM_STATE} from '@interfaces/game-room-state';
-
-export enum SCOREBOARD_STATE {
-  WAITING_FOR_PLAYERS,
-  ROUND_IS_STARTING_IN,
-  ROUND_IS_STARTING,
-  CZAR,
-}
+import {Observable} from 'rxjs';
+import {Player} from '@shared/models/player.model';
+import {PlayerQuery} from '@store/queries/player.query';
+import {PlayerService} from '@services/player.service';
+import {PlayerStore} from '@store/player.store';
 
 /**
  * The scoreboard class
@@ -24,59 +18,74 @@ export enum SCOREBOARD_STATE {
   templateUrl: './cah-scoreboard.component.html',
   styleUrls: ['./cah-scoreboard.component.scss']
 })
-export class CahScoreboardComponent {
+export class CahScoreboardComponent implements OnInit {
 
   /**
-   * The countdown for the next round
-   * @access public
-   * @property {Observable<number>} countdown$
-   */
-  public countdown$: Observable<number>;
-
-  /**
-   * States what the scoreboard information should show
+   * Observable player object
    * @access   public
-   * @property {Observable<ROOM_STATE>} informationState
+   * @property {Observable<Player[]>}
    */
-  public informationState: Observable<ROOM_STATE>;
+  public players$: Observable<Player[]>;
 
+  /**
+   * The local player / client
+   * @access   public
+   * @property {Observable<Player>} localPlayer$
+   */
+  public localPlayer$: Observable<Player>;
+
+  /**
+   * The currently leading Player
+   * @access   public
+   * @property {Observable<Player>} leadingPlayer$
+   */
+  public leadingPlayer$: Observable<Player>;
+
+  /**
+   * States if the data is loading
+   * @access   public
+   * @property {Observable<boolean>} isLoading$
+   */
+  public isLoading$: Observable<boolean>;
 
   /**
    * Assigns the defaults
    * @access public
-   * @param  {GameRoomService} _gameRoomService
+   * @param {PlayerQuery}   _playerQuery
+   * @param {PlayerService} _playerService
    * @constructor
    */
-  public constructor(private _gameRoomService: GameRoomService) {
-    let countdown = 5;
-
-    this.informationState = this._gameRoomService.roomState$;
-    this.countdown$ = timer(1000, 1000)
-      .pipe(
-        map(() => countdown--),
-        take(countdown + 1),
-        tap(this._startNextRound.bind(this)),
-        delay(5000),
-        tap(() => this._gameRoomService.setRoomState(ROOM_STATE.ROUND_IN_PROGRESS))
-      );
-  }
+  public constructor(private readonly _playerQuery: PlayerQuery,
+                     private readonly _playerStore: PlayerStore,
+                     private readonly _playerService: PlayerService) {}
 
   /**
-   * Gets triggered if the room is full (e.g. has a count of 4 players)
+   * Get all players from the store
+   * @inheritDoc
    * @access public
    * @return {void}
    */
-  public onRoomFull(): void {
-    this._gameRoomService.setRoomState(ROOM_STATE.ROUND_IS_STARTING_IN);
-  }
+  public ngOnInit(): void {
+    this.players$       = this._playerQuery.selectAll();
+    this.isLoading$     = this._playerQuery.isLoading$;
+    this.localPlayer$   = this._playerQuery.localPlayer$;
+    this.leadingPlayer$ = this._playerQuery.leadingPlayer$;
 
-  /**
-   * Calls the websocket to kick off the next round
-   * @access public
-   * @return {void}
-   */
-  private _startNextRound(): void {
-    // for now just reset the state with a timeout
-    this._gameRoomService.setRoomState(ROOM_STATE.ROUND_IS_STARTING);
+    this._playerService.addPlayer(0, 'P1', '666');
+    this._playerStore.setActive(0);
+    this._playerService.addPlayer(1, 'P2', '667');
+    this._playerService.addPlayer(2, 'P3', '668');
+    this._playerService.addPlayer(3, 'P4', '669');
+    this._playerService.addPlayer(4, 'P5', '670');
+    this._playerService.addPlayer(5, 'P6', '671');
+    this._playerService.addPlayer(6, 'P7', '672');
+    this._playerService.addPlayer(7, 'P8', '673');
+    this._playerService.setPlayerPoints(2, 100);
+    setTimeout(() => {
+      this._playerService.setPlayerPoints(0, 200);
+    }, 2000);
+    setTimeout(() => {
+      this._playerService.setPlayerPoints(3, 400);
+    }, 4000);
   }
 }
