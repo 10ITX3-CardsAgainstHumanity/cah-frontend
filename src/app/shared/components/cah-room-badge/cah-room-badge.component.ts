@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import {GameRoomService} from '../../service/game-room.service';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, ParamMap} from '@angular/router';
 import {FormBuilder, FormGroup} from '@angular/forms';
 
@@ -34,7 +33,7 @@ export class CahRoomBadgeComponent implements OnInit {
    */
   public ngOnInit() {
     this._route.paramMap.subscribe((params: ParamMap) => {
-      this.form.setValue({ roomId: params.get('id') });
+      this.form.setValue({roomId: params.get('id')});
     });
   }
 

@@ -1,7 +1,7 @@
 import {Component, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {validateForm} from '../../utils/validateForm';
+import {validateForm} from '@shared/utils/validateForm';
 
 interface DialogData { form: FormGroup; }
 

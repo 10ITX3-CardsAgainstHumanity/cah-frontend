@@ -1,29 +1,34 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {GameRoomService} from '../../service/game-room.service';
-import {Subject} from 'rxjs';
+import {Component, OnInit} from '@angular/core';
+import {Observable} from 'rxjs';
+import {WhiteCard} from '@shared/models/white-card.model';
 
 @Component({
   selector: 'cah-selected-cards',
   templateUrl: './cah-selected-cards.component.html',
   styleUrls: ['./cah-selected-cards.component.scss']
 })
-export class CahSelectedCardsComponent implements OnInit, OnDestroy {
+export class CahSelectedCardsComponent implements OnInit {
 
   /**
-   * Unsubscribe from every open subject in this component
-   * @access   private
-   * @property {Subject<void>} _ngUnSub
+   * The selected white cards
+   * @access   public
+   * @property {Observable<WhiteCard[]>} selectedWhiteCards$
    */
-  private _ngUnSub: Subject<void>;
+  public selectedWhiteCards$: Observable<WhiteCard[]>;
+
+  /**
+   * States if the store is loading
+   * @access   public
+   * @property {Observable<boolean>} isLoading$
+   */
+  public isLoading$: Observable<boolean>;
 
   /**
    * Assigns the defaults
    * @access public
    * @constructor
    */
-  public constructor(private readonly _gameRoomService: GameRoomService) {
-    this._ngUnSub = new Subject<void>();
-  }
+  public constructor() {}
 
   /**
    * @inheritDoc
@@ -32,16 +37,5 @@ export class CahSelectedCardsComponent implements OnInit, OnDestroy {
    * @access public
    * @return {void}
    */
-  public ngOnInit(): void {
-  }
-
-  /**
-   * Callback that gets called when the components gets destroyed
-   * @access public
-   * @return {void}
-   */
-  public ngOnDestroy(): void {
-    this._ngUnSub.next();
-    this._ngUnSub.complete();
-  }
+  public ngOnInit(): void {}
 }

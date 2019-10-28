@@ -1,6 +1,6 @@
 import {Component, EventEmitter, HostListener, Input, Output} from '@angular/core';
-import {WhiteCard} from '../../interfaces/white-card';
-import {BlackCard} from '../../interfaces/black-card';
+import {WhiteCard} from '@shared/models/white-card.model';
+import {BlackCard} from '@shared/models/black-card.model';
 
 /**
  * The black card class

@@ -16,7 +16,7 @@
       &:hover {
         transform: translateY(-1rem);
         ~ cah-white-card.card {
-          transform: translateX(calc((#{$distance} * -1) - 12px));
+          transform: translateX(($distance * -1) - 12px);
         }
       }
     }

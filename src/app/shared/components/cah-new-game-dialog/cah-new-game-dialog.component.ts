@@ -1,7 +1,7 @@
 import {Component, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {validateForm} from '../../utils/validateForm';
+import {validateForm} from '@shared/utils/validateForm';
 import randomString from 'node-random-string';
 import {faMagic} from '@fortawesome/free-solid-svg-icons/faMagic';
 import {IconDefinition} from '@fortawesome/fontawesome-svg-core';

@@ -1,5 +1,5 @@
 import {Component, EventEmitter, HostListener, Input, Output} from '@angular/core';
-import {WhiteCard} from '../../interfaces/white-card';
+import {WhiteCard} from '@shared/models/white-card.model';
 import {of} from 'rxjs';
 import {finalize, tap} from 'rxjs/operators';
 
@@ -52,10 +52,7 @@ export class CahWhiteCardComponent {
   public onSelected($event: Event): void {
     of($event)
       .pipe(
-        tap(console.log),
-        finalize(() => {
-          this.cardSelected.emit(<WhiteCard>{text: this.card.text, playerId: this.card.playerId});
-        })
+        finalize(() => this.cardSelected.emit(<WhiteCard>{text: this.card.text, playerId: this.card.playerId}))
       ).subscribe();
   }
 }

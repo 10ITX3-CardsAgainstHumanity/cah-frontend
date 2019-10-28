@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {WhiteCard} from '../../interfaces/white-card';
-import {GameRoomService} from '../../service/game-room.service';
-import {Observable, Subject} from 'rxjs';
+import {WhiteCard} from '../../models/white-card.model';
+import {Observable} from 'rxjs';
+import {PlayerQuery} from '@store/queries/player.query';
+import {PlayerService} from '@services/player.service';
 
 /**
  * The players card hand
@@ -16,30 +17,37 @@ import {Observable, Subject} from 'rxjs';
   templateUrl: './cah-player-hand.component.html',
   styleUrls: ['./cah-player-hand.component.scss']
 })
-export class CahPlayerHandComponent {
+export class CahPlayerHandComponent implements OnInit {
 
   /**
    * The currently available cards of the player on his hand
    * @access public
    * @property {Observable<WhiteCard[]>} whiteCards
    */
-  public whiteCards$: Observable<WhiteCard[]>;
-
-  /**
-   * Unsubscribe from every open subscription
-   * @access   private
-   * @property {Subject<void>} _ngUnSub
-   */
-  private _ngUnSub: Subject<void>;
+  public localPlayerCards$: Observable<WhiteCard[]>;
 
   /**
    * Assigns the defaults
    * @access public
    * @constructor
    */
-  public constructor(private readonly _gameRoomService: GameRoomService) {
-    this._ngUnSub = new Subject<void>();
-    this.whiteCards$ = this._gameRoomService.playerCards$;
+  public constructor(private readonly _playerQuery: PlayerQuery,
+                     private readonly _playerService: PlayerService) {
+    this.localPlayerCards$ = this._playerQuery.localPlayerCards$;
+  }
+
+  /**
+   * @inheritDoc
+   * @access public
+   * @return {void}
+   */
+  public ngOnInit(): void {
+    this._playerService.updatePlayerCards([
+      <WhiteCard>{ text: 'dasdas' },
+      <WhiteCard>{ text: 'dasdas1' },
+      <WhiteCard>{ text: 'dasdas2' },
+      <WhiteCard>{ text: 'dasdas3' }
+    ]);
   }
 
   /**
@@ -50,7 +58,8 @@ export class CahPlayerHandComponent {
    * @return {void}
    */
   public onCardSelected(card: WhiteCard, index: number): void {
-    this._gameRoomService.addSelectedWhiteCard([ card ]);
-    this._gameRoomService.removeCardFromHand(index);
+    console.log(`selected card ${JSON.stringify(card)}`);
+    // this._gameRoomService.addSelectedWhiteCard([ card ]);
+    // this._gameRoomService.removeCardFromHand(index);
   }
 }
