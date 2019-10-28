@@ -1,4 +1,4 @@
-import {Card} from '@shared/models/card';
+import {Card} from '@shared/models/card.model';
 
 /**
  * The BlackCard model

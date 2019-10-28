@@ -1,11 +1,4 @@
-/**
- * The player model interface
- * @access public
- * @extends
- * @interface
- * @name Player
- */
-import {WhiteCard} from '@shared/models/whiteCard';
+import {WhiteCard} from '@shared/models/white-card.model';
 
 /**
  * The player model
