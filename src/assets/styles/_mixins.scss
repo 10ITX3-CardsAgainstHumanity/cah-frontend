@@ -1,0 +1,7 @@
+@mixin unselectable() {
+  &::selection, &::-moz-selection {
+    background-color: transparent;
+  }
+  pointer-events: none;
+  cursor: default;
+}
