@@ -1,50 +1,35 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, ParamMap} from '@angular/router';
 import {FormBuilder, FormGroup} from '@angular/forms';
+import {GameRoomService} from '@services/game-room.service';
+import {GameRoomQuery} from '@store/queries/game-room.query';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'cah-room-badge',
   templateUrl: './cah-room-badge.component.html',
   styleUrls: ['./cah-room-badge.component.scss']
 })
-export class CahRoomBadgeComponent implements OnInit {
+export class CahRoomBadgeComponent {
 
   /**
-   * The form of the room badge
-   * @access public
-   * @property {FormGroup} form
+   * Observable of the room id
+   * @access   public
+   * @property {Observable<string>}
    */
-  public form: FormGroup;
+  public roomId$: Observable<string>;
 
   /**
    * Assigns the defaults
    * @access public
-   * @param  {FormBuilder}    _fb
-   * @param  {ActivatedRoute} _route
+   * @param  {ActivatedRoute}  _route
+   * @param  {GameRoomQuery}   _gameRoomQuery
+   * @param  {GameRoomService} _gameRoomService
    * @constructor
    */
-  public constructor(private readonly _fb: FormBuilder,
-                     private readonly _route: ActivatedRoute) {
-    this._buildForm();
-  }
-
-  /**
-   * @inheritDoc
-   */
-  public ngOnInit() {
-    this._route.paramMap.subscribe((params: ParamMap) => {
-      this.form.setValue({roomId: params.get('id')});
-    });
-  }
-
-  /**
-   * Builds the form
-   * @access private
-   * @return {void}
-   */
-  private _buildForm(): void {
-    this.form = this._fb.group({
-      roomId: ['']
-    });
+  public constructor(private readonly _route:           ActivatedRoute,
+                     private readonly _gameRoomQuery:   GameRoomQuery,
+                     private readonly _gameRoomService: GameRoomService) {
+    this.roomId$ = this._gameRoomQuery.roomId$;
   }
 }

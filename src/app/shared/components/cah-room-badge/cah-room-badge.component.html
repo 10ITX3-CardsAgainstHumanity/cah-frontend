@@ -1,8 +1,6 @@
 <div class="cah-room-badge-container">
-  <form [formGroup]="form">
-    <mat-form-field appearance="fill">
-      <mat-label>Raum Id:</mat-label>
-      <input type="text" matInput readonly formControlName="roomId">
-    </mat-form-field>
-  </form>
+  <h6 class="cah-room-badge-header">Raum ID:</h6>
+  <div class="cah-room-badge-content">
+    {{ roomId$ | async }}
+  </div>
 </div>

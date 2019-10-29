@@ -3,4 +3,19 @@
   border-radius: 4px;
   background-color: white;
   padding: 24px 24px 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: repeat(2, minmax(min-content, max-content));
+  grid-template-areas: "header" "content";
+
+  .cah-room-badge-header {
+    grid-area: header;
+    font-size: 13px;
+    margin: 0;
+    padding: 0;
+  }
+  .cah-room-badge-content {
+    grid-area: content;
+    font-size: 14px;
+  }
 }
