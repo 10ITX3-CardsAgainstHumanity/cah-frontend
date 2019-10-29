@@ -1,5 +1,5 @@
 import {GameRoom} from '@shared/models/game-room.model';
-import {EntityState} from '@datorama/akita';
+import {ActiveState, EntityState} from '@datorama/akita';
 
 /**
  * The GameRoomState interface
@@ -9,4 +9,4 @@ import {EntityState} from '@datorama/akita';
  * @extends EntityState<GameRoom>
  * @name GameRoomState
  */
-export interface GameRoomState extends EntityState<GameRoom> {}
+export interface GameRoomState extends EntityState<GameRoom>, ActiveState {}

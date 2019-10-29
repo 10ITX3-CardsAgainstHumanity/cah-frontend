@@ -18,6 +18,13 @@ import {BlackCard} from '@shared/models/black-card.model';
 export class GameRoomQuery extends QueryEntity<GameRoomState, GameRoom> {
 
   /**
+   * Observable of the room id
+   * @access   public
+   * @property {Observable<string>} roomId$
+   */
+  public roomId$: Observable<string>;
+
+  /**
    * Selected white cards observable
    * @access   public
    * @property {Observable<WhiteCard[]>} selectedWhiteCards$
@@ -39,7 +46,8 @@ export class GameRoomQuery extends QueryEntity<GameRoomState, GameRoom> {
   public constructor(protected store: GameRoomStore) {
     super(store);
 
-    this.selectedWhiteCards$ = this.select('selectedWhiteCards');
+    this.roomId$             = this.select('roomId');
     this.selectedBlackCard$  = this.select('selectedBlackCard');
+    this.selectedWhiteCards$ = this.select('selectedWhiteCards');
   }
 }

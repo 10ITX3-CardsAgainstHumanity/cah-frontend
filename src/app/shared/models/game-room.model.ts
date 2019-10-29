@@ -30,4 +30,6 @@ export interface GameRoom {
    * @property {WhiteCard[]} selectedWhiteCards
    */
   selectedWhiteCards: WhiteCard[];
+
+  
 }
