@@ -1,5 +1,5 @@
 import {Component, TemplateRef, ViewChild} from '@angular/core';
-import {MatDialog, MatDialogRef} from '@angular/material';
+import {MatDialog} from '@angular/material';
 import {FormBuilder} from '@angular/forms';
 import {Router} from '@angular/router';
 import {CahNewGameDialogComponent} from '@shared/components/cah-new-game-dialog/cah-new-game-dialog.component';
@@ -68,11 +68,8 @@ export class CahTitleScreenComponent {
           .subscribe((result: { reason: string, [prop: string]: any }) => {
             if (result.reason) {
               if (result.reason === 'join') {
-                const spinnerDialog = this.openSpinnerDialog();
                 const { gameId, username } = result;
-
-                this._gameRoomService.createGameRoom(username, gameId);
-
+                this._gameRoomService.joinGameRoom(username, gameId);
               } else if (result.reason === 'cancel') {
 
               }
@@ -97,26 +94,12 @@ export class CahTitleScreenComponent {
 
           if (result.reason) {
             if (result.reason === 'join') {
-              const spinnerDialog = this.openSpinnerDialog();
               const { gameId, username } = result;
-
-              this._gameRoomService.joinGameRoom(username, gameId);
+              this._gameRoomService.createGameRoom(username, gameId);
             } else if (result.reason === 'cancel') {
 
             }
           }
         });
-  }
-
-  /**
-   * Opens a spinner dialog
-   * @access public
-   * @return {MatDialogRef}
-   */
-  public openSpinnerDialog(): MatDialogRef<TemplateRef<any>> {
-    return this._dialog.open(this._spinnerDialog, {
-      width: '394px',
-      height: '394px'
-    });
   }
 }

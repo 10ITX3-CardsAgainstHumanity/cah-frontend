@@ -1,12 +1,21 @@
 <div class="white-card-container">
-  <h2>{{ card.text }}</h2>
-  <div class="card-caption-container">
-    <p>Cards</p>
-    <p>Against</p>
-    <p>Humanity</p>
-  </div>
-  <div class="card-icon-container">
-    <div class="card-icon-full"></div>
-    <div class="card-icon-border-slanted"></div>
-  </div>
+  <ng-container *ngIf="!card.dummy">
+    <h2>{{ card.text }}</h2>
+    <div class="card-caption-container front">
+      <p>Cards</p>
+      <p>Against</p>
+      <p>Humanity</p>
+    </div>
+    <div class="card-icon-container">
+      <div class="card-icon-full"></div>
+      <div class="card-icon-border-slanted"></div>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="card.dummy">
+    <div class="card-caption-container back">
+      <p>Cards</p>
+      <p>Against</p>
+      <p>Humanity</p>
+    </div>
+  </ng-container>
 </div>

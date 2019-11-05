@@ -1,6 +1,5 @@
-import {GameRoom} from '@shared/models/game-room.model';
 import {Injectable} from '@angular/core';
-import {QueryEntity} from '@datorama/akita';
+import {Query} from '@datorama/akita';
 import {GameRoomStore} from '../game-room.store';
 import {GameRoomState} from '@store/states/game-room.state';
 import {Observable} from 'rxjs';
@@ -15,7 +14,7 @@ import {BlackCard} from '@shared/models/black-card.model';
  * @name GameRoomQuery
  */
 @Injectable({ providedIn: 'root' })
-export class GameRoomQuery extends QueryEntity<GameRoomState, GameRoom> {
+export class GameRoomQuery extends Query<GameRoomState> {
 
   /**
    * Observable of the room id

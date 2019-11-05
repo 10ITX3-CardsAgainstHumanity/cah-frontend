@@ -4,6 +4,8 @@ import {Player} from '@shared/models/player.model';
 import {PlayerQuery} from '@store/queries/player.query';
 import {PlayerService} from '@services/player.service';
 import {PlayerStore} from '@store/player.store';
+import {GameRoomStore} from '@store/game-room.store';
+import {WhiteCard} from '@shared/models/white-card.model';
 
 /**
  * The scoreboard class
@@ -57,6 +59,7 @@ export class CahScoreboardComponent implements OnInit {
    */
   public constructor(private readonly _playerQuery: PlayerQuery,
                      private readonly _playerStore: PlayerStore,
+                     private readonly _gameRoomStore: GameRoomStore,
                      private readonly _playerService: PlayerService) {}
 
   /**
@@ -71,6 +74,8 @@ export class CahScoreboardComponent implements OnInit {
     this.localPlayer$   = this._playerQuery.localPlayer$;
     this.leadingPlayer$ = this._playerQuery.leadingPlayer$;
 
+    this._gameRoomStore.updateSelectedBlackCard({playerId: '0', text: '____dsa', maxPlayableWhiteCards: 1, id: '1', dummy: false });
+    this._gameRoomStore.addSelectedWhiteCards([<WhiteCard>{id: '2', text: 'dasdas', playerId: '0', dummy: true }])
     this._playerService.addPlayer(0, 'P1', '666');
     this._playerStore.setActive(0);
     this._playerService.addPlayer(1, 'P2', '667');

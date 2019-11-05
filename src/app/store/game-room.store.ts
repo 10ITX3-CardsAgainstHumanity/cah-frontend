@@ -1,25 +1,23 @@
-import {GameRoom} from '@shared/models/game-room.model';
 import {Injectable} from '@angular/core';
 import {GameRoomState} from '@store/states/game-room.state';
-import {arrayAdd, arrayRemove, arrayUpdate, EntityStore, ID, StoreConfig} from '@datorama/akita';
-import {Player} from '@shared/models/player.model';
+import {arrayAdd, arrayRemove, ID, Store, StoreConfig} from '@datorama/akita';
 import {WhiteCard} from '@shared/models/white-card.model';
 import {BlackCard} from '@shared/models/black-card.model';
 
 /**
  * Creates a player object and returns it immediately
  * @access public
- * @param  {string} id
- * @param  {string} username
- * @param  {string} fragment
- * @return {Player}
+ * @param  {string}      roomId
+ * @param  {BlackCard}   selectedBlackCard
+ * @param  {WhiteCard[]} selectedWhiteCards
+ * @return {GameRoomState}
  */
-export function createGameState({roomId, selectedBlackCard, selectedWhiteCards}): GameRoom {
+export function createInitialState({roomId, selectedBlackCard, selectedWhiteCards}): GameRoomState {
   return {
     roomId,
     selectedBlackCard,
     selectedWhiteCards
-  } as GameRoom;
+  } as GameRoomState;
 }
 
 /**
@@ -45,7 +43,7 @@ const initialState = {
  */
 @Injectable({  providedIn: 'root' })
 @StoreConfig({ name: 'game-room'  })
-export class GameRoomStore extends EntityStore<GameRoomState, GameRoom> {
+export class GameRoomStore extends Store<GameRoomState> {
 
   /**
    * Assigns the defaults
@@ -53,7 +51,11 @@ export class GameRoomStore extends EntityStore<GameRoomState, GameRoom> {
    * @constructor
    */
   public constructor() {
-    super();
+    super(createInitialState({
+      roomId: 'dasfsdf',
+      selectedBlackCard: <BlackCard>{ id: 'f', maxPlayableWhiteCards: 1, text: '____', playerId: '1' },
+      selectedWhiteCards: []
+    }));
   }
 
   /**
@@ -64,8 +66,8 @@ export class GameRoomStore extends EntityStore<GameRoomState, GameRoom> {
    * @return {void}
    */
   public addSelectedWhiteCards(cards: WhiteCard[]): void {
-    this.updateActive((state: GameRoom) => {
-      return <GameRoom>{
+    this.update((state: GameRoomState) => {
+      return <GameRoomState>{
         selectedWhiteCards: arrayAdd(state.selectedWhiteCards, cards)
       };
     });
@@ -78,8 +80,8 @@ export class GameRoomStore extends EntityStore<GameRoomState, GameRoom> {
    * @return {void}
    */
   public setSelectedWhiteCards(cards: WhiteCard[]): void {
-    this.updateActive((state: GameRoom) => {
-      return <GameRoom>{
+    this.update((state: GameRoomState) => {
+      return <GameRoomState>{
         selectedWhiteCards: cards
       };
     });
@@ -92,8 +94,8 @@ export class GameRoomStore extends EntityStore<GameRoomState, GameRoom> {
    * @return {void}
    */
   public removeSelectedWhiteCards(ids: ID[]): void {
-    this.updateActive((state: GameRoom) => {
-      return <GameRoom>{
+    this.update((state: GameRoomState) => {
+      return <GameRoomState>{
         selectedWhiteCards: arrayRemove(state.selectedWhiteCards, ids)
       };
     });
@@ -106,10 +108,24 @@ export class GameRoomStore extends EntityStore<GameRoomState, GameRoom> {
    * @param  {BlackCard} card
    * @return {void}
    */
-  public updateSelectedBlackCard(id: ID, card: BlackCard): void {
-    this.updateActive((state: GameRoom) => {
-      return <GameRoom>{
-        selectedBlackCard: arrayUpdate(state.selectedBlackCard, id, card)
+  public updateSelectedBlackCard(card: BlackCard): void {
+    this.update((state: GameRoomState) => {
+      return <GameRoomState>{
+        selectedBlackCard: card
+      };
+    });
+  }
+
+  /**
+   * Removes the current black card and sets it to null
+   * @access public
+   * @param  {ID} id
+   * @return {void}
+   */
+  public removeSelectedBlackCard(id: ID): void {
+    this.update((state: GameRoomState) => {
+      return <GameRoomState>{
+        selectedBlackCard: null
       };
     });
   }

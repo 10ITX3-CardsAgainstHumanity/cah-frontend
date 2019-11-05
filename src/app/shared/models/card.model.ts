@@ -27,4 +27,10 @@ export interface Card {
    * @property {string} text
    */
   text: string;
+
+  /**
+   * States if the card is a dummy card,
+   * therefor it only displays CAH and nothing more
+   */
+  dummy: boolean;
 }

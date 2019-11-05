@@ -18,8 +18,7 @@ export class PlayerService {
    * @access public
    * @constructor
    */
-  public constructor(private readonly _playerStore: PlayerStore) {
-  }
+  public constructor(private readonly _playerStore: PlayerStore) {}
 
   /**
    * Adds a player to the player store

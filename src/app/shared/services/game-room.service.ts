@@ -5,6 +5,8 @@ import {tap} from 'rxjs/operators';
 import {Player} from '@shared/models/player.model';
 import {WhiteCard} from '@shared/models/white-card.model';
 import {BlackCard} from '@shared/models/black-card.model';
+import {GameRoomStore} from '@store/game-room.store';
+import {GameRoomState} from '@store/states/game-room.state';
 
 export enum EVENTS {
   GAME_CREATE   = 'game.room.create',
@@ -35,7 +37,8 @@ export class GameRoomService {
    * @access public
    * @constructor
    */
-  public constructor(private readonly _socket: Socket) {}
+  public constructor(private readonly _socket:        Socket,
+                     private readonly _gameRoomStore: GameRoomStore) {}
 
   /**
    * Emits a event that informs the server
@@ -47,7 +50,9 @@ export class GameRoomService {
    * @return {void}
    */
   public createGameRoom(username: string, gameId: string): void {
-    this._socket.emit('game.room.create', {gameId, username});
+    this._socket.emit('game.create', {gameId, username}, (result) => {
+      console.log(result)
+    });
   }
 
   /**
@@ -58,7 +63,7 @@ export class GameRoomService {
    */
   public onGameRoomCreated(): Observable<string> {
     return this._socket.fromEvent('game.room.created')
-      .pipe(tap((gameId: string) => this._gameRoomStore.update({gameId})));
+      .pipe(tap((roomId: string) => this._gameRoomStore.update({roomId})));
   }
 
   /**
@@ -67,11 +72,11 @@ export class GameRoomService {
    * join an existing game room.
    * @access public
    * @param  {string} username
-   * @param  {string} gameId
+   * @param  {string} roomId
    * @return {void}
    */
-  public joinGameRoom(username: string, gameId: string): void {
-    this._socket.emit('game.room.join', {username, gameId});
+  public joinGameRoom(username: string, roomId: string): void {
+    this._socket.emit('game.join', {username, roomId});
   }
 
   /**
@@ -81,7 +86,7 @@ export class GameRoomService {
    */
   public onGameRoomJoined(): Observable<object> {
     return this._socket.fromEvent('game.room.joined')
-        .pipe(tap(() => this._gameRoomStore.update({joined: true})));
+        .pipe(tap(() => this._gameRoomStore.update({})));
   }
 
   /**
@@ -112,7 +117,7 @@ export class GameRoomService {
    */
   public onPlayerJoin(): Observable<Player[]> {
     return this._socket.fromEvent('game.room.player.joined')
-      .pipe(tap((players: Player[]) => this._gameRoomStore.update({ players })));
+      // .pipe(tap((players: Player[]) => this._gameRoomStore.update({ players })));
   }
 
   /**
@@ -123,7 +128,7 @@ export class GameRoomService {
    */
   public onPlayerLeave(): Observable<Player[]> {
     return this._socket.fromEvent('game.room.player.leaved')
-      .pipe(tap((players: Player[]) => this._gameRoomStore.update({players})));
+      // .pipe(tap((players: Player[]) => this._gameRoomStore.update({players})));
   }
 
   /**
@@ -142,7 +147,7 @@ export class GameRoomService {
    */
   public onStartGame(): Observable<object> {
     return this._socket.fromEvent('game.room.started')
-      .pipe(tap(() => this._gameRoomStore.update({ started: true })));
+      // .pipe(tap(() => this._gameRoomStore.update({ started: true })));
   }
 
   /**
@@ -150,7 +155,7 @@ export class GameRoomService {
    */
   public onRoomFull(): Observable<object> {
     return this._socket.fromEvent('game.room.full')
-      .pipe(tap(() => this._gameRoomStore.update({ roomIsFull: true, started: true })));
+      // .pipe(tap(() => this._gameRoomStore.update({ roomIsFull: true, started: true })));
   }
 
   /**
@@ -172,7 +177,7 @@ export class GameRoomService {
    */
   public onPlayerRequestCards(): Observable<WhiteCard[]> {
     return this._socket.fromEvent('game.room.response.cards')
-      .pipe(tap((cards: WhiteCard[]) => this._gameRoomStore.update({cards})));
+      // .pipe(tap((cards: WhiteCard[]) => this._gameRoomStore.update({cards})));
   }
 
   /**
