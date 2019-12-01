@@ -53,6 +53,15 @@ export class CahScoreboardItemComponent {
   public isLocalPlayer: boolean;
 
   /**
+   * States if the user is the czar
+   * @access   public
+   * @property {boolean} isCzar
+   * @default  false
+   */
+  @Input()
+  public isCzar: boolean;
+
+  /**
    * The icon if a user is leading
    * @access public
    * @property {IconDefinition} crownIcon
@@ -76,6 +85,7 @@ export class CahScoreboardItemComponent {
   public constructor() {
     this.points        = 0;
     this.username      = '';
+    this.isCzar        = false;
     this.isLeading     = false;
     this.isLocalPlayer = false;
     this.crownIcon     = faCrown;

@@ -52,6 +52,16 @@ export class PlayerService {
   }
 
   /**
+   *
+   * @param id
+   */
+  public setCzarTo(id: ID): void {
+    this._playerStore.update(id, {
+      isCzar: true
+    })
+  }
+
+  /**
    * Changes the the czar state of the provided
    * and id to true and set everyone else to false
    * @access public

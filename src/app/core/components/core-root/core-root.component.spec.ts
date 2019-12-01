@@ -1,6 +1,7 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {CoreRootComponent} from './core-root.component';
+import {RouterTestingModule} from '@angular/router/testing';
 
 describe('CoreRootComponent', () => {
   let component: CoreRootComponent;
@@ -8,7 +9,8 @@ describe('CoreRootComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CoreRootComponent ]
+      declarations: [ CoreRootComponent ],
+      imports: [ RouterTestingModule ]
     })
     .compileComponents();
   }));
@@ -21,5 +23,9 @@ describe('CoreRootComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should display the router outlet', () => {
+    expect()
   });
 });

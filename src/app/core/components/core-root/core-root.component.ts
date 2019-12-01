@@ -1,32 +1,25 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 
 /**
  * The CoreRootComponent class
  * @access public
  * @class
  * @export
- * @implements OnInit
  * @name CoreRootComponent
  */
 @Component({
   selector: 'core-root',
-  template: `<router-outlet></router-outlet>`,
+  template: `
+      <router-outlet></router-outlet>`,
   styles: [``]
 })
-export class CoreRootComponent implements OnInit {
+export class CoreRootComponent {
 
   /**
    * Assigns the defaults
    * @access public
    * @constructor
    */
-  public constructor() {}
-
-  /**
-   * @inheritDoc
-   * @access public
-   * @return {}
-   */
-  public ngOnInit() {}
-
+  public constructor() {
+  }
 }

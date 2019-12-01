@@ -1,5 +1,5 @@
-<div class="white-card-container">
-  <ng-container *ngIf="!card.dummy">
+<div class="white-card-container" [@revealCard]="card.dummy ? 'hidden' : 'revealed'">
+  <div class="white-card-front"> <!-- *ngIf="!card.dummy"-->
     <h2>{{ card.text }}</h2>
     <div class="card-caption-container front">
       <p>Cards</p>
@@ -10,12 +10,12 @@
       <div class="card-icon-full"></div>
       <div class="card-icon-border-slanted"></div>
     </div>
-  </ng-container>
-  <ng-container *ngIf="card.dummy">
+  </div>
+  <div class="white-card-back"> <!-- *ngIf="card.dummy" -->
     <div class="card-caption-container back">
       <p>Cards</p>
       <p>Against</p>
       <p>Humanity</p>
     </div>
-  </ng-container>
+  </div>
 </div>

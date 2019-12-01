@@ -1,7 +1,9 @@
 import {Component, EventEmitter, HostListener, Input, Output} from '@angular/core';
+import {revealCard} from '@shared/animations/revealCard';
 import {WhiteCard} from '@shared/models/white-card.model';
+import {finalize} from 'rxjs/operators';
+import {trigger} from '@angular/animations';
 import {of} from 'rxjs';
-import {finalize, tap} from 'rxjs/operators';
 
 /**
  * The white card class
@@ -13,7 +15,10 @@ import {finalize, tap} from 'rxjs/operators';
 @Component({
   selector: 'cah-white-card',
   templateUrl: './cah-white-card.component.html',
-  styleUrls: ['./cah-white-card.component.scss']
+  styleUrls: ['./cah-white-card.component.scss'],
+  animations: [
+    trigger('revealCard', revealCard)
+  ]
 })
 export class CahWhiteCardComponent {
 
@@ -48,7 +53,7 @@ export class CahWhiteCardComponent {
    * @access public
    * @return {void}
    */
-  @HostListener('click', [ '$event' ])
+  @HostListener('click', ['$event'])
   public onSelected($event: Event): void {
     of($event)
       .pipe(

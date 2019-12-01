@@ -44,6 +44,13 @@ export class CahScoreboardComponent implements OnInit {
   public leadingPlayer$: Observable<Player>;
 
   /**
+   * The czar of the current round
+   * @access public
+   * @property {Observable<Player>} czarPlayer$
+   */
+  public czarPlayer$: Observable<Player>;
+
+  /**
    * States if the data is loading
    * @access   public
    * @property {Observable<boolean>} isLoading$
@@ -73,9 +80,14 @@ export class CahScoreboardComponent implements OnInit {
     this.isLoading$     = this._playerQuery.isLoading$;
     this.localPlayer$   = this._playerQuery.localPlayer$;
     this.leadingPlayer$ = this._playerQuery.leadingPlayer$;
+    this.czarPlayer$    = this._playerQuery.czarPlayer$;
+
+    const whiteCards = [
+      <WhiteCard>{id: 0, text: 'dasdas', playerId: '0', dummy: true }
+    ];
 
     this._gameRoomStore.updateSelectedBlackCard({playerId: '0', text: '____dsa', maxPlayableWhiteCards: 1, id: '1', dummy: false });
-    this._gameRoomStore.addSelectedWhiteCards([<WhiteCard>{id: '2', text: 'dasdas', playerId: '0', dummy: true }])
+    this._gameRoomStore.addSelectedWhiteCards(whiteCards);
     this._playerService.addPlayer(0, 'P1', '666');
     this._playerStore.setActive(0);
     this._playerService.addPlayer(1, 'P2', '667');
@@ -91,6 +103,8 @@ export class CahScoreboardComponent implements OnInit {
     }, 2000);
     setTimeout(() => {
       this._playerService.setPlayerPoints(3, 400);
+      this._playerService.changeCzarTo(2);
+      this._gameRoomStore.updateSelectedWhiteCards(whiteCards, { dummy: false, text: 'fdfafdsafds' });
     }, 4000);
   }
 }

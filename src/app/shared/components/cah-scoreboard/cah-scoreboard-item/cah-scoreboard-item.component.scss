@@ -4,6 +4,11 @@
 }
 .scoreboard-item {
   padding: 8px 12px;
+
+  &.isCzar {
+    background-color: red;
+  }
+
   .scoreboard-item-username {
     @include unselectable();
 

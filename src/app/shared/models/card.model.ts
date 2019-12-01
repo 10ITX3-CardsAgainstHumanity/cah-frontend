@@ -5,14 +5,16 @@
  * @interface
  * @name Card
  */
+import {ID} from '@datorama/akita';
+
 export interface Card {
 
   /**
    * The id of the card
    * @access   public
-   * @property {string} id
+   * @property {ID} id
    */
-  id: string;
+  id: ID;
 
   /**
    * The id of the player possessing this card

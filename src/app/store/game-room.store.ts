@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {GameRoomState} from '@store/states/game-room.state';
-import {arrayAdd, arrayRemove, ID, Store, StoreConfig} from '@datorama/akita';
+import {arrayAdd, arrayRemove, arrayUpdate, ID, Store, StoreConfig} from '@datorama/akita';
 import {WhiteCard} from '@shared/models/white-card.model';
 import {BlackCard} from '@shared/models/black-card.model';
 
@@ -83,6 +83,23 @@ export class GameRoomStore extends Store<GameRoomState> {
     this.update((state: GameRoomState) => {
       return <GameRoomState>{
         selectedWhiteCards: cards
+      };
+    });
+  }
+
+  /**
+   * Updates a set of white cards on the store
+   * @access public
+   * @param  {WhiteCard[]} cards
+   * @param  {Partial<WhiteCard>} newState
+   * @return {void}
+   */
+  public updateSelectedWhiteCards(cards: WhiteCard[], newState: Partial<WhiteCard>): void {
+    const ids = cards.map(card => card.id);
+
+    this.update((state: GameRoomState) => {
+      return <GameRoomState>{
+        selectedWhiteCards: arrayUpdate(state.selectedWhiteCards, ids, newState)
       };
     });
   }

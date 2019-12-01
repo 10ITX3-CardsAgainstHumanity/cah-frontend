@@ -1,4 +1,4 @@
-<div class="scoreboard-item">
+<div class="scoreboard-item" [class.isCzar]="isCzar">
   <div class="scoreboard-item-username">
     {{ username }}
     <fa-icon *ngIf="isLeading"

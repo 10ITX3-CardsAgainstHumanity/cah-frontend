@@ -1,15 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import {Component} from '@angular/core';
 
+/**
+ * The CahGameRoomComponent
+ * @access public
+ * @class
+ * @export
+ * @name CahGameRoomComponent
+ */
 @Component({
-  selector: 'app-cah-game-room',
+  selector: 'cah-game-room',
   templateUrl: './cah-game-room.component.html',
   styleUrls: ['./cah-game-room.component.scss']
 })
-export class CahGameRoomComponent implements OnInit {
+export class CahGameRoomComponent {
 
-  constructor() { }
-
-  ngOnInit() {
-  }
+  /**
+   * Assigns the defaults
+   * @access public
+   * @constructor
+   */
+  public constructor() {}
 
 }

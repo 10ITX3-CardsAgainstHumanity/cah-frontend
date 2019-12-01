@@ -38,7 +38,9 @@ export class GameRoomService {
    * @constructor
    */
   public constructor(private readonly _socket:        Socket,
-                     private readonly _gameRoomStore: GameRoomStore) {}
+                     private readonly _gameRoomStore: GameRoomStore) {
+
+  }
 
   /**
    * Emits a event that informs the server

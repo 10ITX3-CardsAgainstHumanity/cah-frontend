@@ -22,4 +22,12 @@ describe('CahTitleScreenComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should set isLoading to false on default', () => {
+    expect(component.isLoading).toBeFalsy();
+  });
+
+  it('should ', function () {
+
+  });
 });
