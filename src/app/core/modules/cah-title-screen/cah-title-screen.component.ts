@@ -70,8 +70,6 @@ export class CahTitleScreenComponent {
               if (result.reason === 'join') {
                 const { gameId, username } = result;
                 this._gameRoomService.joinGameRoom(username, gameId);
-              } else if (result.reason === 'cancel') {
-
               }
             }
           });
@@ -91,15 +89,12 @@ export class CahTitleScreenComponent {
 
     dialog.afterClosed()
           .subscribe((result: { reason: string, [prop: string]: any }) => {
-
-          if (result.reason) {
-            if (result.reason === 'join') {
-              const { gameId, username } = result;
-              this._gameRoomService.createGameRoom(username, gameId);
-            } else if (result.reason === 'cancel') {
-
+            if (result.reason) {
+              if (result.reason === 'join') {
+                const { gameId, username } = result;
+                this._gameRoomService.createGameRoom(username, gameId);
+              }
             }
-          }
         });
   }
 }
