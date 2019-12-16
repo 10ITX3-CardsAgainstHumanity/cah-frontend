@@ -46,7 +46,7 @@ export class GameRoomQuery extends Query<GameRoomState> {
     super(store);
 
     this.roomId$             = this.select('roomId');
-    this.selectedBlackCard$  = this.select('selectedBlackCard');
-    this.selectedWhiteCards$ = this.select('selectedWhiteCards');
+    this.selectedBlackCard$  = this.select('blackCard');
+    this.selectedWhiteCards$ = this.select('whiteCards');
   }
 }
