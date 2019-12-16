@@ -58,7 +58,7 @@ export class PlayerService {
   public setCzarTo(id: ID): void {
     this._playerStore.update(id, {
       isCzar: true
-    })
+    });
   }
 
   /**
