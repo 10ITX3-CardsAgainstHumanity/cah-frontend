@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
 import {faCrown} from '@fortawesome/free-solid-svg-icons/faCrown';
 import {IconDefinition} from '@fortawesome/fontawesome-svg-core';
 import {faPortrait} from '@fortawesome/free-solid-svg-icons/faPortrait';
@@ -14,7 +14,8 @@ import {faPortrait} from '@fortawesome/free-solid-svg-icons/faPortrait';
 @Component({
   selector: 'cah-scoreboard-item',
   templateUrl: './cah-scoreboard-item.component.html',
-  styleUrls: ['./cah-scoreboard-item.component.scss']
+  styleUrls: ['./cah-scoreboard-item.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CahScoreboardItemComponent {
 
@@ -24,7 +25,15 @@ export class CahScoreboardItemComponent {
    * @property {number} points
    */
   @Input()
-  public points: number;
+  public set points(value: number) {
+    this._points = value;
+    this._cdr.markForCheck();
+  }
+  public get points(): number {
+    return this._points;
+  }
+
+  private _points: number;
 
   /**
    * The username of the player
@@ -32,7 +41,15 @@ export class CahScoreboardItemComponent {
    * @property {string} username
    */
   @Input()
-  public username: string;
+  public set username(value: string) {
+    this._username = value;
+    this._cdr.markForCheck();
+  }
+  public get username(): string {
+    return this._username;
+  }
+
+  private _username: string;
 
   /**
    * States if the user is leading
@@ -40,7 +57,14 @@ export class CahScoreboardItemComponent {
    * @property {boolean} isLeading
    */
   @Input()
-  public isLeading: boolean;
+  public set isLeading(value: boolean) {
+    this._isLeading = value;
+  }
+  public get isLeading(): boolean {
+    return this._isLeading;
+  }
+
+  private _isLeading: boolean;
 
   /**
    * States if the user is the local
@@ -50,7 +74,15 @@ export class CahScoreboardItemComponent {
    * @default  boolean
    */
   @Input()
-  public isLocalPlayer: boolean;
+  public set isLocalPlayer(value: boolean) {
+    this._isLocalPlayer = value;
+    this._cdr.markForCheck();
+  }
+  public get isLocalPlayer(): boolean {
+    return this._isLocalPlayer;
+  }
+
+  private _isLocalPlayer: boolean;
 
   /**
    * States if the user is the czar
@@ -59,7 +91,15 @@ export class CahScoreboardItemComponent {
    * @default  false
    */
   @Input()
-  public isCzar: boolean;
+  public set isCzar(value: boolean) {
+    this._isCzar = value;
+    this._cdr.markForCheck();
+  }
+  public get isCzar(): boolean {
+    return this._isCzar;
+  }
+
+  private _isCzar: boolean;
 
   /**
    * The icon if a user is leading
@@ -82,7 +122,7 @@ export class CahScoreboardItemComponent {
    * @access public
    * @constructor
    */
-  public constructor() {
+  public constructor(private readonly _cdr: ChangeDetectorRef) {
     this.points        = 0;
     this.username      = '';
     this.isCzar        = false;
