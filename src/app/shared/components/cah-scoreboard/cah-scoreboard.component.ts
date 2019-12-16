@@ -103,7 +103,7 @@ export class CahScoreboardComponent implements OnInit {
     }, 2000);
     setTimeout(() => {
       this._playerService.setPlayerPoints(3, 400);
-      this._playerService.changeCzarTo(2);
+      this._playerService.setCzarTo(2);
       this._gameRoomStore.updateSelectedWhiteCards(whiteCards, { dummy: false, text: 'fdfafdsafds' });
     }, 4000);
   }
