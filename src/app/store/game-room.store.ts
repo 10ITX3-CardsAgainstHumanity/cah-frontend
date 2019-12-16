@@ -8,15 +8,15 @@ import {BlackCard} from '@shared/models/black-card.model';
  * Creates a player object and returns it immediately
  * @access public
  * @param  {string}      roomId
- * @param  {BlackCard}   selectedBlackCard
- * @param  {WhiteCard[]} selectedWhiteCards
+ * @param  {BlackCard}   blackCard
+ * @param  {WhiteCard[]} whiteCards
  * @return {GameRoomState}
  */
-export function createInitialState({roomId, selectedBlackCard, selectedWhiteCards}): GameRoomState {
+export function createInitialState({roomId, blackCard, whiteCards}): GameRoomState {
   return {
     roomId,
-    selectedBlackCard,
-    selectedWhiteCards
+    blackCard,
+    whiteCards
   } as GameRoomState;
 }
 
@@ -53,8 +53,8 @@ export class GameRoomStore extends Store<GameRoomState> {
   public constructor() {
     super(createInitialState({
       roomId: 'dasfsdf',
-      selectedBlackCard: <BlackCard>{ id: 'f', maxPlayableWhiteCards: 1, text: '____', playerId: '1' },
-      selectedWhiteCards: []
+      blackCard: <BlackCard>{ id: 'f', maxPlayableWhiteCards: 1, text: '____', playerId: '1' },
+      whiteCards: []
     }));
   }
 
@@ -65,10 +65,27 @@ export class GameRoomStore extends Store<GameRoomState> {
    * @param  {WhiteCard[]} cards
    * @return {void}
    */
-  public addSelectedWhiteCards(cards: WhiteCard[]): void {
+  public addWhiteCards(cards: WhiteCard[]): void {
     this.update((state: GameRoomState) => {
       return <GameRoomState>{
-        selectedWhiteCards: arrayAdd(state.selectedWhiteCards, cards)
+        whiteCards: arrayAdd(state.whiteCards, cards)
+      };
+    });
+  }
+
+  /**
+   * Updates a set of white cards to the partial new state
+   * @access public
+   * @param  {WhiteCard[]}        cards
+   * @param  {Partial<WhiteCard>} newState
+   * @return {void}
+   */
+  public updateWhiteCards(cards: WhiteCard[], newState: Partial<WhiteCard>): void {
+    const ids = cards.map(card => card.id);
+
+    this.update((state: GameRoomState) => {
+      return <GameRoomState>{
+        whiteCards: arrayUpdate(state.whiteCards, ids, newState)
       };
     });
   }
@@ -79,10 +96,10 @@ export class GameRoomStore extends Store<GameRoomState> {
    * @param  {WhiteCard[]} cards
    * @return {void}
    */
-  public setSelectedWhiteCards(cards: WhiteCard[]): void {
+  public setWhiteCards(cards: WhiteCard[]): void {
     this.update((state: GameRoomState) => {
       return <GameRoomState>{
-        selectedWhiteCards: cards
+        whiteCards: cards
       };
     });
   }
@@ -99,7 +116,7 @@ export class GameRoomStore extends Store<GameRoomState> {
 
     this.update((state: GameRoomState) => {
       return <GameRoomState>{
-        selectedWhiteCards: arrayUpdate(state.selectedWhiteCards, ids, newState)
+        whiteCards: arrayUpdate(state.whiteCards, ids, newState)
       };
     });
   }
@@ -110,10 +127,10 @@ export class GameRoomStore extends Store<GameRoomState> {
    * @param  {ID[]} ids
    * @return {void}
    */
-  public removeSelectedWhiteCards(ids: ID[]): void {
+  public removeWhiteCards(ids: ID[]): void {
     this.update((state: GameRoomState) => {
       return <GameRoomState>{
-        selectedWhiteCards: arrayRemove(state.selectedWhiteCards, ids)
+        whiteCards: arrayRemove(state.whiteCards, ids)
       };
     });
   }
@@ -121,14 +138,13 @@ export class GameRoomStore extends Store<GameRoomState> {
   /**
    * Updates the selected black card to the specified
    * @access public
-   * @param  {ID}        id
    * @param  {BlackCard} card
    * @return {void}
    */
-  public updateSelectedBlackCard(card: BlackCard): void {
+  public updateBlackCard(card: BlackCard): void {
     this.update((state: GameRoomState) => {
       return <GameRoomState>{
-        selectedBlackCard: card
+        blackCard: card
       };
     });
   }
@@ -139,12 +155,32 @@ export class GameRoomStore extends Store<GameRoomState> {
    * @param  {ID} id
    * @return {void}
    */
-  public removeSelectedBlackCard(id: ID): void {
+  public removeBlackCard(id: ID): void {
     this.update((state: GameRoomState) => {
       return <GameRoomState>{
-        selectedBlackCard: null
+        blackCard: null
       };
     });
+  }
+
+  /**
+   * Updates the selected black card
+   * @access public
+   * @param  {BlackCard} card
+   * @return {void}
+   */
+  public updateSelectedBlackCard(card: BlackCard): void {
+
+  }
+
+  /**
+   * Adds selected white cards
+   * @access public
+   * @param  {WhiteCard[]} whiteCards
+   * @return {void}
+   */
+  public addSelectedWhiteCards(whiteCards: WhiteCard[]): void {
+
   }
 }
 
