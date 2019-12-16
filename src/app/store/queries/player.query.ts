@@ -4,7 +4,7 @@ import {PlayerState} from '@store/states/player.state';
 import {PlayerStore} from '@store/player.store';
 import {Player} from '@shared/models/player.model';
 import {Observable} from 'rxjs';
-import {concatAll, flatMap, map, mergeMap, reduce, tap} from 'rxjs/operators';
+import {map} from 'rxjs/operators';
 import {WhiteCard} from '@shared/models/white-card.model';
 
 /**
@@ -66,18 +66,6 @@ export class PlayerQuery extends QueryEntity<PlayerState, Player> {
     this.localPlayer$      = this.selectActive();
     this.localPlayerCards$ = this.selectActive(entity => entity.cards);
     this.leadingPlayer$    = this.selectAll().pipe(map((players: Player[]) => players[0]));
-    this.czarPlayer$       = this.selectAll()
-      .pipe(
-        tap(console.log),
-        concatAll(),
-        reduce((accumulator: Player, currentPlayer: Player) => {
-          console.log(currentPlayer, accumulator)
-          if (accumulator && accumulator.isCzar) {
-            return accumulator;
-          } else if (currentPlayer && currentPlayer.isCzar) {
-            return currentPlayer;
-          }
-        })
-      );
+    this.czarPlayer$       = this.selectAll().pipe(map((players: Player[]) => players.find((player: Player) => player.isCzar === true)));
   }
 }
