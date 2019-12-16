@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {arrayAdd, arrayRemove, EntityStore, ID, StoreConfig} from '@datorama/akita';
+import {arrayAdd, arrayRemove, EntityStore, StoreConfig} from '@datorama/akita';
 import {Player} from '@shared/models/player.model';
 import {PlayerState} from '@app/store/states/player.state';
 import {WhiteCard} from '@shared/models/white-card.model';
