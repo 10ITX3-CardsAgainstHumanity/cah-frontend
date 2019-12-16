@@ -22,14 +22,14 @@ export interface GameRoomState {
   /**
    * The selected black card
    * @access   public
-   * @property {BlackCard} selectedBlackCard
+   * @property {BlackCard} blackCard
    */
-  selectedBlackCard: BlackCard;
+  blackCard: BlackCard;
 
   /**
    * The selected white cards
    * @access   public
-   * @property {WhiteCard[]} selectedWhiteCards
+   * @property {WhiteCard[]} whiteCards
    */
-  selectedWhiteCards: WhiteCard[];
+  whiteCards: WhiteCard[];
 }
