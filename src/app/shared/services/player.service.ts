@@ -2,6 +2,10 @@ import {Injectable} from '@angular/core';
 import {createPlayer, PlayerStore} from '@store/player.store';
 import {ID} from '@datorama/akita';
 import {WhiteCard} from '@shared/models/white-card.model';
+import {Observable} from 'rxjs';
+import {tap} from 'rxjs/operators';
+import {ResponseMessage} from '@services/game-room.service';
+import {Socket} from 'ngx-socket-io';
 
 /**
  * The PlayerService class
@@ -14,11 +18,33 @@ import {WhiteCard} from '@shared/models/white-card.model';
 export class PlayerService {
 
   /**
+   * Observable state if a player has joined the room
+   * @access   public
+   * @property {Observable<ResponseMessage>} $onPlayerJoined
+   */
+  public $onPlayerJoined: Observable<ResponseMessage> = this._socket.fromEvent('player.join')
+    .pipe(
+      tap((response: ResponseMessage) => {
+        const { id, username } = response.msg;
+        this.addPlayer(id, username);
+      })
+    );
+
+  public $onPlayerLeft: Observable<ResponseMessage> = this._socket.fromEvent('player.leave')
+    .pipe(
+      tap((response: ResponseMessage) => {
+        const { id } = response.msg;
+        this.removePlayer(id);
+      })
+    );
+
+  /**
    * Assigns the defaults
    * @access public
    * @constructor
    */
-  public constructor(private readonly _playerStore: PlayerStore) {}
+  public constructor(private readonly _socket:      Socket,
+                     private readonly _playerStore: PlayerStore) {}
 
   /**
    * Adds a player to the player store
@@ -28,9 +54,19 @@ export class PlayerService {
    * @param  {string} fragment
    * @return {void}
    */
-  public addPlayer(id: ID, username: string, fragment: string): void {
-    const player = createPlayer({id, username, fragment});
+  public addPlayer(id: ID, username: string): void {
+    const player = createPlayer({id, username});
     this._playerStore.add(player);
+  }
+
+  /**
+   * Sets the active player (also known as you) to the given id
+   * @access public
+   * @param  {ID} id
+   * @return {void}
+   */
+  public setActivePlayer(id: ID): void {
+    this._playerStore.setActive(id);
   }
 
   /**

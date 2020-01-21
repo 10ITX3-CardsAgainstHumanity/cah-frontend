@@ -12,6 +12,7 @@ import {CahNewGameDialogModule} from '@shared/components/cah-new-game-dialog/cah
 import {BrowserModule} from '@angular/platform-browser';
 import {CahJoinGameDialogComponent} from '@shared/components/cah-join-game-dialog/cah-join-game-dialog.component';
 import {CahNewGameDialogComponent} from '@shared/components/cah-new-game-dialog/cah-new-game-dialog.component';
+import {MatSnackBarModule} from '@angular/material';
 
 const ioConfig: SocketIoConfig = {url: environment.io.url, options: {}};
 
@@ -19,6 +20,7 @@ const ioConfig: SocketIoConfig = {url: environment.io.url, options: {}};
   declarations: [CoreRootComponent],
   imports: [
     BrowserModule,
+    MatSnackBarModule,
     CoreRoutingModule,
     FontAwesomeModule,
     BrowserAnimationsModule,

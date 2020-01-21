@@ -3,11 +3,13 @@
     Scoreboard
   </div>
   <div class="scoreboard-list">
-    <cah-scoreboard-item [points]="player.points"
-                         [username]="player.username"
-                         [isCzar]="player.id === (czarPlayer$ | async).id"
-                         [isLeading]="player.id === (leadingPlayer$ | async).id"
-                         [isLocalPlayer]="player.id === (localPlayer$ | async).id"
-                         *ngFor="let player of (players$ | async)"></cah-scoreboard-item>
+    <ng-container *ngIf="(players$ | async) as players">
+      <cah-scoreboard-item [points]="player.points"
+                           [username]="player.username"
+                           [isCzar]="player.id === (czarPlayer$ | async).id"
+                           [isLeading]="player.id === (leadingPlayer$ | async).id"
+                           [isLocalPlayer]="player.id === (localPlayer$ | async).id"
+                           *ngFor="let player of players"></cah-scoreboard-item>
+    </ng-container>
   </div>
 </div>

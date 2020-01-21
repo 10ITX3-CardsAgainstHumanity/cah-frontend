@@ -23,20 +23,20 @@ export interface Player {
    */
   username: string;
 
-  /**
-   * The fragment of the user to avoid collisions
-   * with the same name
-   * @access public
-   * @property {string} fragment
-   */
-  fragment: string;
-
-  /**
-   * The full username (<username>#<fragment>)
-   * @access   public
-   * @property {string} fullUsername
-   */
-  fullUsername?: string;
+  // /**
+  //  * The fragment of the user to avoid collisions
+  //  * with the same name
+  //  * @access public
+  //  * @property {string} fragment
+  //  */
+  // fragment: string;
+  //
+  // /**
+  //  * The full username (<username>#<fragment>)
+  //  * @access   public
+  //  * @property {string} fullUsername
+  //  */
+  // fullUsername?: string;
 
   /**
    * The score of the user that he currently has

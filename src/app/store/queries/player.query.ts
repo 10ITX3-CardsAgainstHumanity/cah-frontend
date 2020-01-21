@@ -59,8 +59,8 @@ export class PlayerQuery extends QueryEntity<PlayerState, Player> {
    * @access public
    * @constructor
    */
-  public constructor(protected store: PlayerStore) {
-    super(store);
+  public constructor(protected readonly _store: PlayerStore) {
+    super(_store);
 
     this.isLoading$        = this.selectLoading();
     this.localPlayer$      = this.selectActive();

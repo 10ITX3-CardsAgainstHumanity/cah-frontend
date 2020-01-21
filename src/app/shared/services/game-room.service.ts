@@ -8,15 +8,22 @@ import {BlackCard} from '@shared/models/black-card.model';
 import {GameRoomStore} from '@store/game-room.store';
 import {GameRoomState} from '@store/states/game-room.state';
 
-export enum EVENTS {
-  GAME_CREATE   = 'game.room.create',
-  GAME_CREATED  = 'game.room.created',
+export interface ResponseMessage {
+  status: boolean;
+  msg?: {
+    id?: string,
+    username?: string,
+    text?: string,
+    neededAnswers?: string,
+    state?: GameState
+  };
+}
 
-  GAME_JOIN     = 'game.room.join',
-  GAME_JOINED   = 'game.room.joined',
-
-  PLAYER_JOINED = 'game.room.player.joined',
-  PLAYER_LEAVED = 'game.room.player.leaved',
+export enum GameState {
+  'undefined',
+  'lobby',
+  'selection',
+  'judging'
 }
 
 /**
@@ -31,6 +38,26 @@ export enum EVENTS {
 })
 export class GameRoomService {
 
+  /**
+   * The id of the room
+   * @access   public
+   * @property {string} roomId
+   */
+  public roomId: string;
+
+  /**
+   * Observable state if a room was created
+   * @access   public
+   * @property {Observable<ResponseMessage>} $onRoomCreated
+   */
+  public $onRoomCreated: Observable<ResponseMessage> = this._socket.fromEvent('game.create');
+
+  /**
+   * Observable state if the player has joined the room
+   * @access   public
+   * @property {Observable<ResponseMessage>} $onRoomJoined
+   */
+  public $onRoomJoined: Observable<ResponseMessage> = this._socket.fromEvent('game.join');
 
   /**
    * Assigns the defaults
@@ -39,7 +66,7 @@ export class GameRoomService {
    */
   public constructor(private readonly _socket:        Socket,
                      private readonly _gameRoomStore: GameRoomStore) {
-
+    this.roomId = null;
   }
 
   /**
@@ -48,24 +75,12 @@ export class GameRoomService {
    * room instance
    * @access public
    * @param  {string} username
-   * @param  {string} gameId
+   * @param  {string} roomId
    * @return {void}
    */
-  public createGameRoom(username: string, gameId: string): void {
-    this._socket.emit('game.create', {gameId, username}, (result) => {
-      console.log(result)
-    });
-  }
-
-  /**
-   * Listens for the `game.room.created` event
-   * and taps into the observable to update the store
-   * @access public
-   * @return {Observable<any>}
-   */
-  public onGameRoomCreated(): Observable<string> {
-    return this._socket.fromEvent('game.room.created')
-      .pipe(tap((roomId: string) => this._gameRoomStore.update({roomId})));
+  public createGameRoom(username: string, roomId: string): void {
+    this._socket.emit('game.create', { username, roomId });
+    this.roomId = roomId;
   }
 
   /**
@@ -78,17 +93,8 @@ export class GameRoomService {
    * @return {void}
    */
   public joinGameRoom(username: string, roomId: string): void {
-    this._socket.emit('game.join', {username, roomId});
-  }
-
-  /**
-   * Listens on the `game.room.joined` event and then sets the
-   * game id, the players that already are in this room, the
-   * states of the room
-   */
-  public onGameRoomJoined(): Observable<object> {
-    return this._socket.fromEvent('game.room.joined')
-        .pipe(tap(() => this._gameRoomStore.update({})));
+    this._socket.emit('game.join', { username, roomId });
+    this.roomId = roomId;
   }
 
   /**
@@ -109,17 +115,6 @@ export class GameRoomService {
   public onGameStateResponse(): Observable<GameRoomState> {
     return this._socket.fromEvent('game.room.response.states')
       .pipe(tap((state: GameRoomState) => this._gameRoomStore.update(state)));
-  }
-
-  /**
-   * Gets triggered if a user has joined the room
-   * so we update our players on the game room store
-   * @access public
-   * @return {Observable<Player[]>}
-   */
-  public onPlayerJoin(): Observable<Player[]> {
-    return this._socket.fromEvent('game.room.player.joined')
-      // .pipe(tap((players: Player[]) => this._gameRoomStore.update({ players })));
   }
 
   /**

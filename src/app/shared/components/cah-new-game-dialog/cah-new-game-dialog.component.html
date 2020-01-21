@@ -10,7 +10,7 @@
     </mat-form-field>
     <mat-form-field appearance="fill">
       <mat-label>Raum</mat-label>
-      <input matInput type="text" formControlName="gameId" readonly>
+      <input matInput type="text" formControlName="roomId" readonly>
       <button matSuffix
               mat-icon-button
               matTooltip="Neue Id generieren"
@@ -32,6 +32,6 @@
           class="join-button cah-title-overlay-action-button"
           mat-stroked-button
           (click)="joinRoom()">
-    Beitreten
+    Erstellen
   </button>
 </mat-dialog-actions>

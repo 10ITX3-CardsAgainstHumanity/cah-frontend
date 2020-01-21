@@ -77,7 +77,7 @@ export class CahNewGameDialogComponent {
    * @return {void}
    */
   public generateGameId(): void {
-    this.form.patchValue({ gameId: randomString(12) });
+    this.form.patchValue({ roomId: randomString(12) });
   }
 
   /**
@@ -88,7 +88,7 @@ export class CahNewGameDialogComponent {
   private _buildForm(): void {
     this.form = this._fb.group({
       username: ['', Validators.required],
-      gameId: [randomString(12), Validators.required]
+      roomId: [randomString(12), Validators.required]
     });
   }
 }

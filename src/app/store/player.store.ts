@@ -12,12 +12,12 @@ import {WhiteCard} from '@shared/models/white-card.model';
  * @param  {string} fragment
  * @return {Player}
  */
-export function createPlayer({id, username, fragment}): Player {
+export function createPlayer({id, username}): Player {
   return {
     id,
     username,
-    fragment,
-    fullUsername: `${username}#${fragment}`,
+    // fragment,
+    // fullUsername: `${username}#${fragment}`,
     isLeading: false,
     isCzar: false,
     points: 0,

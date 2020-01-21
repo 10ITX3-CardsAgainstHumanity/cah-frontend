@@ -68,7 +68,7 @@ export class CahJoinGameDialogComponent {
    */
   private _buildForm(): void {
     this.form = this._fb.group({
-      gameId: ['', Validators.required],
+      roomId: ['', Validators.required],
       username: ['', Validators.required]
     });
   }
