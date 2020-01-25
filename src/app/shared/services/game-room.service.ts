@@ -11,11 +11,11 @@ import {GameRoomState} from '@store/states/game-room.state';
 export interface ResponseMessage {
   status: boolean;
   msg?: {
-    id?: string,
-    username?: string,
-    text?: string,
-    neededAnswers?: string,
-    state?: GameState
+    state?: keyof typeof GameState,
+    card?: Partial<BlackCard>,
+    cards?: Partial<WhiteCard>[],
+    player?: Partial<Player>,
+    players?: Partial<Player>[],
   };
 }
 
