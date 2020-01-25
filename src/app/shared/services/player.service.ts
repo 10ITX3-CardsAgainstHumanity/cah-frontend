@@ -25,7 +25,7 @@ export class PlayerService {
   public $onPlayerJoined: Observable<ResponseMessage> = this._socket.fromEvent('player.join')
     .pipe(
       tap((response: ResponseMessage) => {
-        const { id, username } = response.msg;
+        const { id, username } = response.msg.player;
         this.addPlayer(id, username);
       })
     );
@@ -33,7 +33,7 @@ export class PlayerService {
   public $onPlayerLeft: Observable<ResponseMessage> = this._socket.fromEvent('player.leave')
     .pipe(
       tap((response: ResponseMessage) => {
-        const { id } = response.msg;
+        const { id } = response.msg.player;
         this.removePlayer(id);
       })
     );
@@ -51,12 +51,24 @@ export class PlayerService {
    * @access public
    * @param  {string} id
    * @param  {string} username
-   * @param  {string} fragment
    * @return {void}
    */
   public addPlayer(id: ID, username: string): void {
     const player = createPlayer({id, username});
     this._playerStore.add(player);
+  }
+
+  /**
+   * Upsert players into the store (insert or update existing)
+   * @access   public
+   * @return {void}
+   */
+  public upsertPlayers(players): void {
+    if (Array.isArray(players)) {
+      this._playerStore.upsertMany(players);
+    } else {
+      this._playerStore.upsert(players.id, players);
+    }
   }
 
   /**
