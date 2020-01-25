@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   io: {
-    url: 'http://localhost:80'
+    url: 'wss://staging.api.cah.maxrs.de/'
   }
 };
 
