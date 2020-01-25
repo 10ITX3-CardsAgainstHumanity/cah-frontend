@@ -1,8 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {Observable} from 'rxjs';
 import {Player} from '@shared/models/player.model';
-import {PlayerQuery} from '@store/queries/player.query';
-import {PlayerService} from '@services/player.service';
 
 /**
  * The scoreboard class
@@ -17,64 +15,57 @@ import {PlayerService} from '@services/player.service';
   templateUrl: './cah-scoreboard.component.html',
   styleUrls: ['./cah-scoreboard.component.scss']
 })
-export class CahScoreboardComponent implements OnInit {
+export class CahScoreboardComponent {
 
   /**
    * Observable player object
-   * @access   public
-   * @property {Observable<Player[]>}
+   * @access    public
+   * @property  {Observable<Player[]>}
+   * @decorator Input
    */
+  @Input()
   public players$: Observable<Player[]>;
 
   /**
    * The local player / client
-   * @access   public
-   * @property {Observable<Player>} localPlayer$
+   * @access    public
+   * @property  {Observable<Player>} localPlayer$
+   * @decorator Input
    */
+  @Input()
   public localPlayer$: Observable<Player>;
 
   /**
    * The currently leading Player
-   * @access   public
-   * @property {Observable<Player>} leadingPlayer$
+   * @access    public
+   * @property  {Observable<Player>} leadingPlayer$
+   * @decorator Input
    */
+  @Input()
   public leadingPlayer$: Observable<Player>;
 
   /**
    * The czar of the current round
-   * @access public
-   * @property {Observable<Player>} czarPlayer$
+   * @access    public
+   * @property  {Observable<Player>} czarPlayer$
+   * @decorator Input
    */
+  @Input()
   public czarPlayer$: Observable<Player>;
 
   /**
    * States if the data is loading
-   * @access   public
-   * @property {Observable<boolean>} isLoading$
+   * @access    public
+   * @property  {Observable<boolean>} isLoading$
+   * @decorator Input
    */
+  @Input()
   public isLoading$: Observable<boolean>;
 
   /**
    * Assigns the defaults
    * @access public
-   * @param {PlayerQuery}   _playerQuery
-   * @param {PlayerService} _playerService
    * @constructor
    */
-  public constructor(private readonly _playerQuery: PlayerQuery,
-                     private readonly _playerService: PlayerService) {}
-
-  /**
-   * Get all players from the store
-   * @inheritDoc
-   * @access public
-   * @return {void}
-   */
-  public ngOnInit(): void {
-    this.players$       = this._playerQuery.selectAll();
-    this.isLoading$     = this._playerQuery.isLoading$;
-    this.localPlayer$   = this._playerQuery.localPlayer$;
-    this.leadingPlayer$ = this._playerQuery.leadingPlayer$;
-    this.czarPlayer$    = this._playerQuery.czarPlayer$;
-  }
+  public constructor() {}
 }
