@@ -1,6 +1,11 @@
 <div class="cah-board">
-  <cah-selected-cards></cah-selected-cards>
-  <cah-scoreboard></cah-scoreboard>
-<!--  <cah-room-badge></cah-room-badge>-->
+  <cah-selected-cards [isLoading$]="gameRoomLoading$"
+                      [selectedBlackCard$]="selectedBlackCard$"
+                      [selectedWhiteCards$]="selectedWhiteCards$"></cah-selected-cards>
+  <cah-scoreboard [players$]="players$"
+                  [czarPlayer$]="czarPlayer$"
+                  [isLoading$]="playersLoading$"
+                  [leadingPlayer$]="leadingPlayer$"
+                  [localPlayer$]="localPlayer$"></cah-scoreboard>
   <cah-player></cah-player>
 </div>
