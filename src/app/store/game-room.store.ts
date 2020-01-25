@@ -52,8 +52,8 @@ export class GameRoomStore extends Store<GameRoomState> {
    */
   public constructor() {
     super(createInitialState({
-      roomId: 'dasfsdf',
-      blackCard: <BlackCard>{ id: 'f', maxPlayableWhiteCards: 1, text: '____', playerId: '1' },
+      roomId: null,
+      blackCard: null,
       whiteCards: []
     }));
   }
