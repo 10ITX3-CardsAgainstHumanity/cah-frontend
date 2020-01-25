@@ -16,8 +16,6 @@ export function createPlayer({id, username}): Player {
   return {
     id,
     username,
-    // fragment,
-    // fullUsername: `${username}#${fragment}`,
     isLeading: false,
     isCzar: false,
     points: 0,
