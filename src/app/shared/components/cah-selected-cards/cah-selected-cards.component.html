@@ -1,10 +1,12 @@
 <div class="cah-selected-cards">
-  <div class="cah-selected-black-card">
-    <cah-black-card *ngIf="(selectedBlackCard$ | async) as blackCard"
-                    [card]="blackCard"></cah-black-card>
-  </div>
-  <div class="cah-selected-white-cards">
-    <cah-white-card *ngFor="let card of selectedWhiteCards$ | async;"
-                    [card]="card"></cah-white-card>
-  </div>
+  <ng-container *ngIf="isLoading$ | async">
+    <div class="cah-selected-black-card">
+      <cah-black-card *ngIf="(selectedBlackCard$ | async) as blackCard"
+                      [card]="blackCard"></cah-black-card>
+    </div>
+    <div class="cah-selected-white-cards">
+      <cah-white-card *ngFor="let card of (selectedWhiteCards$ | async);"
+                      [card]="card"></cah-white-card>
+    </div>
+  </ng-container>
 </div>

@@ -1,8 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {Observable} from 'rxjs';
 import {WhiteCard} from '@shared/models/white-card.model';
-import {GameRoomService} from '@services/game-room.service';
-import {GameRoomQuery} from '@store/queries/game-room.query';
 import {BlackCard} from '@shared/models/black-card.model';
 
 /**
@@ -18,13 +16,14 @@ import {BlackCard} from '@shared/models/black-card.model';
   templateUrl: './cah-selected-cards.component.html',
   styleUrls: ['./cah-selected-cards.component.scss']
 })
-export class CahSelectedCardsComponent implements OnInit {
+export class CahSelectedCardsComponent {
 
   /**
    * The Observable of the currently selected white cards
    * @access   public
    * @property {Observable<WhiteCard[]>} selectedWhiteCards$
    */
+  @Input()
   public selectedWhiteCards$: Observable<WhiteCard[]>;
 
   /**
@@ -32,6 +31,7 @@ export class CahSelectedCardsComponent implements OnInit {
    * @access   public
    * @property {Observable<BlackCard>} selectedBlackCard$
    */
+  @Input()
   public selectedBlackCard$: Observable<BlackCard>;
 
   /**
@@ -39,6 +39,7 @@ export class CahSelectedCardsComponent implements OnInit {
    * @access   public
    * @property {Observable<boolean>} isLoading$
    */
+  @Input()
   public isLoading$: Observable<boolean>;
 
   /**
@@ -46,19 +47,6 @@ export class CahSelectedCardsComponent implements OnInit {
    * @access public
    * @constructor
    */
-  public constructor(private readonly _gameRoomQuery: GameRoomQuery,
-                     private readonly _gameRoomService: GameRoomService) {}
+  public constructor() {}
 
-  /**
-   * @inheritDoc
-   * Callback that gets called when the components gets initialized
-   * Subscribe to the selected white and the selected black card
-   * @access public
-   * @return {void}
-   */
-  public ngOnInit(): void {
-    this.isLoading$          = this._gameRoomQuery.selectLoading();
-    this.selectedBlackCard$  = this._gameRoomQuery.selectedBlackCard$;
-    this.selectedWhiteCards$ = this._gameRoomQuery.selectedWhiteCards$;
-  }
 }
