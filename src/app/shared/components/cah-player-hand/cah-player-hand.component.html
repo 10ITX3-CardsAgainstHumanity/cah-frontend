@@ -1,8 +1,10 @@
 <div class="cah-player-hand">
   <div class="cah-cards-container">
-    <cah-white-card class="card card{{i}}"
-                    *ngFor="let card of (localPlayerCards$ | async); let i = index"
-                    [card]="card"
-                    (cardSelected)="onCardSelected($event, i)"></cah-white-card>
+    <ng-container *ngIf="(localPlayerCards$ | async) as localPlayerCards">
+      <cah-white-card class="card card{{i}}"
+                      *ngFor="let card of localPlayerCards; let i = index"
+                      [card]="card"
+                      (cardSelected)="onCardSelected($event, i)"></cah-white-card>
+    </ng-container>
   </div>
 </div>

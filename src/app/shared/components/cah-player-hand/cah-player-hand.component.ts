@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {WhiteCard} from '../../models/white-card.model';
 import {Observable} from 'rxjs';
 import {PlayerQuery} from '@store/queries/player.query';
@@ -20,11 +20,31 @@ import {PlayerService} from '@services/player.service';
 export class CahPlayerHandComponent implements OnInit {
 
   /**
+   * States if the active user is currently the czar
+   * @access    public
+   * @property  {Observable<boolean>} isCzar
+   * @decorator Input
+   */
+  @Input()
+  public isCzar$: Observable<boolean>;
+
+  /**
    * The currently available cards of the player on his hand
    * @access public
    * @property {Observable<WhiteCard[]>} whiteCards
+   * @decorator Input
    */
+  @Input()
   public localPlayerCards$: Observable<WhiteCard[]>;
+
+  /**
+   * Emits the selected white card to the parent component
+   * @access    public
+   * @property  {EventEmitter<WhiteCard>} cardSelected
+   * @decorator Output
+   */
+  @Output()
+  public cardSelected: EventEmitter<WhiteCard>;
 
   /**
    * Assigns the defaults
@@ -33,7 +53,7 @@ export class CahPlayerHandComponent implements OnInit {
    */
   public constructor(private readonly _playerQuery: PlayerQuery,
                      private readonly _playerService: PlayerService) {
-    this.localPlayerCards$ = this._playerQuery.localPlayerCards$;
+    this.cardSelected = new EventEmitter<WhiteCard>();
   }
 
   /**
@@ -58,6 +78,7 @@ export class CahPlayerHandComponent implements OnInit {
    * @return {void}
    */
   public onCardSelected(card: WhiteCard, index: number): void {
+    this.cardSelected.emit(card)
     console.log(`selected card ${JSON.stringify(card)}`);
     // this._gameRoomService.addSelectedWhiteCard([ card ]);
     // this._gameRoomService.removeCardFromHand(index);
