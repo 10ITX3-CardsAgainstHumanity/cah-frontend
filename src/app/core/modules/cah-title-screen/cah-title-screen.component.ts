@@ -75,21 +75,18 @@ export class CahTitleScreenComponent implements OnInit, OnDestroy {
     this._gameRoomService.$onRoomCreated
       .pipe(takeUntil(this._ngUnSub))
       .subscribe((response: ResponseMessage) => {
-        console.log(response)
-        if (this._gameRoomService.roomId) {
-          this._router
-            .navigate([ '/room', this._gameRoomService.roomId ])
-            .then(() => {
-              // successful
-            }, (err) => {
-              console.error(err);
-            });
-        }
+        console.log(`room created ${JSON.stringify(response)}`);
+
       });
     this._gameRoomService.$onRoomJoined
       .pipe(takeUntil(this._ngUnSub))
       .subscribe((response: ResponseMessage) => {
-        console.log(response)
+        console.log(`room joined ${JSON.stringify(response)}`);
+        const { id, username } = response.msg.player;
+
+        this._playerService.addPlayer(id, username);
+        this._playerService.setActivePlayer(id);
+
         if (this._gameRoomService.roomId) {
           this._router
             .navigate([ '/room', this._gameRoomService.roomId ])
@@ -130,8 +127,6 @@ export class CahTitleScreenComponent implements OnInit, OnDestroy {
               if (result.reason === 'join') {
                 const { roomId, username } = result;
                 this._gameRoomService.joinGameRoom(username, roomId);
-                this._playerService.addPlayer()
-                this._playerService.setActivePlayer()
               }
             }
           });
