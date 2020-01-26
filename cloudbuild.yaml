@@ -1,6 +1,10 @@
 steps:
   - name: 'gcr.io/cloud-builders/npm'
     args: [ 'install' ]
+  - name: 'debian'
+    args: [ 'bash', './preBuild.sh' ]
+    env:
+      - '___APIURL___=$_APIURL'
   - name: 'gcr.io/cloud-builders/npm'
     args: [ 'run', 'build' ]
   - name: 'gcr.io/cloud-builders/gsutil'
