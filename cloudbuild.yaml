@@ -1,6 +1,6 @@
 steps:
   - name: 'gcr.io/cloud-builders/npm'
-    args: [ 'install' ]
+    args: [ 'ci' ]
   - name: 'debian'
     args: [ 'bash', './preBuild.sh' ]
     env:
