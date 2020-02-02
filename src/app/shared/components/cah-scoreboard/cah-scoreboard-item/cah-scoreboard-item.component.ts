@@ -2,6 +2,8 @@ import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit} fr
 import {faCrown} from '@fortawesome/free-solid-svg-icons/faCrown';
 import {IconDefinition} from '@fortawesome/fontawesome-svg-core';
 import {faPortrait} from '@fortawesome/free-solid-svg-icons/faPortrait';
+import {faAsterisk} from '@fortawesome/free-solid-svg-icons/faAsterisk';
+import {Player, PlayerUI} from '@shared/models/player.model';
 
 /**
  * A single list item of the scoreboard
@@ -13,93 +15,49 @@ import {faPortrait} from '@fortawesome/free-solid-svg-icons/faPortrait';
  */
 @Component({
   selector: 'cah-scoreboard-item',
-  templateUrl: './cah-scoreboard-item.component.html',
+  template: `
+    <div class="scoreboard__item" [class.isCzar]="player.isCzar">
+      <div class="scoreboard__item__username">
+        {{ player.username }}
+        <fa-icon class="scoreboard__item--leading" *ngIf="player.isLeading" [icon]="crownIcon"></fa-icon>
+        <fa-icon class="scoreboard__item--localplayer" *ngIf="player.id === localPlayer.id" [icon]="portraitIcon"></fa-icon>
+        <fa-icon class="scoreboard__item--host" *ngIf="player.isHost" [icon]="starIcon"></fa-icon>
+      </div>
+      <div class="scoreboard__item__points">{{ player.points }} awesome Point(s)</div>
+    </div>
+  `,
   styleUrls: ['./cah-scoreboard-item.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CahScoreboardItemComponent {
 
   /**
-   * States the points of the user that he currently has
+   * The player object
    * @access   public
-   * @property {number} points
+   * @property {(Player & PlayerUI)} player
    */
   @Input()
-  public set points(value: number) {
-    this._points = value;
-    this._cdr.markForCheck();
+  public set player(player: (Player & PlayerUI)) {
+    this._player = player;
   }
-  public get points(): number {
-    return this._points;
+  public get player(): (Player & PlayerUI) {
+    return this._player;
   }
-
-  private _points: number;
+  private _player: (Player & PlayerUI);
 
   /**
-   * The username of the player
+   * The active / local player object
    * @access   public
-   * @property {string} username
+   * @property {(Player & PlayerUI)} player
    */
   @Input()
-  public set username(value: string) {
-    this._username = value;
-    this._cdr.markForCheck();
+  public set localPlayer(localPlayer: (Player & PlayerUI)) {
+    this._localPlayer = localPlayer;
   }
-  public get username(): string {
-    return this._username;
+  public get localPlayer(): (Player & PlayerUI) {
+    return this._localPlayer;
   }
-
-  private _username: string;
-
-  /**
-   * States if the user is leading
-   * @access public
-   * @property {boolean} isLeading
-   */
-  @Input()
-  public set isLeading(value: boolean) {
-    this._isLeading = value;
-  }
-  public get isLeading(): boolean {
-    return this._isLeading;
-  }
-
-  private _isLeading: boolean;
-
-  /**
-   * States if the user is the local
-   * user instance were controlling
-   * @access   public
-   * @property {boolean} isLocalPlayer
-   * @default  boolean
-   */
-  @Input()
-  public set isLocalPlayer(value: boolean) {
-    this._isLocalPlayer = value;
-    this._cdr.markForCheck();
-  }
-  public get isLocalPlayer(): boolean {
-    return this._isLocalPlayer;
-  }
-
-  private _isLocalPlayer: boolean;
-
-  /**
-   * States if the user is the czar
-   * @access   public
-   * @property {boolean} isCzar
-   * @default  false
-   */
-  @Input()
-  public set isCzar(value: boolean) {
-    this._isCzar = value;
-    this._cdr.markForCheck();
-  }
-  public get isCzar(): boolean {
-    return this._isCzar;
-  }
-
-  private _isCzar: boolean;
+  private _localPlayer: (Player & PlayerUI);
 
   /**
    * The icon if a user is leading
@@ -118,16 +76,22 @@ export class CahScoreboardItemComponent {
   public portraitIcon: IconDefinition;
 
   /**
+   * The icon for the host in the list
+   * @access   public
+   * @property {IconDefinition} starIcon
+   * @default  faAsterisk
+   */
+  public starIcon: IconDefinition;
+
+  /**
    * Assigns the defaults
    * @access public
    * @constructor
    */
   public constructor(private readonly _cdr: ChangeDetectorRef) {
-    this.points        = 0;
-    this.username      = '';
-    this.isCzar        = false;
-    this.isLeading     = false;
-    this.isLocalPlayer = false;
+    this.player        = null;
+    this.localPlayer   = null;
+    this.starIcon      = faAsterisk;
     this.crownIcon     = faCrown;
     this.portraitIcon  = faPortrait;
   }

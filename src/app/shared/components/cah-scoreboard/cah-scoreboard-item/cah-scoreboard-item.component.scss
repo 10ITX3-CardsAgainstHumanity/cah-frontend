@@ -2,25 +2,38 @@
 :host {
   display: block;
 }
-.scoreboard-item {
-  padding: 8px 12px;
+.scoreboard {
+  &__item {
+    padding: 8px 12px;
 
-  &.isCzar {
-    background-color: red;
+    &--czar {
+      background-color: red;
+    }
+
+    &--leading {
+      color: gold;
+    }
+
+    &--localplayer {
+      color: cornflowerblue
+    }
+
+    &--host {
+      color: black;
+    }
+
+    &__username {
+      @include unselectable();
+
+      font-weight: bold;
+      font-size: 1.1rem;
+      font-family: Helvetica, "sans-serif", Arial;
+      margin-bottom: 8px;
+    }
+    &__points {
+      @include unselectable();
+      font-family: Helvetica, "sans-serif", Arial;
+      font-size: 1rem;
+    }
   }
-
-  .scoreboard-item-username {
-    @include unselectable();
-
-    font-weight: bold;
-    font-size: 1.1rem;
-    font-family: Helvetica, "sans-serif", Arial;
-    margin-bottom: 8px;
-  }
-  .scoreboard-item-points {
-    @include unselectable();
-    font-family: Helvetica, "sans-serif", Arial;
-    font-size: 1rem;
-  }
-
 }
