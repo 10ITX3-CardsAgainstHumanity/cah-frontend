@@ -2,14 +2,13 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {GameRoomService, ResponseMessage} from '@services/game-room.service';
 import {SnackbarService} from '@services/snackbar.service';
 import {Observable, Subject} from 'rxjs';
-import {map, takeUntil} from 'rxjs/operators';
+import {map, takeUntil, tap} from 'rxjs/operators';
 import {PlayerService} from '@services/player.service';
-import {Player} from '@shared/models/player.model';
+import {Player, PlayerUI} from '@shared/models/player.model';
 import {PlayerQuery} from '@store/queries/player.query';
 import {GameRoomQuery} from '@store/queries/game-room.query';
 import {BlackCard} from '@shared/models/black-card.model';
 import {WhiteCard} from '@shared/models/white-card.model';
-import {createPlayer} from '@store/player.store';
 
 /**
  * The CahGameRoomComponent
@@ -51,7 +50,7 @@ export class CahGameRoomComponent implements OnInit, OnDestroy {
    * @access   public
    * @property {Observable<Player[]>} players$
    */
-  public players$: Observable<Player[]>;
+  public players$: Observable<(Player & PlayerUI)[]>;
 
   /**
    * States if the players are currently loading
@@ -61,18 +60,11 @@ export class CahGameRoomComponent implements OnInit, OnDestroy {
   public playersLoading$: Observable<boolean>;
 
   /**
-   * States the current czar of the game room
-   * @access   public
-   * @property {Observable<Player>} czarPlayer$
-   */
-  public czarPlayer$: Observable<Player>;
-
-  /**
    * States the local player
    * @access   public
    * @property {Observable<Player>} localPlayer$
    */
-  public localPlayer$: Observable<Player>;
+  public localPlayer$: Observable<(Player & PlayerUI)>;
 
   /**
    * States the leading player of the room
@@ -109,11 +101,9 @@ export class CahGameRoomComponent implements OnInit, OnDestroy {
     this.selectedBlackCard$  = this._gameRoomQuery.selectedBlackCard$;
     this.selectedWhiteCards$ = this._gameRoomQuery.selectedWhiteCards$;
 
-    this.players$        = this._playerQuery.selectAll();
-    this.czarPlayer$     = this.players$.pipe(map((players: Player[]) => players.find((player: Player) => player.isCzar === true)));
-    this.localPlayer$    = this._playerQuery.selectActive();
-    this.leadingPlayer$  = this.players$.pipe(map((players: Player[]) => players[0]));
-    this.playersLoading$ = this._playerQuery.selectLoading();
+    this.players$            = this._playerQuery.selectAllWithUI();
+    this.localPlayer$        = this._playerQuery.selectActiveWithUI();
+    this.playersLoading$     = this._playerQuery.selectLoading();
   }
 
   /**
@@ -137,11 +127,8 @@ export class CahGameRoomComponent implements OnInit, OnDestroy {
     this._gameRoomService.$onRoomPlayers
       .pipe(takeUntil(this._ngUnSub))
       .subscribe((response: ResponseMessage) => {
-        this._playerService.upsertPlayers(response.msg.players.map((player: Partial<Player>) => {
-          const p = createPlayer({ id: player.id, username: player.username });
-          p.isCzar = player.isCzar;
-          return p;
-        }));
+        console.log('onRoomPlayers', response)
+        this._playerService.upsertPlayers(response.msg.players);
       });
 
     this._gameRoomService.requestPlayers();

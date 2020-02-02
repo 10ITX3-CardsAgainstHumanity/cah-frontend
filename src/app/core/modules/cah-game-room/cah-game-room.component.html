@@ -2,10 +2,8 @@
   <cah-selected-cards [isLoading$]="gameRoomLoading$"
                       [selectedBlackCard$]="selectedBlackCard$"
                       [selectedWhiteCards$]="selectedWhiteCards$"></cah-selected-cards>
-  <cah-scoreboard [players$]="players$"
-                  [czarPlayer$]="czarPlayer$"
-                  [isLoading$]="playersLoading$"
-                  [leadingPlayer$]="leadingPlayer$"
-                  [localPlayer$]="localPlayer$"></cah-scoreboard>
+  <cah-scoreboard [players]="players$ | async"
+                  [loading]="playersLoading$ | async"
+                  [localPlayer]="localPlayer$ | async"></cah-scoreboard>
   <cah-player></cah-player>
 </div>
