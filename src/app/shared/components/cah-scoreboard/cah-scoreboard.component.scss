@@ -9,7 +9,7 @@
     "header"
     "list";
 
-  .scoreboard-header {
+  &__header {
     @include unselectable();
     font-size: 1.5rem;
     font-weight: bold;
@@ -18,7 +18,7 @@
     color: white;
     background-color: black;
     grid-area: header;
-    .scoreboard-header-subtitle {
+    &__subtitle {
       @include unselectable();
       margin: 4px 0 8px;
       padding: 0;
@@ -26,7 +26,7 @@
     }
   }
 
-  .scoreboard-list {
+  &__list {
     grid-area: list;
     height: 256px;
     overflow-y: auto;
@@ -37,5 +37,14 @@
         border-bottom: unset;
       }
     }
+  }
+
+  &__footer {
+    border-top: 1px solid black;
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    align-content: center;
+    padding: 8px 0;
   }
 }

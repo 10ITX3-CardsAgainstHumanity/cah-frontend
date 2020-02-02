@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Observable} from 'rxjs';
-import {Player} from '@shared/models/player.model';
+import {Player, PlayerUI} from '@shared/models/player.model';
 
 /**
  * The scoreboard class
@@ -12,7 +12,23 @@ import {Player} from '@shared/models/player.model';
  */
 @Component({
   selector: 'cah-scoreboard',
-  templateUrl: './cah-scoreboard.component.html',
+  template: `
+    <div class="scoreboard">
+      <div class="scoreboard__header">
+        Scoreboard
+      </div>
+      <div class="scoreboard__list">
+        <ng-container *ngIf="!loading">
+          <cah-scoreboard-item [player]="player"
+                               [localPlayer]="localPlayer"
+                               *ngFor="let player of players"></cah-scoreboard-item>
+        </ng-container>
+      </div>
+      <div class="scoreboard__footer" *ngIf="localPlayer.isHost">
+        <button mat-raised-button color="primary">Start Game</button>
+      </div>
+    </div>
+  `,
   styleUrls: ['./cah-scoreboard.component.scss']
 })
 export class CahScoreboardComponent {
@@ -20,47 +36,29 @@ export class CahScoreboardComponent {
   /**
    * Observable player object
    * @access    public
-   * @property  {Observable<Player[]>}
+   * @property  {Player[]}
    * @decorator Input
    */
   @Input()
-  public players$: Observable<Player[]>;
+  public players: (Player & PlayerUI)[];
 
   /**
    * The local player / client
    * @access    public
-   * @property  {Observable<Player>} localPlayer$
+   * @property  {Player} localPlayer
    * @decorator Input
    */
   @Input()
-  public localPlayer$: Observable<Player>;
-
-  /**
-   * The currently leading Player
-   * @access    public
-   * @property  {Observable<Player>} leadingPlayer$
-   * @decorator Input
-   */
-  @Input()
-  public leadingPlayer$: Observable<Player>;
-
-  /**
-   * The czar of the current round
-   * @access    public
-   * @property  {Observable<Player>} czarPlayer$
-   * @decorator Input
-   */
-  @Input()
-  public czarPlayer$: Observable<Player>;
+  public localPlayer: (Player & PlayerUI);
 
   /**
    * States if the data is loading
    * @access    public
-   * @property  {Observable<boolean>} isLoading$
+   * @property  {boolean} loading
    * @decorator Input
    */
   @Input()
-  public isLoading$: Observable<boolean>;
+  public loading: boolean;
 
   /**
    * Assigns the defaults
