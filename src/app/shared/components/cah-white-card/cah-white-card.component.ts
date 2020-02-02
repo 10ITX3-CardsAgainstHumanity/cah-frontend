@@ -14,7 +14,30 @@ import {of} from 'rxjs';
  */
 @Component({
   selector: 'cah-white-card',
-  templateUrl: './cah-white-card.component.html',
+  template: `
+    <div class="whitecard" [@revealCard]="card.dummy ? 'hidden' : 'revealed'">
+      <div class="whitecard__front"> <!-- *ngIf="!card.dummy"-->
+        <h2 class="whitecard__header">{{ card.text }}</h2>
+        <div class="whitecard__caption--front">
+          <p>Cards</p>
+          <p>Against</p>
+          <p>Humanity</p>
+        </div>
+        <div class="whitecard__icon">
+          <div class="whitecard__icon--full"></div>
+          <div class="whitecard__icon--slanted"></div>
+        </div>
+      </div>
+      <div class="whitecard__back">
+        <div class="whitecard__caption--back">
+          <p>Cards</p>
+          <p>Against</p>
+          <p>Humanity</p>
+        </div>
+      </div>
+    </div>
+
+  `,
   styleUrls: ['./cah-white-card.component.scss'],
   animations: [
     trigger('revealCard', revealCard)

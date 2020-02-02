@@ -5,7 +5,7 @@
   perspective: 1000px;
 }
 
-.white-card-container {
+.whitecard {
   border-radius: 8px;
   border: 1px solid black;
   padding: 16px;
@@ -16,12 +16,12 @@
   transition: transform .8s;
   transform-style: preserve-3d;
 
-  .white-card-back {
+  &__back {
     transform: rotateY(180deg);
   }
 
-  .white-card-front,
-  .white-card-back {
+  &__front,
+  &__back {
     border-radius: 8px;
     backface-visibility: hidden;
     width: 100%;
@@ -31,7 +31,7 @@
     top: 0;
     left: 0;
 
-    > h2 {
+    &__header {
       @include unselectable();
       position: absolute;
       font-size: 1.5rem;
@@ -44,7 +44,7 @@
       top: 16px;
     }
 
-    > .card-caption-container {
+    &__caption {
       @include unselectable();
       position: absolute;
       width: auto;
@@ -55,26 +55,26 @@
         font-weight: bold;
       }
 
-      &.front {
+      &--front {
         bottom: 16px;
         left: 16px;
 
       }
 
-      &.back {
+      &--back {
         bottom: unset;
         top: 16px;
         left: 16px;
       }
 
-      &.front > p {
+      &--front > p {
         margin: 0;
         padding: 0;
         font-size: 0.9rem;
         line-height: 1rem;
       }
 
-      &.back > p {
+      &--back > p {
         font-size: 2.5em;
         line-height: 2rem;
         letter-spacing: -.1rem;
@@ -83,14 +83,14 @@
       }
     }
 
-    > .card-icon-container {
+    &__icon {
       width: auto;
       height: auto;
       bottom: 0;
       right: 0;
       position: absolute;
 
-      .card-icon-full {
+    &--full {
         position: absolute;
         bottom: 24px;
         right: 24px;
@@ -101,7 +101,7 @@
         border-radius: 3px;
       }
 
-      .card-icon-border-slanted {
+    &--slanted {
         position: absolute;
         bottom: 28px;
         right: 34px;

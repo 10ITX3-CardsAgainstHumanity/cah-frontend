@@ -11,7 +11,20 @@ import {BlackCard} from '@shared/models/black-card.model';
  */
 @Component({
   selector: 'cah-black-card',
-  templateUrl: './cah-black-card.component.html',
+  template: `
+    <div class="blackcard">
+      <h2 class="blackcard__header">{{ card.text }}</h2>
+      <div class="blackcard__caption">
+        <p>Cards</p>
+        <p>Against</p>
+        <p>Humanity</p>
+      </div>
+      <div class="blackcard__icon">
+        <div class="blackcard__icon--full"></div>
+        <div class="blackcard__icon--slanted"></div>
+      </div>
+    </div>
+  `,
   styleUrls: ['./cah-black-card.component.scss']
 })
 export class CahBlackCardComponent {
