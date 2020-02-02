@@ -61,14 +61,7 @@ export class CahPlayerHandComponent implements OnInit {
    * @access public
    * @return {void}
    */
-  public ngOnInit(): void {
-    this._playerService.updatePlayerCards([
-      <WhiteCard>{ text: 'dasdas' },
-      <WhiteCard>{ text: 'dasdas1' },
-      <WhiteCard>{ text: 'dasdas2' },
-      <WhiteCard>{ text: 'dasdas3' }
-    ]);
-  }
+  public ngOnInit(): void {}
 
   /**
    * Callback if a card was selected by the user
