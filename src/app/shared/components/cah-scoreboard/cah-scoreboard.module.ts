@@ -3,6 +3,7 @@ import {CommonModule} from '@angular/common';
 import {CahScoreboardComponent} from './cah-scoreboard.component';
 import {CahScoreboardItemComponent} from './cah-scoreboard-item/cah-scoreboard-item.component';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
+import {MatButtonModule} from '@angular/material';
 
 @NgModule({
   declarations: [CahScoreboardComponent, CahScoreboardItemComponent],
@@ -11,7 +12,8 @@ import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
   ],
   imports: [
     CommonModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    MatButtonModule
   ]
 })
 export class CahScoreboardModule {
