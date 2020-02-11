@@ -1,0 +1,39 @@
+<div class="cah-title-screen-container">
+  <div class="cah-title-screen-header">
+    <div class="cah-title-screen-header-container">
+      <h2>Cards</h2>
+      <h2>Against</h2>
+      <h2>Humanity</h2>
+    </div>
+    <div class="cah-title-screen-header-logo">
+      <div class="cah-card-full"></div>
+      <div class="cah-card-border-slanted"></div>
+    </div>
+  </div>
+  <div class="cah-title-screen-actions">
+    <button class="cah-title-screen-action"
+            type="button"
+            (click)="onJoinRoomClicked($event)">
+      <span>Spiel beitreten</span>
+      <span class="cardAnimation">
+        <span class="blackcard__icon--full"></span>
+        <span class="blackcard__icon--slanted"></span>
+      </span>
+    </button>
+    <button class="cah-title-screen-action"
+            type="button"
+            (click)="onNewRoomClicked($event)">
+      <span>Neues Spiel erstellen</span>
+      <span class="cardAnimation">
+        <span class="blackcard__icon--full"></span>
+        <span class="blackcard__icon--slanted"></span>
+      </span>
+    </button>
+  </div>
+</div>
+
+<ng-template #spinnerDialog>
+  <mat-dialog-content>
+    <mat-spinner></mat-spinner>
+  </mat-dialog-content>
+</ng-template>
