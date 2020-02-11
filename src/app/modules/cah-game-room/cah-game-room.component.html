@@ -1,0 +1,12 @@
+<div class="cah-board">
+  <cah-selected-cards [selectedBlackCard]="selectedBlackCard$ | async"
+                      [selectedWhiteCards]="selectedWhiteCards$ | async"></cah-selected-cards>
+  <cah-scoreboard [players]="players$ | async"
+                  [loading]="playersLoading$ | async"
+                  [localPlayer]="localPlayer$ | async">
+    <button mat-raised-button color="primary" (click)="startGame()" [disabled]="(players$ | async).length < 2">
+      Start Game
+    </button>
+  </cah-scoreboard>
+  <cah-player></cah-player>
+</div>
