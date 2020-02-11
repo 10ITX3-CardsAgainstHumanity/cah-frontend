@@ -1,0 +1,39 @@
+@import "mixins";
+:host {
+  display: block;
+}
+.scoreboard {
+  &__item {
+    padding: 8px 12px;
+
+    &--czar {
+      color: red;
+    }
+
+    &--leading {
+      color: gold;
+    }
+
+    &--localplayer {
+      color: cornflowerblue
+    }
+
+    &--host {
+      color: black;
+    }
+
+    &__username {
+      @include unselectable();
+
+      font-weight: bold;
+      font-size: 1.1rem;
+      font-family: Helvetica, "sans-serif", Arial;
+      margin-bottom: 8px;
+    }
+    &__points {
+      @include unselectable();
+      font-family: Helvetica, "sans-serif", Arial;
+      font-size: 1rem;
+    }
+  }
+}
