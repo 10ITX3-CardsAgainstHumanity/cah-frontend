@@ -2,13 +2,14 @@ import {Component, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/cor
 import {MatDialog} from '@angular/material';
 import {FormBuilder} from '@angular/forms';
 import {Router} from '@angular/router';
-import {GameRoomService, ResponseMessage} from '@services/game-room.service';
+import {GameRoomService} from '@services/game-room.service';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {PlayerService} from '@services/player.service';
 import {Player, PlayerUI} from '@shared/models/player.model';
 import {CahNewGameDialogComponent} from '@app/core/components/cah-new-game-dialog/cah-new-game-dialog.component';
 import {CahJoinGameDialogComponent} from '@app/core/components/cah-join-game-dialog/cah-join-game-dialog.component';
+import {ResponseMessage} from '@interfaces/responseMessage';
 
 /**
  * The title screen class
