@@ -1,30 +1,13 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {Socket} from 'ngx-socket-io';
-import {tap} from 'rxjs/operators';
-import {Player} from '@shared/models/player.model';
-import {WhiteCard} from '@shared/models/white-card.model';
-import {BlackCard} from '@shared/models/black-card.model';
 import {GameRoomStore} from '@store/game-room.store';
-import {GameRoomState} from '@store/states/game-room.state';
-
-export interface ResponseMessage {
-  status: boolean;
-  msg?: {
-    state?: keyof typeof GameState,
-    card?: Partial<BlackCard>,
-    cards?: Partial<WhiteCard>[],
-    player?: Partial<Player>,
-    players?: Partial<Player>[],
-  };
-}
-
-export enum GameState {
-  'undefined',
-  'lobby',
-  'selection',
-  'judging'
-}
+import {tap} from 'rxjs/operators';
+import {SnackbarService} from '@services/snackbar.service';
+import {GeneralSettings, ResponseMessage, SelectedCards} from '@interfaces/responseMessage';
+import {GameRoomState, GameState} from '@store/states/game-room.state';
+import {BlackCard} from '@shared/models/black-card.model';
+import {ID} from '@datorama/akita';
 
 /**
  * The game room services class
@@ -33,7 +16,7 @@ export enum GameState {
  * @export
  * @name GameRoomService
  */
-@Injectable({ providedIn: 'root' })
+@Injectable({providedIn: 'root'})
 export class GameRoomService {
 
   /**
@@ -65,12 +48,88 @@ export class GameRoomService {
   public $onRoomPlayers: Observable<ResponseMessage> = this._socket.fromEvent('game.players');
 
   /**
+   * Observable state of the currently chosen black card
+   * @access   public
+   * @property {Observable<ResponseMessage>} $onSelectedBlackCard
+   */
+  public $onSelectedBlackCard: Observable<ResponseMessage> = this._socket.fromEvent('game.cards.black')
+    .pipe(
+      tap((response: ResponseMessage) => {
+        console.log('got black card')
+        const { id, text, neededAnswers } = (response.msg as GeneralSettings).card as BlackCard;
+        this._gameRoomStore.updateBlackCard({ id, text, neededAnswers });
+      })
+    );
+
+  /**
+   * Observable state if the game has started
+   * @access   public
+   * @property {Observable<ResponseMessage>} $onGameStart
+   */
+  public $onGameStart: Observable<ResponseMessage> = this._socket.fromEvent('game.start')
+    .pipe(
+      tap((response: ResponseMessage) => {
+        console.log('game starts');
+
+        this._gameRoomStore.updateGameState(GameState.START);
+      })
+    );
+
+  /**
+   * Observable state of the game state
+   * @access   public
+   * @property {Observable<ResponseMessage>} $onGameStateChange
+   */
+  public $onGameStateChange: Observable<ResponseMessage> = this._socket.fromEvent('game.state')
+    .pipe(
+      tap((response: ResponseMessage) => {
+        console.log('game state changed', (response.msg as GeneralSettings).state);
+        // TODO: Visualize the game state change
+        this._gameRoomStore.updateGameState((response.msg as GeneralSettings).state);
+      })
+    );
+
+  /**
+   * Observable state of the selected white cards
+   * @access   public
+   * @property {Observable<ResponseMessage>} $onSelectedWhiteCards
+   */
+  public $onSelectedWhiteCards: Observable<ResponseMessage> = this._socket.fromEvent('game.players.cards')
+    .pipe(
+      tap((response: ResponseMessage) => {
+        const cards = response.msg as SelectedCards[];
+        console.log('all users have chosen a card', cards);
+        this._gameRoomStore.setWhiteCards(cards);
+      })
+    );
+
+  /**
+   * Observable state if the czar selected a winner
+   * @access   public
+   * @property {Observable<ResponseMessage>} $onCzarSelectedWinner
+   */
+  public $onCzarSelectedWinner: Observable<ResponseMessage> = this._socket.fromEvent('game.czar.judged')
+    .pipe(
+      tap((response: ResponseMessage) => {
+        this._gameRoomStore.reset();
+      })
+    );
+
+  /**
+   * Observable state if the local player selected a valid player id or not
+   * @access   public
+   * @property {Observable<ResponseMessage>} $onSelectWinner
+   */
+  public $onSelectWinner: Observable<ResponseMessage> = this._socket.fromEvent('game.czar.judge');
+
+  /**
    * Assigns the defaults
    * @access public
    * @constructor
    */
-  public constructor(private readonly _socket:        Socket,
-                     private readonly _gameRoomStore: GameRoomStore) {
+  public constructor(private readonly _socket: Socket,
+                     private readonly _gameRoomStore: GameRoomStore,
+                     private readonly _snackbarService: SnackbarService) {
     this.roomId = null;
   }
 
@@ -84,7 +143,7 @@ export class GameRoomService {
    * @return {void}
    */
   public createGameRoom(username: string, roomId: string): void {
-    this._socket.emit('game.create', { username, roomId });
+    this._socket.emit('game.create', {username, roomId});
     this.roomId = roomId;
   }
 
@@ -98,7 +157,7 @@ export class GameRoomService {
    * @return {void}
    */
   public joinGameRoom(username: string, roomId: string): void {
-    this._socket.emit('game.join', { username, roomId });
+    this._socket.emit('game.join', {username, roomId});
     this.roomId = roomId;
   }
 
@@ -112,11 +171,44 @@ export class GameRoomService {
   }
 
   /**
+   * Starts the game
+   * @access public
+   * @return {void}
+   */
+  public startGame(): void {
+    this._socket.emit('game.start');
+  }
+
+  /**
    * Requests all players that are currently in the room
    * @access public
    * @return {void}
    */
   public requestPlayers(): void {
     this._socket.emit('game.players');
+  }
+
+  /**
+   * Selects the winner id
+   * @access public
+   * @return {void}
+   */
+  public selectWinner(playerId: ID): void {
+    this._socket.emit('game.czar.judge', { playerId });
+  }
+
+  /**
+   * Sets the selected card group
+   * @access public
+   * @param  {SelectedCards} cardGroup
+   * @return {void}
+   */
+  public setSelectedCardGroup(cardGroup: SelectedCards) {
+    this._gameRoomStore.update((state: Readonly<GameRoomState>) => {
+      return {
+        ...state,
+        selectedCardGroup: cardGroup
+      };
+    });
   }
 }

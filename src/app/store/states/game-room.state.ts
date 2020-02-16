@@ -1,6 +1,13 @@
 import {EntityState} from '@datorama/akita';
 import {BlackCard} from '@shared/models/black-card.model';
-import {WhiteCard} from '@shared/models/white-card.model';
+import {SelectedCards} from '@interfaces/responseMessage';
+
+export enum GameState {
+  UNSTARTED,
+  START,
+  SELECTION,
+  JUDGING
+}
 
 /**
  * The GameRoomState interface
@@ -27,9 +34,23 @@ export interface GameRoomState {
   blackCard: BlackCard;
 
   /**
-   * The selected white cards
+   * The selected white cards with the corresponding player id
    * @access   public
-   * @property {WhiteCard[]} whiteCards
+   * @property {SelectedCards[]} whiteCards
    */
-  whiteCards: WhiteCard[];
+  whiteCards: SelectedCards[];
+
+  /**
+   * The czar selected group to send back to the server
+   * @access public
+   * @property {SelectedCards} selectedCardGroup
+   */
+  selectedCardGroup: SelectedCards;
+
+  /**
+   * The current state of the game room
+   * @access   public
+   * @property {GameState} state
+   */
+  state: GameState;
 }
