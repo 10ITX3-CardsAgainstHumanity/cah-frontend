@@ -1,5 +1,3 @@
-import {WhiteCard} from '@shared/models/white-card.model';
-
 /**
  * The player model
  * @access public
@@ -28,14 +26,24 @@ export interface Player {
    * @access   public
    * @property {number} points
    */
-  points: number;
+  score: number;
+}
+
+/**
+ * Describes the Player UI state
+ * @access public
+ * @interface
+ * @export
+ * @name PlayerUI
+ */
+export interface PlayerUI {
 
   /**
    * States if the user currently leading
    * @access   public
-   * @property {boolean} [isLeading]
+   * @property {boolean} isLeading
    */
-  isLeading?: boolean;
+  isLeading: boolean;
 
   /**
    * States if the user is the czar
@@ -45,9 +53,16 @@ export interface Player {
   isCzar: boolean;
 
   /**
-   * The cards that the user has
+   * States if the user is the host
    * @access   public
-   * @property {WhiteCard[]} cards
+   * @property {boolean} isHost
    */
-  cards: WhiteCard[];
+  isHost: boolean;
+
+  /**
+   * States if the players deck is filled with to 10 white cards
+   * @access   public
+   * @property {boolean} isDeckFilled
+   */
+  isDeckFilled: boolean;
 }
