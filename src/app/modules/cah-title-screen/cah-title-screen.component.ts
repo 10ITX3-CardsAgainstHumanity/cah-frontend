@@ -9,7 +9,7 @@ import {PlayerService} from '@services/player.service';
 import {Player, PlayerUI} from '@shared/models/player.model';
 import {CahNewGameDialogComponent} from '@app/core/components/cah-new-game-dialog/cah-new-game-dialog.component';
 import {CahJoinGameDialogComponent} from '@app/core/components/cah-join-game-dialog/cah-join-game-dialog.component';
-import {ResponseMessage} from '@interfaces/responseMessage';
+import {GeneralSettings, ResponseMessage} from '@interfaces/responseMessage';
 
 /**
  * The title screen class
@@ -83,7 +83,7 @@ export class CahTitleScreenComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this._ngUnSub))
       .subscribe((response: ResponseMessage) => {
         console.log(`room joined ${JSON.stringify(response)}`);
-        const player: (Player & PlayerUI) = response.msg.player;
+        const player: (Player & PlayerUI) = (response.msg as GeneralSettings).player;
 
         this._playerService.upsertPlayers(player);
         this._playerService.setActive(player.id);
