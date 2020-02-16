@@ -17,13 +17,6 @@ export interface Card {
   id: ID;
 
   /**
-   * The id of the player possessing this card
-   * @access   public
-   * @property {string} playerId
-   */
-  playerId: string;
-
-  /**
    * The text on the card itself
    * @access   public
    * @property {string} text
@@ -34,5 +27,15 @@ export interface Card {
    * States if the card is a dummy card,
    * therefor it only displays CAH and nothing more
    */
-  dummy: boolean;
+  dummy?: boolean;
+}
+
+export interface CardUI {
+
+  /**
+   * States if the card was selected for the selection process but not yet confirmed to be it
+   * @access   public
+   * @property {boolean} selected
+   */
+  selected: boolean;
 }
