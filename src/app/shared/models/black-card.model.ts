@@ -14,5 +14,5 @@ export interface BlackCard extends Card {
    * @access   public
    * @property {number} maxPlayableWhiteCards
    */
-  maxPlayableWhiteCards: number;
+  neededAnswers: number;
 }
