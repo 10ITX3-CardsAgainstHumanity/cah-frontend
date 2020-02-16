@@ -1,8 +1,8 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {WhiteCard} from '@shared/models/white-card.model';
-import {Observable} from 'rxjs';
 import {PlayerQuery} from '@store/queries/player.query';
 import {PlayerService} from '@services/player.service';
+import {Card, CardUI} from '@shared/models/card.model';
 
 /**
  * The players card hand
@@ -17,25 +17,28 @@ import {PlayerService} from '@services/player.service';
   templateUrl: './cah-player-hand.component.html',
   styleUrls: ['./cah-player-hand.component.scss']
 })
-export class CahPlayerHandComponent implements OnInit {
+export class CahPlayerHandComponent {
 
   /**
    * States if the active user is currently the czar
    * @access    public
-   * @property  {Observable<boolean>} isCzar
+   * @property  {boolean} isCzar
    * @decorator Input
    */
   @Input()
-  public isCzar$: Observable<boolean>;
+  public isCzar: boolean;
 
   /**
    * The currently available cards of the player on his hand
    * @access public
-   * @property {Observable<WhiteCard[]>} whiteCards
+   * @property {(Card & CardUI)[]} whiteCards
    * @decorator Input
    */
   @Input()
-  public localPlayerCards$: Observable<WhiteCard[]>;
+  public localPlayerCards: (Card & CardUI)[];
+
+  @Input()
+  public selectedCards: WhiteCard[];
 
   /**
    * Emits the selected white card to the parent component
@@ -57,23 +60,13 @@ export class CahPlayerHandComponent implements OnInit {
   }
 
   /**
-   * @inheritDoc
-   * @access public
-   * @return {void}
-   */
-  public ngOnInit(): void {}
-
-  /**
    * Callback if a card was selected by the user
    * @access public
    * @param  {WhiteCard} card
    * @param  {number}    index
    * @return {void}
    */
-  public onCardSelected(card: WhiteCard, index: number): void {
-    this.cardSelected.emit(card)
-    console.log(`selected card ${JSON.stringify(card)}`);
-    // this._gameRoomService.addSelectedWhiteCard([ card ]);
-    // this._gameRoomService.removeCardFromHand(index);
+  public onCardSelected(card: WhiteCard): void {
+    this.cardSelected.emit(card);
   }
 }
