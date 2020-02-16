@@ -10,7 +10,7 @@ export const environment = {
     url: '___APIURL___'
   },
   sentry: {
-    dsn: '__SENTRY_DSN__',
-    env: '__ENV__',
+    dsn: '___SENTRY_DSN___',
+    env: '___ENV___',
   }
 };
