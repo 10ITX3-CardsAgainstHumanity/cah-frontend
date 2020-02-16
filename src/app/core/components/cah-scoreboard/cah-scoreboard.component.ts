@@ -23,7 +23,7 @@ import {Player, PlayerUI} from '@shared/models/player.model';
                                *ngFor="let player of players"></cah-scoreboard-item>
         </ng-container>
       </div>
-      <div class="scoreboard__footer" *ngIf="localPlayer.isHost">
+      <div class="scoreboard__footer">
         <ng-content></ng-content>
       </div>
     </div>
