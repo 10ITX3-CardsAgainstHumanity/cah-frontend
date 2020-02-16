@@ -9,6 +9,7 @@ import * as Sentry from '@sentry/browser';
 import {environment} from '@env/environment';
 
 if (environment.production) {
+  console.log(environment)
   Sentry.init({
     dsn: environment.sentry.dsn,
     environment: environment.sentry.env
