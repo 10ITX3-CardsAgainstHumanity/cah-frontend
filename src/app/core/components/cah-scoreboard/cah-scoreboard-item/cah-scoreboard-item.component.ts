@@ -25,7 +25,7 @@ import {Player, PlayerUI} from '@shared/models/player.model';
         <fa-icon class="scoreboard__item--localplayer" *ngIf="player.id === localPlayer.id" [icon]="portraitIcon" matTooltip="You"></fa-icon>
         <fa-icon class="scoreboard__item--host" *ngIf="player.isHost" [icon]="starIcon" matTooltip="Host"></fa-icon>
       </div>
-      <div class="scoreboard__item__points">{{ player.points }} awesome Point(s)</div>
+      <div class="scoreboard__item__points">{{ player.score }} awesome Point(s)</div>
     </div>
   `,
   styleUrls: ['./cah-scoreboard-item.component.scss'],
