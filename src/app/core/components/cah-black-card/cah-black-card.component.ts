@@ -63,8 +63,6 @@ export class CahBlackCardComponent {
    */
   @HostListener('click')
   public onSelected(): void {
-    this.cardSelected.emit(
-      <BlackCard>{text: this.card.text, playerId: this.card.playerId, maxPlayableWhiteCards: this.card.maxPlayableWhiteCards}
-    );
+    this.cardSelected.emit({ id: this.card.id, text: this.card.text, neededAnswers: this.card.neededAnswers});
   }
 }
