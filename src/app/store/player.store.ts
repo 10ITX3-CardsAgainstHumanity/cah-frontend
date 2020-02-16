@@ -1,40 +1,38 @@
 import {Injectable} from '@angular/core';
-import {arrayAdd, arrayRemove, EntityStore, StoreConfig} from '@datorama/akita';
-import {Player} from '@shared/models/player.model';
-import {PlayerState} from '@app/store/states/player.state';
-import {WhiteCard} from '@shared/models/white-card.model';
+import {EntityStore, EntityUIStore, StoreConfig} from '@datorama/akita';
+import {Player, PlayerUI} from '@shared/models/player.model';
+import {PlayerState, PlayerUIState} from '@app/store/states/player.state';
 
 /**
  * Creates a player object and returns it immediately
  * @access public
- * @param  {string} id
- * @param  {string} username
- * @param  {string} fragment
+ * @param  {string}  id
+ * @param  {string}  username
  * @return {Player}
  */
 export function createPlayer({id, username}): Player {
   return {
     id,
     username,
-    isLeading: false,
-    isCzar: false,
-    points: 0,
-    cards: []
-  } as Player;
+    score: 0
+  };
 }
 
-/**
- * Initial state of the player store
- * @access public
- * @const
- * @name initialState
- * @type {Object}
- */
-const initialState = {
-  ui: {
-
-  }
-};
+export function createPlayerUI({
+                                 id,
+                                 isHost = false,
+                                 isLeading = false,
+                                 isCzar = false,
+                                 isDeckFilled = false
+}: (Pick<Player, 'id'> & PlayerUI)) {
+  return {
+    id,
+    isHost,
+    isCzar,
+    isLeading,
+    isDeckFilled
+  };
+}
 
 /**
  * The PlayerStore class
@@ -47,9 +45,11 @@ const initialState = {
  * @implements OnInit
  * @name PlayerStore
  */
-@Injectable({ providedIn: 'root' })
-@StoreConfig({ name: 'player' })
+@Injectable({providedIn: 'root'})
+@StoreConfig({name: 'player'})
 export class PlayerStore extends EntityStore<PlayerState, Player> {
+
+  public ui: EntityUIStore<PlayerUIState>;
 
   /**
    * Assigns the defaults
@@ -58,34 +58,7 @@ export class PlayerStore extends EntityStore<PlayerState, Player> {
    */
   public constructor() {
     super();
-  }
-
-  /**
-   * Adds a array of white cards to the players cards array
-   * @access public
-   * @param  {WhiteCard[]} cards
-   * @return {void}
-   */
-  public addCardsToActivePlayer(cards: WhiteCard[]): void {
-    this.updateActive((activePlayer: Player) => {
-      return {
-        cards: arrayAdd(activePlayer.cards, cards)
-      };
-    });
-  }
-
-  /**
-   * Removes a array of card ids from the active players cards array
-   * @access public
-   * @param  {number[]} ids
-   * @return {void}
-   */
-  public removeCardsFromActivePlayer(ids: number[]): void {
-    this.updateActive((activePlayer: Player) => {
-      return {
-        cards: arrayRemove(activePlayer.cards, ids)
-      };
-    });
+    this.createUIStore().setInitialEntityState({isLeading: false, isCzar: false, isHost: false, isDeckFilled: false});
   }
 }
 

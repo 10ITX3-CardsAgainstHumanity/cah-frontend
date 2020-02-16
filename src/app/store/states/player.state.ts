@@ -1,5 +1,5 @@
 import {ActiveState, EntityState} from '@datorama/akita';
-import {Player} from '@shared/models/player.model';
+import {Player, PlayerUI} from '@shared/models/player.model';
 
 /**
  * The PlayerState interface
@@ -10,3 +10,4 @@ import {Player} from '@shared/models/player.model';
  * @name PlayerState
  */
 export interface PlayerState extends EntityState<Player>, ActiveState {}
+export interface PlayerUIState extends EntityState<PlayerUI> {}
