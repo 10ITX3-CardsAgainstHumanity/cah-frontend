@@ -33,7 +33,7 @@ export class SentryErrorHandler implements ErrorHandler {
     BrowserAnimationsModule,
     CoreModule
   ],
-  providers: [environment.production ? { provide: ErrorHandler, useClass: SentryErrorHandler } : null],
+  providers: [environment.production ? { provide: ErrorHandler, useClass: SentryErrorHandler } : []],
   bootstrap: [AppComponent]
 })
 export class AppModule {
