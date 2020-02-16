@@ -1,9 +1,9 @@
 @import "src/assets/styles/vars";
 @import "src/assets/styles/mixins";
 
-:host {
-  perspective: 1000px;
-}
+//:host {
+//  perspective: 1000px;
+//}
 
 .whitecard {
   border-radius: 8px;
@@ -12,9 +12,10 @@
   width: $card-width;
   height: $card-height;
   position: relative;
-  transform: rotateY(180deg);
+  background-color: #fff;
+  //transform: rotateY(180deg);
   transition: transform .8s;
-  transform-style: preserve-3d;
+  //transform-style: preserve-3d;
 
   &__back {
     transform: rotateY(180deg);
@@ -23,95 +24,95 @@
   &__front,
   &__back {
     border-radius: 8px;
-    backface-visibility: hidden;
+    //backface-visibility: hidden;
     width: 100%;
     height: 100%;
     position: absolute;
     background-color: #fff;
     top: 0;
     left: 0;
+  }
 
-    &__header {
-      @include unselectable();
+  &__header {
+    @include unselectable();
+    position: absolute;
+    font-size: 1.5rem;
+    color: black;
+    margin: 0;
+    padding: 0;
+    font-family: Helvetica, "sans-serif", Arial;
+    word-break: break-word;
+    left: 16px;
+    top: 16px;
+  }
+
+  &__caption {
+    @include unselectable();
+    position: absolute;
+    width: auto;
+    height: auto;
+    color: black;
+
+    > p {
+      font-weight: bold;
+    }
+
+    &--front {
+      bottom: 16px;
+      left: 16px;
       position: absolute;
-      font-size: 1.5rem;
-      color: black;
+    }
+
+    &--back {
+      bottom: unset;
+      top: 16px;
+      left: 16px;
+    }
+
+    &--front > p {
       margin: 0;
       padding: 0;
-      font-family: Helvetica, "sans-serif", Arial;
-      word-break: break-word;
-      left: 16px;
-      top: 16px;
+      font-size: 0.9rem;
+      line-height: 1rem;
     }
 
-    &__caption {
-      @include unselectable();
-      position: absolute;
-      width: auto;
-      height: auto;
-      color: black;
-
-      > p {
-        font-weight: bold;
-      }
-
-      &--front {
-        bottom: 16px;
-        left: 16px;
-
-      }
-
-      &--back {
-        bottom: unset;
-        top: 16px;
-        left: 16px;
-      }
-
-      &--front > p {
-        margin: 0;
-        padding: 0;
-        font-size: 0.9rem;
-        line-height: 1rem;
-      }
-
-      &--back > p {
-        font-size: 2.5em;
-        line-height: 2rem;
-        letter-spacing: -.1rem;
-        margin: 0;
-        padding: 0;
-      }
+    &--back > p {
+      font-size: 2.5em;
+      line-height: 2rem;
+      letter-spacing: -.1rem;
+      margin: 0;
+      padding: 0;
     }
+  }
 
-    &__icon {
-      width: auto;
-      height: auto;
-      bottom: 0;
-      right: 0;
-      position: absolute;
+  &__icon {
+    width: auto;
+    height: auto;
+    bottom: 0;
+    right: 0;
+    position: absolute;
 
     &--full {
-        position: absolute;
-        bottom: 24px;
-        right: 24px;
-        z-index: 2;
-        background-color: black;
-        height: 32px;
-        width: 24px;
-        border-radius: 3px;
-      }
+      position: absolute;
+      bottom: 24px;
+      right: 24px;
+      z-index: 2;
+      background-color: black;
+      height: 32px;
+      width: 24px;
+      border-radius: 3px;
+    }
 
     &--slanted {
-        position: absolute;
-        bottom: 28px;
-        right: 34px;
-        z-index: 1;
-        border: 1px solid black;
-        height: 32px;
-        width: 24px;
-        border-radius: 3px;
-        transform: rotate(-10deg);
-      }
+      position: absolute;
+      bottom: 28px;
+      right: 34px;
+      z-index: 1;
+      border: 1px solid black;
+      height: 32px;
+      width: 24px;
+      border-radius: 3px;
+      transform: rotate(-10deg);
     }
   }
 }

@@ -1,7 +1,5 @@
 import {Component, EventEmitter, HostListener, Input, Output} from '@angular/core';
 import {WhiteCard} from '@shared/models/white-card.model';
-import {finalize} from 'rxjs/operators';
-import {of} from 'rxjs';
 
 /**
  * The white card class
@@ -14,7 +12,7 @@ import {of} from 'rxjs';
   selector: 'cah-white-card',
   template: `
     <div class="whitecard">
-      <div class="whitecard__front"> <!-- *ngIf="!card.dummy"-->
+      <div class="whitecard__front" *ngIf="!dummy">
         <h2 class="whitecard__header">{{ card.text }}</h2>
         <div class="whitecard__caption--front">
           <p>Cards</p>
@@ -26,7 +24,7 @@ import {of} from 'rxjs';
           <div class="whitecard__icon--slanted"></div>
         </div>
       </div>
-      <div class="whitecard__back">
+      <div class="whitecard__back" *ngIf="dummy">
         <div class="whitecard__caption--back">
           <p>Cards</p>
           <p>Against</p>
@@ -56,11 +54,29 @@ export class CahWhiteCardComponent {
   public card: WhiteCard;
 
   /**
+   * States if the card was selected
+   * @access   public
+   * @property {boolean} selected
+   */
+  @Input()
+  public selected: boolean;
+
+  /**
+   * States if the card is a dummy
+   * @access   public
+   * @property {boolean} dummy
+   */
+  @Input()
+  public dummy: boolean;
+
+  /**
    * Assigns the defaults
    * @access public
    * @constructor
    */
   public constructor() {
+    this.dummy        = true;
+    this.selected     = false;
     this.cardSelected = new EventEmitter<WhiteCard>();
   }
 
@@ -72,9 +88,7 @@ export class CahWhiteCardComponent {
    */
   @HostListener('click', ['$event'])
   public onSelected($event: Event): void {
-    of($event)
-      .pipe(
-        finalize(() => this.cardSelected.emit(<WhiteCard>{text: this.card.text, playerId: this.card.playerId}))
-      ).subscribe();
+    console.log('selected card with id: ', this.card.id)
+    this.cardSelected.emit({ id: this.card.id, text: this.card.text });
   }
 }
