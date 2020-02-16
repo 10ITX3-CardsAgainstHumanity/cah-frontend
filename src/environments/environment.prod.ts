@@ -7,8 +7,10 @@
 export const environment = {
   production: true,
   io: {
-    url: '___APIURL___',
+    url: '___APIURL___'
+  },
+  sentry: {
+    dsn: '__SENTRY_DSN__',
     env: '__ENV__',
-    sentryDsn: '__SENTRY_DSN___'
   }
 };

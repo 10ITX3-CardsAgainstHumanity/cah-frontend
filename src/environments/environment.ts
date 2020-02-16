@@ -6,6 +6,10 @@ export const environment = {
   production: false,
   io: {
     url: 'http://localhost:80'
+  },
+  sentry: {
+    dsn: '',
+    env: '',
   }
 };
 
