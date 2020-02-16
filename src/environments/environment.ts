@@ -5,7 +5,11 @@
 export const environment = {
   production: false,
   io: {
-    url: 'wss://staging.api.cah.maxrs.de/'
+    url: 'http://localhost:80'
+  },
+  sentry: {
+    dsn: '',
+    env: '',
   }
 };
 

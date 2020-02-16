@@ -4,7 +4,9 @@ steps:
   - name: 'debian'
     args: [ 'bash', './preBuild.sh' ]
     env:
-      - '___APIURL___=$_APIURL'
+      - '___APIURL___=$_APIURL',
+      - '__ENV__=$_ENV',
+      - '__SENTRY_DSN__=$_SENTRY_DSN'
   - name: 'gcr.io/cloud-builders/npm'
     args: [ 'run', 'build' ]
   - name: 'gcr.io/cloud-builders/gsutil'

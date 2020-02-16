@@ -8,5 +8,9 @@ export const environment = {
   production: true,
   io: {
     url: '___APIURL___'
+  },
+  sentry: {
+    dsn: '__SENTRY_DSN__',
+    env: '__ENV__',
   }
 };
