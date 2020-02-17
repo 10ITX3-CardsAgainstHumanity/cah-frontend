@@ -7,9 +7,10 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {CoreModule} from './core/core.module';
 import * as Sentry from '@sentry/browser';
 import {environment} from '@env/environment';
+import {AkitaNgDevtools} from '@datorama/akita-ngdevtools';
+import {SocketIoModule} from 'ngx-socket-io';
 
 if (environment.production) {
-  console.log(environment)
   Sentry.init({
     dsn: environment.sentry.dsn,
     environment: environment.sentry.env
@@ -32,7 +33,9 @@ export class SentryErrorHandler implements ErrorHandler {
     BrowserModule,
     AppModuleRouting,
     BrowserAnimationsModule,
-    CoreModule
+    CoreModule,
+    SocketIoModule.forRoot({url: environment.io.url, options: {}}),
+    environment.production ? [] : [AkitaNgDevtools.forRoot()]
   ],
   providers: [environment.production ? { provide: ErrorHandler, useClass: SentryErrorHandler } : []],
   bootstrap: [AppComponent]
