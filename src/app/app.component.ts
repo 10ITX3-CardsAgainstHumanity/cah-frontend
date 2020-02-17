@@ -1,28 +1,33 @@
-import { Component } from '@angular/core';
-import {Player} from './interfaces/player';
+import {Component, OnInit} from '@angular/core';
 
+/**
+ * The AppComponent class
+ * @access public
+ * @class
+ * @export
+ * @implements OnInit
+ * @name AppComponent
+ */
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
-  public players: Player[] = [
-    {
-      username: 'player 1',
-      points: 1
-    },
-    {
-      username: 'player 2',
-      points: 2
-    },
-    {
-      username: 'player 3',
-      points: 3,
-    },
-    {
-      username: 'player 4',
-      points: 4
-    }
-  ];
+export class AppComponent implements OnInit {
+
+  /**
+   * Assigns the defaults
+   * @access public
+   * @constructor
+   */
+  public constructor() {
+  }
+
+  /**
+   * @access public
+   * @return {void}
+   */
+  public ngOnInit(): void {
+  }
+
 }

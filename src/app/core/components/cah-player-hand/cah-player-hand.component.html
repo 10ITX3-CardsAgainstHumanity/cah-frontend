@@ -1,0 +1,12 @@
+<div class="cah-player-hand">
+  <div class="cah-cards-container">
+    <ng-container *ngIf="localPlayerCards">
+      <cah-white-card class="card card{{i}}"
+                      [ngClass]="{ 'card--active': card.selected }"
+                      *ngFor="let card of localPlayerCards; let i = index"
+                      [card]="card"
+                      [dummy]="false"
+                      (cardSelected)="onCardSelected($event)"></cah-white-card>
+    </ng-container>
+  </div>
+</div>

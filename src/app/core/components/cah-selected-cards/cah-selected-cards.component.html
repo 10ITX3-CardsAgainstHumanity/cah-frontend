@@ -1,0 +1,43 @@
+<div class="cah-selected-cards-container">
+  <div class="cah-selected-cards">
+    <div class="cah-selected-black-card">
+      <ng-container *ngIf="(selectedBlackCard$ | async) as blackCard">
+        <cah-black-card [card]="blackCard"></cah-black-card>
+      </ng-container>
+    </div>
+    <div class="cah-selected-white-cards">
+      <ng-container [ngSwitch]="gameState">
+        <ng-container *ngSwitchCase="enum_GameState.JUDGING">
+          <ng-container *ngIf="(selectedWhiteCards$ | async) as cardGroups">
+            <div class="cah-selected-card-placeholder" *ngFor="let cardGroup of cardGroups">
+              <cah-white-card *ngFor="let card of cardGroup.cards"
+                              [dummy]="false"
+                              [card]="card"
+                              (cardSelected)="onCardGroupSelected(cardGroup)"></cah-white-card>
+            </div>
+          </ng-container>
+        </ng-container>
+        <ng-container *ngSwitchCase="enum_GameState.SELECTION">
+          <!-- show a preview of how much cards the user needs to place down -->
+          <ng-container *ngFor="let player of players"> <!-- loop through every player -->
+            <div *ngIf="player.id === localPlayer.id && !player.isCzar"
+                 class="cah-selected-card-placeholder"
+                 [ngStyle]="{ 'width': 224 * neededAnswers + 'px' }">
+              <ng-container *ngIf="localActiveCards">
+                <cah-white-card *ngFor="let card of localActiveCards"
+                                [card]="card"
+                                [dummy]="false"
+                                (cardSelected)="onCardSelected($event)"></cah-white-card>
+              </ng-container>
+            </div>
+            <div class="cah-selected-card-placeholder"
+                 [ngStyle]="{ 'width': 224 * neededAnswers + 'px' }"
+                 *ngIf="player.id !== localPlayer.id && !player.isCzar">
+              <span>Waiting for player...</span>
+            </div>
+          </ng-container>
+        </ng-container>
+      </ng-container>
+    </div>
+  </div>
+</div>

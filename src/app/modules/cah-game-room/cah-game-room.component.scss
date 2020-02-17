@@ -1,0 +1,37 @@
+.cah-board {
+  display: grid;
+  grid-template-rows: min-content 1fr min-content;
+  grid-template-columns: repeat(4, 1fr);
+  grid-column-gap: 32px;
+  grid-row-gap: 32px;
+  grid-template-areas:
+    "selectedCards selectedCards selectedCards selectedCards"
+    "roomBadge     ............. ............. ............."
+    "scoreboard    playerHand    playerHand    playerHand   ";
+  height: 100vh;
+
+  cah-player-hand {
+    place-self: end center;
+    grid-area: playerHand;
+    margin-bottom: 32px;
+  }
+
+  cah-room-badge {
+    width: 256px;
+    margin-left: 32px;
+    grid-area: roomBadge;
+    place-self: center start;
+  }
+
+  cah-scoreboard {
+    place-self: start start;
+    grid-area: scoreboard;
+    margin-bottom: 32px;
+    margin-left: 32px;
+  }
+
+  cah-selected-cards {
+    grid-area: selectedCards;
+    margin: 32px 32px 0 32px;
+  }
+}

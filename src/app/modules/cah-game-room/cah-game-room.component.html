@@ -1,0 +1,53 @@
+<div class="cah-board">
+  <cah-selected-cards [selectedBlackCard$]="selectedBlackCard$"
+                      [selectedWhiteCards$]="selectedWhiteCards$"
+                      [localActiveCards]="selectedLocalCards$ | async"
+                      [localPlayer]="localPlayer$ | async"
+                      [players]="players$ | async"
+                      [neededAnswers]="(selectedBlackCard$ | async)?.neededAnswers"
+                      [gameState]="currentGameState$ | async"
+                      (cardGroupSelected)="onCardGroupSelected($event)"
+                      (cardSelected)="onWhiteCardSelected($event)"></cah-selected-cards>
+  <cah-scoreboard [players]="players$ | async"
+                  [loading]="playersLoading$ | async"
+                  [localPlayer]="localPlayer$ | async">
+    <ng-container [ngSwitch]="currentGameState$ | async">
+      <ng-container *ngSwitchCase="enum_GameState.UNSTARTED">
+        <button mat-raised-button
+                class="startGame"
+                color="primary"
+                (click)="startGame()"
+                *ngIf="(localPlayer$ | async)?.isHost"
+                [disabled]="((players$ | async).length < 3) || (currentGameState$ | async) !== enum_GameState.UNSTARTED">
+          Start Game
+        </button>
+      </ng-container>
+      <ng-container *ngSwitchCase="enum_GameState.SELECTION">
+        <ng-container *ngIf="(selectedLocalCards$ | async) as activeCards">
+          <button mat-raised-button
+                  class="confirmSelection"
+                  color="primary"
+                  *ngIf="!(localPlayer$ | async)?.isCzar"
+                  (click)="confirmSelection(activeCards)"
+                  [disabled]="(selectedLocalCards$ | async)?.length < (selectedBlackCard$ | async)?.neededAnswers">
+            Confirm Selection
+          </button>
+        </ng-container>
+      </ng-container>
+      <ng-container *ngSwitchCase="enum_GameState.JUDGING">
+        <ng-container *ngIf="(selectedCardGroup$ | async) as selectedCardGroup">
+          <button mat-raised-button
+                  class="confirmSelection"
+                  color="primary"
+                  *ngIf="(localPlayer$ | async)?.isCzar"
+                  (click)="confirmGroupSelection(selectedCardGroup)"
+                  [disabled]="selectedCardGroup === null">
+            Confirm Selection
+          </button>
+        </ng-container>
+      </ng-container>
+    </ng-container>
+  </cah-scoreboard>
+  <cah-player-hand [localPlayerCards]="localPlayerCards$ | async"
+                   (cardSelected)="onWhiteCardSelected($event)"></cah-player-hand>
+</div>

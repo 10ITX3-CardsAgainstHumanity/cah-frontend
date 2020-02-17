@@ -1,0 +1,41 @@
+.cah-selected-cards-container {
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  padding: 16px;
+
+  .cah-selected-cards {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-rows: unset;
+    grid-auto-columns: unset;
+    grid-template-rows: min-content;
+    grid-template-columns: min-content minmax(min-content, max-content);
+    grid-template-areas: "blackCard whiteCards";
+    grid-column-gap: 16px;
+
+    .cah-selected-black-card {
+    }
+    .cah-selected-white-cards {
+      display: grid;
+      grid-auto-columns: min-content;
+      grid-auto-rows: unset;
+      grid-auto-flow: column;
+      grid-template-columns: min-content;
+      grid-template-rows: min-content;
+      grid-column-gap: 4px;
+
+      .cah-selected-card-placeholder {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-auto-columns: 1fr;
+        grid-auto-flow: column;
+        align-items: center;
+        justify-items: center;
+        justify-content: center;
+        border-radius: 8px;
+        border: 1px solid black;
+        height: 300px;
+      }
+    }
+  }
+}
