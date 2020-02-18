@@ -38,7 +38,7 @@ export class CahTitleScreenComponent implements OnInit, OnDestroy {
    * @access   private
    * @property {TemplateRef<any>} _spinnerDialog
    */
-  @ViewChild('spinnerDialog')
+  @ViewChild('spinnerDialog', { static: true })
   private _spinnerDialog: TemplateRef<any>;
 
   /**

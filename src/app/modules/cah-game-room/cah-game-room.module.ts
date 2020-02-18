@@ -2,7 +2,6 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {RouterModule, Routes} from '@angular/router';
 import {CahGameRoomComponent} from './cah-game-room.component';
-import {SharedModule} from '@shared/shared.module';
 import {MatButtonModule} from '@angular/material';
 import {CahRoomBadgeModule} from '@app/core/components/cah-room-badge/cah-room-badge.module';
 import {CahScoreboardModule} from '@app/core/components/cah-scoreboard/cah-scoreboard.module';
@@ -17,7 +16,6 @@ const routes: Routes = [
   declarations: [CahGameRoomComponent],
   imports: [
     CommonModule,
-    SharedModule,
     CahRoomBadgeModule,
     CahScoreboardModule,
     CahSelectedCardsModule,

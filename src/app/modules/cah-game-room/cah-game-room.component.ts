@@ -299,6 +299,7 @@ export class CahGameRoomComponent implements OnInit, OnDestroy {
    * @return {void}
    */
   public confirmGroupSelection(cardGroup: SelectedCards): void {
+    console.log('selected winner', cardGroup);
     this._gameRoomService.selectWinner(cardGroup.playerId);
   }
 }
