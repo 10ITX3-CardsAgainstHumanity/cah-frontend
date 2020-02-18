@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
-import {MatDialog} from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import {FormBuilder} from '@angular/forms';
 import {Router} from '@angular/router';
 import {GameRoomService} from '@services/game-room.service';
