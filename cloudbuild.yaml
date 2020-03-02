@@ -6,7 +6,7 @@ steps:
     args:
       - '-c'
       - |
-          apl add sed
+          apk add sed
           sed -i "s|___APIURL___|$_APIURL|g" "src/environments/environment.prod.ts"
           sed -i "s|___ENV___|$_ENV|g" "src/environments/environment.prod.ts"
           sed -i "s|___SENTRY_DSN___|$_SENTRY_DSN|g" "src/environments/environment.prod.ts"
