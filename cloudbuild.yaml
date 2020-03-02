@@ -1,12 +1,15 @@
 steps:
   - name: 'gcr.io/cloud-builders/npm'
     args: [ 'ci' ]
-  - name: 'debian'
-    args: [ 'bash', './preBuild.sh' ]
-    env:
-      - '___APIURL___=$_APIURL'
-      - '___ENV___=$_ENV'
-      - '___SENTRY_DSN___=$_SENTRY_DSN'
+  - name: 'alpine'
+    entrypoint: 'sh'
+    args:
+      - '-c'
+      - |
+          apl add sed
+          sed -i "s|___APIURL___|$_APIURL|g" "src/environments/environment.prod.ts"
+          sed -i "s|___ENV___|$_ENV|g" "src/environments/environment.prod.ts"
+          sed -i "s|___SENTRY_DSN___|$_SENTRY_DSN|g" "src/environments/environment.prod.ts"
   - name: 'gcr.io/cloud-builders/npm'
     args: [ 'run', 'build' ]
   - name: 'gcr.io/cloud-builders/gsutil'
